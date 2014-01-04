@@ -1,0 +1,222 @@
+/* 
+ * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package at.reppeitsolutions.formbuilder.components.formbuilderitem;
+
+import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
+import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import at.reppeitsolutions.formbuilder.model.Form;
+
+/**
+ *
+ * @author Mathias Reppe <mathias.reppe@gmail.com>
+ */
+@Entity(name = "formitem")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+public class FormBuilderItemBase implements Comparable, FormBuilderItem, Serializable {
+    
+    public static final String FULLWIDTH = "600px";
+    public static final String HALFWIDTH = "300px";
+
+    @Id
+    private String uuid = UUID.randomUUID().toString();
+    protected int position = -1;
+    protected String formbuildertype;
+    protected String className;
+    protected String diagid;
+    protected String width = FULLWIDTH;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="form_id")
+    protected Form form;
+    @Embedded
+    protected FormBuilderItemProperties properties;
+    @Transient
+    private Map<String, Map> valueTranslations = new HashMap<>();
+    @Transient
+    private Map<String, String> propertyTranslations = new HashMap<>();
+    @Transient
+    private Map<String, FormBuilderItemBase.SPECIALPROPERTY> specialProperties = new HashMap<>();
+    @Transient
+    private FormBuilderItemBase brother;
+    
+    public enum SPECIALPROPERTY {
+        TEXTAREA
+    }
+    
+    protected void addValueTranslation(String property, String value, String translation) {
+        if(valueTranslations.containsKey(property)) {
+            valueTranslations.get(property).put(value, translation);
+        } else {
+            Map translations = new HashMap();
+            translations.put(value, translation);
+            valueTranslations.put(property, translations);
+        }
+    }
+    
+    protected void addPropertyTranslation(String property, String translation) {
+        propertyTranslations.put(property, translation);
+    }
+    
+    protected void addSpecialProperty(String property, SPECIALPROPERTY special) {
+        specialProperties.put(property, special);
+    }
+    
+    public void setForm(Form form) {
+        this.form = form;
+    }
+    
+    @IgnoreProperty
+    public Form getForm() {
+        return form;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public int getPosition() {
+        return position;
+    }
+
+    @Override
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public String getFormbuildertype() {
+        return formbuildertype;
+    }
+
+    @Override
+    public void setFormbuildertype(String formbuildertype) {
+        this.formbuildertype = formbuildertype;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public String getClassname() {
+        if (className == null) {
+            return getClass().getName();
+        }
+        return className;
+    }
+
+    @Override
+    public void setClassname(String className) {
+        this.className = className;
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        FormBuilderItem item = (FormBuilderItem) t;
+        if (getPosition() > item.getPosition()) {
+            return 1;
+        } else if (getPosition() < item.getPosition()) {
+            return -1;
+        }
+        return 0;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public String getId() {
+        return uuid;
+    }
+
+    @Override
+    public void setId(String uuid) {
+        this.uuid = uuid;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public String getDiagid() {
+        if (diagid == null) {
+            return "diag:" + uuid;
+        }
+        return diagid;
+    }
+
+    @Override
+    public void setDiagid(String diagid) {
+        this.diagid = diagid;
+    }
+
+    @Override
+    @IgnorePropertyInDialog
+    public String getWidth() {
+        return width;
+    }
+
+    @Override
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    @Override
+    public FormBuilderItemProperties getProperties() {
+        return properties;
+    }
+
+    @Override
+    public void setProperties(FormBuilderItemProperties properties) {
+        this.properties = properties;
+    }
+
+    @Override
+    public Map<String, Map> getValueTranslations() {
+        return valueTranslations;
+    }
+
+    @Override
+    public Map<String, String> getPropertyTranslations() {
+        return propertyTranslations;
+    }
+
+    @Override
+    public Map<String, FormBuilderItemBase.SPECIALPROPERTY> getSpecialProperties() {
+        return specialProperties;
+    }
+    
+    @Override
+    public boolean getSkipRendering() {
+        return false;
+    }
+
+    @IgnoreProperty
+    @IgnorePropertyInDialog
+    public FormBuilderItemBase getBrother() {
+        return brother;
+    }
+
+    public void setBrother(FormBuilderItemBase brother) {
+        this.brother = brother;
+    }
+    
+}
