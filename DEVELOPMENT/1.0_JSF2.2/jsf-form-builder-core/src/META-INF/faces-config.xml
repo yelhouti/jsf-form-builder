@@ -10,7 +10,7 @@
             <supported-locale>de</supported-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>messages.messages</base-name>
+            <base-name>at.reppeitsolutions.formbuilder.messages.messages</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>

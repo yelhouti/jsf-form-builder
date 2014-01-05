@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Messages {
 
-    private static final String BUNDLE_NAME = "messages.messages";
+    private static final String BUNDLE_NAME = "at.reppeitsolutions.formbuilder.messages.messages";
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
             .getBundle(BUNDLE_NAME);
     private static final ResourceBundle RESOURCE_BUNDLE_DE = ResourceBundle
