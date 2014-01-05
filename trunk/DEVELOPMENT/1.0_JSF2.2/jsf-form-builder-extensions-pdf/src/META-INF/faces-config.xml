@@ -5,6 +5,6 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">    
     <render-kit>
         <render-kit-id>PDF_BASIC</render-kit-id>
-        <render-kit-class>components.pdf.renderkit.PdfRenderKit</render-kit-class>
+        <render-kit-class>at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfRenderKit</render-kit-class>
     </render-kit>
 </faces-config>
