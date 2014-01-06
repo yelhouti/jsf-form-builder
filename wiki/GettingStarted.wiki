@@ -1,6 +1,6 @@
 = Getting started with jsf-form-builder =
 
-== JSF Bean (FormBuilderBean.java) ==
+== JSF Bean (`FormBuilderBean.java`) ==
 
 {{{
 @ManagedBean
