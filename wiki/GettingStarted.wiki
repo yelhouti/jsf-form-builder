@@ -1,13 +1,49 @@
-#This page helps you to create a simple form builder application.
-
 = Getting started with jsf-form-builder =
 
-Add your content here.
+== JSF Bean ==
 
+{{{
+@ManagedBean
+@SessionScoped
+public class FormBuilderBean implements Serializable {
+    
+    private Form form;
+    private FormData formData;
+    
+    public FormBuilderBean() {
+        
+    }
+    
+    public void reset() {
+        form = null;
+        formData = null;
+    }
 
-= Details =
+    public Form getForm() {
+        if(form == null) {
+            form = new Form();
+        }
+        return form;
+    }
+    
+    public String fill() {
+        formData = null;
+        return "fill";
+    }
+    
+    public FormData getFormData() {
+        if(formData == null) {
+            formData = new FormData(getForm());
+        }
+        return formData;
+    }
+}
+}}}
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Formbuilder ==
+
+== Formfiller ==
+
+=== Fill data ===
+
+=== View data ===
