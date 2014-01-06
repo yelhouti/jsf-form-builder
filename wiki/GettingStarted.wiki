@@ -2,6 +2,8 @@
 
 == JSF Bean (`FormBuilderBean.java`) ==
 
+You need at least one JSF Bean to hold the model of the created form. This bean must be at least view scoped. Form and the FormData classes are annotated for JPA. Therefore you could easy persist your forms into a database.
+
 {{{
 @ManagedBean
 @SessionScoped
@@ -41,6 +43,14 @@ public class FormBuilderBean implements Serializable {
 }}}
 
 == Formbuilder (edit.xhtml)==
+
+The important part of the edit.xhtml file is
+
+{{{
+<h:form enctype="multipart/form-data">
+    <r:formBuilder model="#{formBuilderBean.form}" />
+</h:form>
+}}}
 
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
