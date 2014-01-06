@@ -52,7 +52,7 @@ This is the important part of the edit.xhtml file:
 </h:form>
 }}}
 
-The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multipart/form-data. The command buttons allows you to navigate through the getting started application. The reset button deletes the form model and creates a new one.
+The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multipart/form-data and the property model must be from class Form. The command buttons allows you to navigate through the getting started application. The reset button deletes the form model and creates a new one.
 
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -95,6 +95,8 @@ This is the important part of the edit.xhtml file:
 </h:form>
 }}}
 
+The `<r:formFiller />` tag must be inside a `<h:form>` tag with enctype  multipart/form-data and the property model must be from class FormData. You must place a submit button inside the form element. After submit the filled data is automatically submitted in the model.
+
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -119,6 +121,8 @@ This is the important part of the edit.xhtml file:
 
 === View data (view.xhtml) ===
 
+If you render a `<r:formFiller />` tag with a model containing data you could use this tag to display your filled forms.
+
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -141,6 +145,8 @@ This is the important part of the edit.xhtml file:
 }}}
 
 == PDF export (pdf.xhtml)==
+
+This example renders a form into a pdf.
 
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
