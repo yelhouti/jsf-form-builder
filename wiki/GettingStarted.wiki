@@ -1,6 +1,6 @@
-#summary One-sentence summary of this page.
+#This page helps you to create a simple form builder application.
 
-= Introduction =
+= Getting started with jsf-form-builder =
 
 Add your content here.
 
