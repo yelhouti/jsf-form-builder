@@ -1,6 +1,6 @@
 = Getting started with jsf-form-builder =
 
-== JSF Bean ==
+== JSF Bean (FormBuilderBean.java) ==
 
 {{{
 @ManagedBean
@@ -40,10 +40,94 @@ public class FormBuilderBean implements Serializable {
 }
 }}}
 
-== Formbuilder ==
+== Formbuilder (edit.xhtml)==
+
+{{{
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:r="http://www.reppe-itsolutions.at"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>jsf-form-builder getting started</title>
+        </h:head>
+        <h:body>
+            <h1>Edit form</h1>
+            <h:form style="display: inline;">
+                <h:commandButton action="#{formBuilderBean.reset()}" value="Reset" />
+            </h:form>
+            <h:form style="display: inline;" target="_blank">
+                <h:commandButton action="#{formBuilderBean.fill}" value="Fill form" />
+                <h:commandButton action="pdf" value="Pdf export" />
+            </h:form>
+            <h:form enctype="multipart/form-data">
+                <r:formBuilder model="#{formBuilderBean.form}" />
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+}}}
 
 == Formfiller ==
 
-=== Fill data ===
+=== Fill data (fill.xhtml) ===
 
-=== View data ===
+{{{
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:r="http://www.reppe-itsolutions.at"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>jsf-form-builder getting started</title>
+        </h:head>
+        <h:body>
+            <h1>Fill form</h1>
+            <h:form enctype="multipart/form-data" target="_blank">
+                <r:formFiller model="#{formBuilderBean.formData}" />
+                <h:commandButton action="view" value="Submit" />
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+}}}
+
+=== View data (view.xhtml) ===
+
+{{{
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:r="http://www.reppe-itsolutions.at"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>jsf-form-builder getting started</title>
+        </h:head>
+        <h:body>
+            <h1>View filled form</h1>
+            <h:form enctype="multipart/form-data">
+                <r:formFiller model="#{formBuilderBean.formData}" />
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+}}}
+
+== PDF export (pdf.xhtml)==
+
+{{{
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<pdf  xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:r="http://www.reppe-itsolutions.at/pdf">
+    <f:view renderKitId="PDF_BASIC">
+        <r:formFillerPdf model="#{formBuilderBean.formData}" />
+    </f:view>
+</pdf>
+}}}
