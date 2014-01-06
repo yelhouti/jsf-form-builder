@@ -52,7 +52,7 @@ This is the important part of the edit.xhtml file:
 </h:form>
 }}}
 
-The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multipart/form-data. The command buttons allows you to navigate in the getting started application. The reset button deletes the form model and creates a new one.
+The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multipart/form-data. The command buttons allows you to navigate through the getting started application. The reset button deletes the form model and creates a new one.
 
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -85,6 +85,15 @@ The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multip
 == Formfiller ==
 
 === Fill data (fill.xhtml) ===
+
+This is the important part of the edit.xhtml file:
+
+{{{
+<h:form enctype="multipart/form-data" target="_blank">
+    <r:formFiller model="#{formBuilderBean.formData}" />
+    <h:commandButton action="view" value="Submit" />
+</h:form>
+}}}
 
 {{{
 <?xml version='1.0' encoding='UTF-8' ?>
