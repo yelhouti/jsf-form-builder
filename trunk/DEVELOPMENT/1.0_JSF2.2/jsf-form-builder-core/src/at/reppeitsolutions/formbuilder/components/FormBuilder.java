@@ -25,6 +25,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderIte
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemInput;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemLabel;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemListbox;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemRadio;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemSelect;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemSpace;
@@ -178,6 +179,8 @@ public class FormBuilder extends FormComponent {
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemRadio(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemCheckbox(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemListbox(true)));
+        
+        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemPagebreak(true)));
 
         palette = new HtmlUnorderedList();
         palette.setClassString("connectedSortable sortable1");
