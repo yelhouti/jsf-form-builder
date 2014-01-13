@@ -24,7 +24,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
-import model.Form;
+import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.controller.exceptions.NonexistentEntityException;
 import at.reppeitsolutions.formbuilder.model.controller.exceptions.PreexistingEntityException;
 import at.reppeitsolutions.formbuilder.model.controller.exceptions.RollbackFailureException;
