@@ -1,3 +1,3 @@
 = Downloads =
 
-comming soon...
+[http://jsf-form-builder.googlecode.com/svn/trunk/DEVELOPMENT/1.0_JSF2.2/jsf-form-builder-example-dev/lib/jsf-form-builder-core.jar jsf-form-builder-core.jar]
