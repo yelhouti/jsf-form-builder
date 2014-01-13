@@ -31,6 +31,7 @@ import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuild
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderInput;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderLabel;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderListbox;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderPagebreak;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderRadio;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderSelect;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderSpace;
@@ -63,8 +64,8 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_IMAGE = "fbimage";
     public static final String TYPE_DATE = "fbdate";
     public static final String TYPE_TIME = "fbtime";
-    ;
     public static final String TYPE_FORMATAREA = "fbformatarea";
+    public static final String TYPE_PAGEBREAK = "fbpagebreak";
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data) {
         return getUIComponent(data.getFormBuilderItem(), data, false);
@@ -130,6 +131,10 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_FORMATAREA:
                 comp = new HtmlFormBuilderFormatArea();
+                break;
+            case TYPE_PAGEBREAK:
+                comp = new HtmlFormBuilderPagebreak();
+                skipDialog = true;
                 break;
         }
         if (comp != null) {

@@ -14,6 +14,7 @@
     <target name="-post-jar">
         <copy file="dist/jsf-form-builder-core.jar" todir="../jsf-form-builder-example-dev/lib/" force="true" />
         <copy file="dist/jsf-form-builder-core.jar" todir="/home/reppe/NetBeansProjects/jsf-form-builder-demo/lib/" force="true" />
+        <copy file="dist/jsf-form-builder-core.jar" todir="/home/reppe/NetBeansProjects/jsf-form-builder-gettingstarted/lib/" force="true" />
     </target>
     <!--
 
