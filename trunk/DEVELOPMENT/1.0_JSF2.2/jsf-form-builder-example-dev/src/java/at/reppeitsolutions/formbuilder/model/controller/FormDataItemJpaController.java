@@ -19,7 +19,7 @@ package at.reppeitsolutions.formbuilder.model.controller;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import components.formbuilderitem.data.FormBuilderItemData;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;

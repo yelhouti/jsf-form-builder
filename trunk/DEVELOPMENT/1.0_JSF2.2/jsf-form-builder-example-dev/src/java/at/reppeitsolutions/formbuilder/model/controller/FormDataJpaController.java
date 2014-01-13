@@ -21,7 +21,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;

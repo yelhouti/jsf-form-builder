@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
-import model.Form;
+import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.controller.FormJpaController;
 import at.reppeitsolutions.formbuilder.model.controller.exceptions.NonexistentEntityException;
 import at.reppeitsolutions.formbuilder.model.controller.exceptions.PreexistingEntityException;
