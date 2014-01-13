@@ -29,6 +29,7 @@ import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 import at.reppeitsolutions.formbuilder.components.pdf.FormFillerPdf;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
 import at.reppeitsolutions.formbuilder.components.pdf.helper.FormBuilderItemPdfFactory;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTable;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTableCell;
@@ -102,6 +103,10 @@ public class FormFillerPdfRenderer extends Renderer {
                                 outerTable.addCell(dummyCell);
                                 dummyCell = null;
                             }
+                        } else if(item instanceof FormBuilderItemPagebreak) {
+                            document.add(outerTable);
+                            document.newPage();
+                            outerTable = new ITextOuterTable();
                         }
                     }
                 }
