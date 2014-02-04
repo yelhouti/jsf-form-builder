@@ -38,7 +38,7 @@ public class HtmlFormBuilderImage extends HtmlFormBuilderItem {
         HtmlOutputText output = new HtmlOutputText();
         output.setValue(Messages.getStringJSF("image.label.default"));
 
-        if (properties.getFile() == null) {
+        if (properties.getFile() == null || properties.getFile().getFilesize() == 0) {
             HtmlInputFile input = new HtmlInputFile();
             input.setId("image" + getItemUuid());
             addLabeledComponent(output, input);
