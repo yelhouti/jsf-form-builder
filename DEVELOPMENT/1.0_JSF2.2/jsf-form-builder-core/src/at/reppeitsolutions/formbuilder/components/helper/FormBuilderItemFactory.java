@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.helper;
 
+import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
@@ -86,11 +87,9 @@ public abstract class FormBuilderItemFactory {
         HtmlFormBuilderSpan res = new HtmlFormBuilderSpan(item);
         HtmlFormBuilderItem comp = null;
         HtmlDialog diag = null;
-        boolean skipDialog = false;
         switch (type) {
             case TYPE_HR:
                 comp = new HtmlFormBuilderHorizontalRule();
-                skipDialog = true;
                 break;
             case TYPE_INPUT:
                 comp = new HtmlFormBuilderInput();
@@ -136,17 +135,15 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_PAGEBREAK:
                 comp = new HtmlFormBuilderPagebreak();
-                skipDialog = true;
                 break;
             case TYPE_DOWNLOAD:
                 comp = new HtmlFormBuilderDownload();
-                skipDialog = true;
                 break;
         }
         if (comp != null) {
             BeanUtils.copyProperties(item.getProperties(), comp.getProperties());
             //Create properties dialog
-            if (!skipDialog) {
+            if (!comp.getClass().isAnnotationPresent(SkipDialog.class)) {
                 diag = new HtmlDialog(item);
             }
             //Set data of html object

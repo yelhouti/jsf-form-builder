@@ -14,30 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.reppeitsolutions.formbuilder.components.html.formbuilder;
+package at.reppeitsolutions.formbuilder.components.annotations;
 
-import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
-import at.reppeitsolutions.formbuilder.messages.Messages;
-import javax.faces.component.html.HtmlOutputText;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@SkipDialog
-public class HtmlFormBuilderPagebreak extends HtmlFormBuilderItem {
-
-    public HtmlFormBuilderPagebreak() {
-        
-    }
-
-    @Override
-    public void renderView() {
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue("--- " + Messages.getStringJSF("pagebreak") + " ---");
-        output.setEscape(false);
-        output.setTransient(true);
-        getChildren().add(output);
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SkipDialog {
     
 }

@@ -17,13 +17,13 @@
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FileServlet;
+import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputFile;
 import javax.faces.component.html.HtmlOutputText;
 import at.reppeitsolutions.formbuilder.messages.Messages;
@@ -32,6 +32,7 @@ import at.reppeitsolutions.formbuilder.messages.Messages;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
+@SkipDialog
 public class HtmlFormBuilderDownload extends HtmlFormBuilderItem {
 
     @Override
