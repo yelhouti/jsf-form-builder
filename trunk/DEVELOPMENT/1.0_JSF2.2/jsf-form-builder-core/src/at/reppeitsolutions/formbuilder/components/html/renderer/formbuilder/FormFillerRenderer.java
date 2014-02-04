@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FormFillerRenderer extends Renderer {
 
     public static final String RENDERTYPE = "FormFillerRenderer";
-    public static final String FAMILY = "at.rits.formbuilder";
+    public static final String FAMILY = "at.rits.formfiller";
 
     @Override
     public void encodeBegin(FacesContext ctx,

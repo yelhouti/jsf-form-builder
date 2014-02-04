@@ -62,7 +62,7 @@ import at.reppeitsolutions.formbuilder.model.Form;
 public class FormBuilderRenderer extends Renderer {
 
     public static final String RENDERTYPE = "FormBuilderRenderer";
-    public static final String FAMILY = "at.rits.formbuilder";
+    public static final String FAMILY = "at.rits.formbuilderiframe";
 
     @Override
     public void encodeBegin(FacesContext ctx,
