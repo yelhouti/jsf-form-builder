@@ -28,6 +28,7 @@ import com.lowagie.text.pdf.PdfPCellEvent;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.TextField;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  *
@@ -46,7 +47,7 @@ public class ITextInputText implements PdfPCellEvent {
     @Override
     public void cellLayout(PdfPCell cell, Rectangle rectangle, PdfContentByte[] canvases) {
         PdfWriter writer = canvases[0].getPdfWriter();
-        TextField text = new TextField(writer, rectangle, String.format("text_1"));
+        TextField text = new TextField(writer, rectangle, String.format("text_" + UUID.randomUUID().toString()));
         text.setBorderStyle(PdfBorderDictionary.STYLE_INSET);
         text.setText(value);
         text.setFontSize(FONTSIZE);
