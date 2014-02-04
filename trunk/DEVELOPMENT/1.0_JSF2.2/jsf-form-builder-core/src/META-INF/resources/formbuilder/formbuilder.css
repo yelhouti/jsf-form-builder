@@ -108,6 +108,10 @@ body {
     border: 1px solid #AAAAAA;
 }
 
+.sortable2 li:hover .icons {
+    display: block;
+}
+
 .sortable2 li:hover .settings {
     display: block;
 }
@@ -145,10 +149,7 @@ body {
     -webkit-border-bottom-right-radius: 3px;
 }
 
-.settings, .delete {
-    width: 16px; 
-    height: 16px; 
-    background-repeat: no-repeat;
+.icons {
     top: -5px; 
     float: left; 
     position: absolute;
@@ -156,14 +157,21 @@ body {
     display: none;
 }
 
+.settings, .delete {
+    width: 16px; 
+    height: 16px; 
+    background-repeat: no-repeat;
+    float: left; 
+    display: none;
+    margin-right: 2px;
+}
+
 .settings {
     background-image: url("#{resource['formbuilder/images/settings.png']}");
-    left: -5px; 
 }
 
 .delete {
-    background-image: url("#{resource['formbuilder/images/delete.png']}");
-    left: 16px;     
+    background-image: url("#{resource['formbuilder/images/delete.png']}");   
 }
 
 .oddColumn, .oddColumn input, .oddColumn select, .oddColumn textarea {

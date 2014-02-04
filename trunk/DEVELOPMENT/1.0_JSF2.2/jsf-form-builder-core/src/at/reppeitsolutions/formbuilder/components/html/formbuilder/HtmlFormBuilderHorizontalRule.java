@@ -16,12 +16,14 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import javax.faces.component.html.HtmlOutputText;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
+@SkipDialog
 public class HtmlFormBuilderHorizontalRule extends HtmlFormBuilderItem {
 
     public HtmlFormBuilderHorizontalRule() {

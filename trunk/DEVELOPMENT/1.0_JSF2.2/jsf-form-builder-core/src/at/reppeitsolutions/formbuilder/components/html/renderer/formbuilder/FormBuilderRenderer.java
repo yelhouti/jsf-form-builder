@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormBuilder;
+import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBaseHelper;
@@ -90,14 +91,19 @@ public class FormBuilderRenderer extends Renderer {
 
             for (FormBuilderContainer comp : components) {
                 HtmlListItem li = new HtmlListItem();
-                HtmlDiv settings = new HtmlDiv();
-                settings.setClassString("settings");
-                settings.setOnClick("openDialog('" + comp.getFbitem().getId() + "');");
-                li.getChildren().add(settings);
+                HtmlDiv icons = new HtmlDiv();
+                icons.setClassString("icons");
+                if (!comp.getHtmlfbitem().getChildren().get(0).getClass().isAnnotationPresent(SkipDialog.class)) {
+                    HtmlDiv settings = new HtmlDiv();
+                    settings.setClassString("settings");
+                    settings.setOnClick("openDialog('" + comp.getFbitem().getId() + "');");
+                    icons.getChildren().add(settings);
+                }
                 HtmlDiv delete = new HtmlDiv();
                 delete.setClassString("delete");
                 delete.setOnClick("deleteItem('" + comp.getFbitem().getId() + "');");
-                li.getChildren().add(delete);
+                icons.getChildren().add(delete);
+                li.getChildren().add(icons);
                 li.setClassString("ui-state-default box-runde-ecken");
                 li.setStyle("width:" + comp.getHtmlfbitem().getWidth() + ";");
                 li.getChildren().add(comp.getHtmlfbitem());
@@ -220,7 +226,7 @@ public class FormBuilderRenderer extends Renderer {
                     //Start image specific code
                     if (!cachedObjects.isEmpty()) {
                         for (FormBuilderItemBase tmpItem : formBuilder.getModel().getItems()) {
-                            if ((tmpItem instanceof FormBuilderItemImage || tmpItem instanceof FormBuilderItemDownload) 
+                            if ((tmpItem instanceof FormBuilderItemImage || tmpItem instanceof FormBuilderItemDownload)
                                     && cachedObjects.containsKey(tmpItem.getId())) {
                                 tmpItem.getProperties().setFile(cachedObjects.get(tmpItem.getId()).getProperties().getFile());
                             }
