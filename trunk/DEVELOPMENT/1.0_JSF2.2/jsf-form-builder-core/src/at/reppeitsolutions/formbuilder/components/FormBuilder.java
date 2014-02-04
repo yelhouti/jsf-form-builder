@@ -18,6 +18,7 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemCheckbox;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDate;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDownload;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemHeading;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemHorizonalRule;
@@ -167,6 +168,7 @@ public class FormBuilder extends FormComponent {
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemHorizonalRule(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemSpace(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemImage(true)));
+        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDownload(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemFormatArea(true)));
         
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemInput(true)));
