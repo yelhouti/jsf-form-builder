@@ -32,8 +32,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@WebServlet("/images/*")
-public class ImageServlet extends HttpServlet {
+@WebServlet("/" + FileServlet.FOLDER + "/*")
+public class FileServlet extends HttpServlet {
+
+    public static final String FOLDER = "tmp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,5 +51,4 @@ public class ImageServlet extends HttpServlet {
             output.close();
         }
     }
-
 }
