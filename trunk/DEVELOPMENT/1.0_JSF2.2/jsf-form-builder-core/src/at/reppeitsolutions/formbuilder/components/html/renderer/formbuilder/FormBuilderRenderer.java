@@ -265,13 +265,28 @@ public class FormBuilderRenderer extends Renderer {
                 case "delete":
                     List<FormBuilderItemBase> items = formBuilder.getModel().getItems();
                     Iterator<FormBuilderItemBase> itemIter = items.iterator();
+                    String brotherToDelete = null;
                     while (itemIter.hasNext()) {
                         FormBuilderItem item = itemIter.next();
                         if (item.getId().equals(formContentString)) {
+                            if (item instanceof FormBuilderItemFormatArea) {
+                                brotherToDelete = item.getProperties().getBrother();
+                            }
                             itemIter.remove();
                             break;
                         }
                     }
+                    if (brotherToDelete != null) {
+                        itemIter = items.iterator();
+                        while (itemIter.hasNext()) {
+                            FormBuilderItem item = itemIter.next();
+                            if (item.getId().equals(brotherToDelete)) {
+                                itemIter.remove();
+                                break;
+                            }
+                        }
+                    }
+                    break;
             }
         }
     }
