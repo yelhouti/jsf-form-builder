@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FileServlet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class HtmlFormBuilderDownload extends HtmlFormBuilderItem {
                 }
                 HtmlOutputText link = new HtmlOutputText();
                 link.setEscape(false);
-                link.setValue("<a target=\"_blank\" href=\"images/" + tempFile.getName() + "\">" + properties.getFile().getFilename() + "</a>");
+                link.setValue("<a target=\"_blank\" href=\"" + FileServlet.FOLDER + "/" + tempFile.getName() + "\">" + properties.getFile().getFilename() + "</a>");
                 getChildren().add(link);
             } catch (IOException ex) {
                 Logger.getLogger(HtmlFormBuilderDownload.class.getName()).log(Level.SEVERE, null, ex);

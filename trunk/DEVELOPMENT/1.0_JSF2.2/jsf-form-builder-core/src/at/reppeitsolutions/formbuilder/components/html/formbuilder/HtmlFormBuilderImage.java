@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FileServlet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class HtmlFormBuilderImage extends HtmlFormBuilderItem {
                 }
                 HtmlGraphicImage image = new HtmlGraphicImage();
                 image.setStyle("border:0px; width: " + properties.getWidthproperty() + "%;");
-                image.setUrl("/images/" + tempFile.getName());
+                image.setUrl("/" + FileServlet.FOLDER + "/" + tempFile.getName());
                 getChildren().add(image);
             } catch (IOException ex) {
                 Logger.getLogger(HtmlFormBuilderImage.class.getName()).log(Level.SEVERE, null, ex);
