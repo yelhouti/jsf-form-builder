@@ -23,6 +23,7 @@ import at.reppeitsolutions.formbuilder.components.FormBuilder;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBaseHelper;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDownload;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemImage;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
@@ -160,10 +161,10 @@ public class FormBuilderRenderer extends Renderer {
                                 Class<FormBuilderItemBase> cls = (Class<FormBuilderItemBase>) Class.forName(item.getClassname());
                                 Object o = cls.cast(mapper.readValue(content, cls));
                                 //Start image specific code
-                                if (o instanceof FormBuilderItemImage) {
-                                    FormBuilderItemImage image = (FormBuilderItemImage) o;
+                                if (o instanceof FormBuilderItemImage || o instanceof FormBuilderItemDownload) {
+                                    FormBuilderItemBase object = (FormBuilderItemBase) o;
                                     for (FormBuilderItemBase tmpItem : formBuilder.getModel().getItems()) {
-                                        if (tmpItem.getId().equals(image.getId())) {
+                                        if (tmpItem.getId().equals(object.getId())) {
                                             cachedObjects.put(tmpItem.getId(), tmpItem);
                                         }
                                     }
@@ -219,7 +220,8 @@ public class FormBuilderRenderer extends Renderer {
                     //Start image specific code
                     if (!cachedObjects.isEmpty()) {
                         for (FormBuilderItemBase tmpItem : formBuilder.getModel().getItems()) {
-                            if (tmpItem instanceof FormBuilderItemImage && cachedObjects.containsKey(tmpItem.getId())) {
+                            if ((tmpItem instanceof FormBuilderItemImage || tmpItem instanceof FormBuilderItemDownload) 
+                                    && cachedObjects.containsKey(tmpItem.getId())) {
                                 tmpItem.getProperties().setFile(cachedObjects.get(tmpItem.getId()).getProperties().getFile());
                             }
                         }

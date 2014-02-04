@@ -17,10 +17,6 @@
 
 var count = 1;
 
-function helloWorld() {
-    alert('Hello world from JSF resource.');
-}
-
 function setHtmlFormBuilderSpanProperty(id, property, value) {
     $("#" + id).attr(property, value);
     updateForm();
