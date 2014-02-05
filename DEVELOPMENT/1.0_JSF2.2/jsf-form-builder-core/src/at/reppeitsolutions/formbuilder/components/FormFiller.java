@@ -55,13 +55,22 @@ public class FormFiller extends FormComponent {
         formContentString.setValue("");
         formContentString.setId(FormBuilder.FORMCONTENTSTRING);
         
-        getChildren().add(formActionString);
-        getChildren().add(formContentString);
+        HtmlDiv holder = new HtmlDiv(); 
+        holder.setId("holderfiller");
+        
+        holder.getChildren().add(formActionString);
+        holder.getChildren().add(formContentString);
         
         formContent = new HtmlUnorderedList();
         formContent.setClassString("sortable2");
         
-        getChildren().add(formContent);
+        HtmlDiv contentHolder = new HtmlDiv();
+        contentHolder.setId("contentHolder");
+        contentHolder.getChildren().add(formContent);
+        
+        holder.getChildren().add(contentHolder);
+        
+        getChildren().add(holder);
         
         HtmlDiv div = new HtmlDiv();
         div.setStyle("clear:left;");        
