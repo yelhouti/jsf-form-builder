@@ -39,16 +39,23 @@ body {
     padding: 0 !important;
 }
 
-#holder {
+#holder, #holderfiller {
     background-color: #F1F1F1;
     float: left;
-    width: 1000px;
     padding: 10px;
     font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
 }
 
-#holder td, .ui-dialog td, .ui-dialog, #holder, .sortable2 td {
+#holder {
+    width: 1000px;
+}
+
+#holderfiller {
+    width: 755px;
+}
+
+#holder td, #holderinfo td, .ui-dialog td, .ui-dialog, #holder, #holderinfo, .sortable2 td {
     color: #555555; 
 }
 

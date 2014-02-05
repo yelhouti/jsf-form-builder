@@ -109,19 +109,6 @@ public class FormBuilder extends FormComponent {
         accordion.getChildren().add(heading);
         accordion.getChildren().add(paletteDiv);
         
-        /*
-        heading = new HtmlHeading();
-        heading.setSize(3);
-        heading.setValue(Messages.getStringJSF("menu.forms"));
-        HtmlDiv forms = new HtmlDiv();
-        HtmlOutputText formsOutput = new HtmlOutputText();
-        formsOutput.setValue("Forms...");
-        forms.getChildren().add(formsOutput);
-        
-        accordion.getChildren().add(heading);
-        accordion.getChildren().add(forms);
-        */
-        
         HtmlDiv accordionHolder = new HtmlDiv();
         accordionHolder.setId("accordionHolder");
         
