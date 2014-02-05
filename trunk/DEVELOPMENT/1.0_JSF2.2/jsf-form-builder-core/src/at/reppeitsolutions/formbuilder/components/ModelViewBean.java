@@ -16,11 +16,14 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.model.Form;
+import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,10 +31,9 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class ModelViewBean {
+public class ModelViewBean implements Serializable {
 
     private String uuid;
-    @ManagedProperty(value = "#{modelApplicationBean}")
     ModelApplicationBean modelApplicationBean;
     
     public ModelViewBean() {
@@ -40,11 +42,26 @@ public class ModelViewBean {
     
     @PreDestroy
     public void preDestroy() {
-        modelApplicationBean.destroyModel(uuid);
+        getModelApplicationBean().destroyModel(uuid);
+        getModelApplicationBean().destroyModelData(uuid);
     }
     
     public Form getModel() {
-        return modelApplicationBean.getModel(uuid);
+        return getModelApplicationBean().getModel(uuid);
+    } 
+    
+    //Just for ide to restore session after deploy
+    private void setModel(Form form) {
+        getModelApplicationBean().putModel(uuid, form);
+    }
+    
+    public FormData getModelData() {
+        return getModelApplicationBean().getModelData(uuid);
+    }
+    
+    //Just for ide to restore session after deploy
+    private void setModelData(FormData formdata) {
+        getModelApplicationBean().putModelData(uuid, formdata);
     }
 
     public String getUuid() {
@@ -56,6 +73,10 @@ public class ModelViewBean {
     }
 
     public ModelApplicationBean getModelApplicationBean() {
+        if(modelApplicationBean == null) {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            modelApplicationBean = (ModelApplicationBean) ctx.getApplication().evaluateExpressionGet(ctx, "#{modelApplicationBean}", ModelApplicationBean.class);
+        }
         return modelApplicationBean;
     }
 

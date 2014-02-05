@@ -16,7 +16,9 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.model.Form;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ApplicationScoped;
@@ -29,12 +31,17 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ApplicationScoped
-public class ModelApplicationBean {
+public class ModelApplicationBean implements Serializable {
     
     private Map<String, Form> models = new HashMap<>();
+    private Map<String, FormData> datamodels = new HashMap<>();
     
     public Form getModel(String uuid) {
         return models.get(uuid);
+    }
+    
+    public FormData getModelData(String uuid) {
+        return datamodels.get(uuid);
     }
     
     public void putModel(String uuid, Form model) {
@@ -42,9 +49,20 @@ public class ModelApplicationBean {
         models.put(uuid, model);
     }
     
+    public void putModelData(String uuid, FormData model) {
+        destroyModelData(uuid);
+        datamodels.put(uuid, model);
+    }
+    
     public void destroyModel(String uuid) {
         if(models.containsKey(uuid)) {
             models.remove(uuid);
+        }
+    }
+    
+    public void destroyModelData(String uuid) {
+        if(datamodels.containsKey(uuid)) {
+            datamodels.remove(uuid);
         }
     }
     

@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormBuilderIFrame;
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import java.io.IOException;
 import java.util.UUID;
@@ -30,23 +31,23 @@ import javax.faces.render.Renderer;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesRenderer(componentFamily = FormBuilderIFrameRenderer.FAMILY, rendererType = FormBuilderIFrameRenderer.RENDERTYPE)
-public class FormBuilderIFrameRenderer extends Renderer {
+@FacesRenderer(componentFamily = FormFillerIFrameRenderer.FAMILY, rendererType = FormFillerIFrameRenderer.RENDERTYPE)
+public class FormFillerIFrameRenderer extends Renderer {
 
-    public static final String RENDERTYPE = "FormBuilderIframeRenderer";
+    public static final String RENDERTYPE = "FormFillerIframeRenderer";
     public static final String FAMILY = "at.rits.formbuilder";
     
-    public FormBuilderIFrameRenderer() {
+    public FormFillerIFrameRenderer() {
         
     }
 
     @Override
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
-        FormBuilderIFrame formBuilderIFrame = (FormBuilderIFrame) component;
+        FormFillerIFrame formFillerIFrame = (FormFillerIFrame) component;
         String uuid = UUID.randomUUID().toString();
-        ModelApplicationBean.getInstance().putModel(uuid, formBuilderIFrame.getModel());
-        formBuilderIFrame.getIFrame().setSrc("pages/formbuilder.xhtml?uuid=" + uuid);
+        ModelApplicationBean.getInstance().putModelData(uuid, formFillerIFrame.getModel());
+        formFillerIFrame.getIFrame().setSrc("pages/formfiller.xhtml?uuid=" + uuid);
     }
-    
+
 }
