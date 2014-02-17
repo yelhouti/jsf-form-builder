@@ -35,7 +35,7 @@ import javax.faces.el.MethodBinding;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFillerIFrame")
+@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFiller")
 @ResourceDependencies(value = {
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
