@@ -16,22 +16,18 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.Constants;
-import at.reppeitsolutions.formbuilder.components.FormBuilder;
-import at.reppeitsolutions.formbuilder.components.FormBuilderIFrame;
 import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import at.reppeitsolutions.formbuilder.messages.Messages;
 import java.io.IOException;
 import java.util.UUID;
-import javax.el.ExpressionFactory;
-import javax.el.MethodExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.MethodBinding;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -52,7 +48,8 @@ public class FormFillerIFrameRenderer extends Renderer {
         FormFillerIFrame formFillerIFrame = (FormFillerIFrame) component;
         String uuid = UUID.randomUUID().toString();
         ModelApplicationBean.getInstance().putModelData(uuid, formFillerIFrame.getModel());
-        formFillerIFrame.getIFrame().setSrc("pages/formfiller.xhtml?uuid=" + uuid);
+        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid);
     }
 
     @Override
