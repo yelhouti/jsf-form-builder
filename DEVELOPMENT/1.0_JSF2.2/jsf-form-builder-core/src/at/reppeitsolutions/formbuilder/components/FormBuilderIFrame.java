@@ -25,7 +25,7 @@ import javax.faces.component.FacesComponent;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formBuilderIFrame")
+@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formBuilder")
 public class FormBuilderIFrame extends FormComponent {
     
     private HtmlIFrame iframe;
