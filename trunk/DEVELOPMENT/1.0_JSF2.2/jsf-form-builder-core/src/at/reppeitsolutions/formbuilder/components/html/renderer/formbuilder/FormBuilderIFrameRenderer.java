@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.util.UUID;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -46,7 +46,8 @@ public class FormBuilderIFrameRenderer extends Renderer {
         FormBuilderIFrame formBuilderIFrame = (FormBuilderIFrame) component;
         String uuid = UUID.randomUUID().toString();
         ModelApplicationBean.getInstance().putModel(uuid, formBuilderIFrame.getModel());
-        formBuilderIFrame.getIFrame().setSrc("pages/formbuilder.xhtml?uuid=" + uuid);
+        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        formBuilderIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
     }
     
 }

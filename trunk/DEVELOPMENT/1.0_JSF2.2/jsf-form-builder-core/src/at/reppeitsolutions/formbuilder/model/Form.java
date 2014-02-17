@@ -50,6 +50,12 @@ public class Form implements Serializable {
     }
     
     private static final String WITHOUTAREAKEY = "withoutarea";
+    
+    @Override
+    public Form clone() {
+        //TODO copy form and all items
+        throw new UnsupportedOperationException();
+    }
 
     public List<FormBuilderItemBase> getItems() {
         Collections.sort(items);
