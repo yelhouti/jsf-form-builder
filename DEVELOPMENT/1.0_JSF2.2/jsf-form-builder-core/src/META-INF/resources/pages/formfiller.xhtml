@@ -13,8 +13,8 @@
                 <f:viewParam name="uuid" value="#{modelViewBean.uuid}" />
             </f:metadata>
             <h:form enctype="multipart/form-data">
+                <h:commandLink class="btn" value="Save" action="#{modelViewBean.save()}" style="display: none;" />
                 <r:formFiller model="#{modelViewBean.modelData}" />
-                <h:commandButton action="view" value="Submit" />
             </h:form>
         </h:body>
     </f:view>

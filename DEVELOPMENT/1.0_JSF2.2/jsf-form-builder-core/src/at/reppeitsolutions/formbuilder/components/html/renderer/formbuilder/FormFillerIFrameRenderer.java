@@ -16,14 +16,20 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
+import at.reppeitsolutions.formbuilder.components.FormBuilder;
 import at.reppeitsolutions.formbuilder.components.FormBuilderIFrame;
 import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
+import at.reppeitsolutions.formbuilder.messages.Messages;
 import java.io.IOException;
 import java.util.UUID;
+import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.MethodBinding;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 
@@ -36,9 +42,8 @@ public class FormFillerIFrameRenderer extends Renderer {
 
     public static final String RENDERTYPE = "FormFillerIframeRenderer";
     public static final String FAMILY = "at.rits.formbuilder";
-    
+
     public FormFillerIFrameRenderer() {
-        
     }
 
     @Override
@@ -50,4 +55,34 @@ public class FormFillerIFrameRenderer extends Renderer {
         formFillerIFrame.getIFrame().setSrc("pages/formfiller.xhtml?uuid=" + uuid);
     }
 
+    @Override
+    public void encodeEnd(FacesContext ctx,
+            UIComponent component) throws IOException {
+        FormFillerIFrame formFillerIFrame = (FormFillerIFrame) component;
+        if (formFillerIFrame.getMode() != null &&
+            formFillerIFrame.getMode().equals(FormFillerIFrame.MODE_FILL)) {
+            ResponseWriter writer = ctx.getResponseWriter();
+            String btnid = "btn-" + UUID.randomUUID().toString();
+            writer.write("<br />");
+            writer.write("<button id=\"" + btnid + "\" onclick=\"submitForm();\">" + Messages.getStringJSF("formfiller.submit") + "</button>");
+            writer.write("<script type=\"text/javascript\">"
+                    + "$('#" + btnid + "').button();"
+                    + "function submitForm() {"
+                    + "  var iframe = document.getElementById('" + formFillerIFrame.getIFrame().getId() + "');"
+                    + "  var innerDoc = iframe.contentDocument || iframe.contentWindow.document;"
+                    + "  $(innerDoc).find(\".btn\").click();"
+                    + "} "
+                    + "function submitParentForm() {"
+                    + "  $(\".btn\").click();"
+                    + "}"
+                    + "</script>");
+        }
+    }
+
+    @Override
+    public void decode(FacesContext ctx, UIComponent component) {
+        FormFillerIFrame formFillerIFrame = (FormFillerIFrame) component;
+        MethodBinding action = formFillerIFrame.getAction();
+        action.invoke(ctx, null);
+    }
 }

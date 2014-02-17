@@ -101,6 +101,12 @@ public class FormFillerRenderer extends Renderer {
                 + "\"" + FormBuilderRenderer.getFormActionStringId(component) + "\","
                 + "\"" + FormBuilderRenderer.getFormContentStringId(component) + "\""
                 + ");</script>");
+        
+        if(formFiller.getFromSave()) {
+            writer.write("<script type=\"text/javascript\">"
+                    + "parent.submitParentForm();"
+                + "</script>");
+        }
     }
 
     public static String extractDataUuid(String key) {
@@ -110,6 +116,7 @@ public class FormFillerRenderer extends Renderer {
     @Override
     public void decode(FacesContext ctx, UIComponent component) {
         FormFiller formFiller = (FormFiller) component;
+        formFiller.setFromSave(true);
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
 
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(FormBuilderRenderer.getFormContentStringId(component));
