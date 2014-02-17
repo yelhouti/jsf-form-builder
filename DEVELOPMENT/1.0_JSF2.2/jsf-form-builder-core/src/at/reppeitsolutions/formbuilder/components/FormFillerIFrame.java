@@ -19,7 +19,6 @@ package at.reppeitsolutions.formbuilder.components;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerIFrameRenderer;
-import com.sun.faces.taglib.html_basic.CommandButtonTag;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
@@ -28,8 +27,6 @@ import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlForm;
-import javax.faces.el.MethodBinding;
 
 /**
  *
@@ -38,8 +35,7 @@ import javax.faces.el.MethodBinding;
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFiller")
 @ResourceDependencies(value = {
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
-    @ResourceDependency(library = "formbuilder", name = "css/smoothness/jquery-ui-1.10.3.custom.min.css"),})
+    @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js")})
 public class FormFillerIFrame extends UICommand {
     
     public static final String MODE_VIEW = "view";
