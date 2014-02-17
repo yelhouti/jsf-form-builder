@@ -20,6 +20,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
+import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -76,6 +77,11 @@ public class FormFiller extends FormComponent {
         div.setStyle("clear:left;");        
         getChildren().add(div);
     }
+    
+    @PostConstruct
+    public void init() {
+        setFromSave(false);
+    }
 
     public FormData getModel() {
         return (FormData) getStateHelper().eval("model");
@@ -83,6 +89,14 @@ public class FormFiller extends FormComponent {
 
     public void setModel(FormData model) {
         getStateHelper().put("model", model);
+    }
+
+    public boolean getFromSave() {
+        return (boolean) getStateHelper().eval("fromSave");
+    }
+
+    public void setFromSave(boolean fromSave) {
+        getStateHelper().put("fromSave", fromSave);
     }
 
     @Override

@@ -29,6 +29,7 @@ public class HtmlIFrame extends HtmlBaseComponent {
     private String src;
     private Integer border;
     private boolean scrolling = false;
+    private String id;
 
     public HtmlIFrame() {
         super("iframe");
@@ -42,13 +43,13 @@ public class HtmlIFrame extends HtmlBaseComponent {
             append += " frameborder=\"" + border + "\" ";
         }
         append += " scrolling=\"";
-        if(scrolling) {
+        if (scrolling) {
             append += "yes";
         } else {
             append += "no";
         }
         append += "\" ";
-        writer.write("<" + tagName + " " + getStyleClassIdString() + " src=\"" + src + "\" " + append + " >");
+        writer.write("<" + tagName + " " + getStyleClassIdString() + " src=\"" + src + "\" " + append + " id=\"" + id + "\">");
         writer.write("Your browser does not support iframes.");
     }
 
@@ -82,4 +83,13 @@ public class HtmlIFrame extends HtmlBaseComponent {
         this.scrolling = scrolling;
     }
     
-}
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+} 

@@ -46,6 +46,10 @@ public class ModelViewBean implements Serializable {
         getModelApplicationBean().destroyModelData(uuid);
     }
     
+    public void save() {
+        
+    }
+    
     public Form getModel() {
         return getModelApplicationBean().getModel(uuid);
     } 

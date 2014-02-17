@@ -48,6 +48,8 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlInputHidden;
 import at.reppeitsolutions.formbuilder.messages.Messages;
 import at.reppeitsolutions.formbuilder.model.Form;
+import at.reppeitsolutions.formbuilder.model.IUser;
+import at.reppeitsolutions.formbuilder.model.IWorkflowState;
 
 /**
  *
@@ -138,6 +140,31 @@ public class FormBuilder extends FormComponent {
 
     public void setModel(Form model) {
         getStateHelper().put("model", model);
+    }
+
+    public IWorkflowState getWorkflowState() {
+        return (IWorkflowState) getStateHelper().eval("workflowState");
+    }
+
+    public void setWorkflowState(IWorkflowState workflowState) {
+        getStateHelper().put("workflowState", workflowState);
+    }
+
+    public List<IWorkflowState> getWorkflowStates() {
+        return (List<IWorkflowState>) getStateHelper().eval("workflowStates");
+    }
+
+    public void setWorkflowStates(List<IWorkflowState> workflowStates) {
+        getStateHelper().put("workflowStates", workflowStates);
+    }
+    //End TODO write in state helper
+
+    public List<IUser> getUser() {
+        return (List<IUser>) getStateHelper().eval("user");
+    }
+
+    public void setUser(List<IUser> user) {
+        getStateHelper().put("user", user);
     }
 
     @Override
