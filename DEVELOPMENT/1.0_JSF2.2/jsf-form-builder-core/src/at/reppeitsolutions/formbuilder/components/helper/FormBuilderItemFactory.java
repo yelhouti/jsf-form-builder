@@ -72,19 +72,19 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_DOWNLOAD = "fbdownload";
     public static final String TYPE_NUMBER = "fbnumber";
 
-    public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data) {
-        return getUIComponent(data.getFormBuilderItem(), data, false);
+    public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data, String mode) {
+        return getUIComponent(data.getFormBuilderItem(), data, false, mode);
     }
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItem item) {
-        return getUIComponent(item, null, false);
+        return getUIComponent(item, null, false, null);
     }
 
     public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItem item) {
-        return getUIComponent(item, null, true);
+        return getUIComponent(item, null, true, null);
     }
 
-    private static HtmlFormBuilderItem getUIComponent(FormBuilderItem item, FormBuilderItemData data, boolean dialog) {
+    private static HtmlFormBuilderItem getUIComponent(FormBuilderItem item, FormBuilderItemData data, boolean dialog, String mode) {
         String type = item.getFormbuildertype();
         HtmlFormBuilderSpan res = new HtmlFormBuilderSpan(item);
         HtmlFormBuilderItem comp = null;
@@ -159,6 +159,9 @@ public abstract class FormBuilderItemFactory {
                 comp.setFile(data.getFile());
             } else {
                 comp.setItemUuid(item.getId());
+            }
+            if(mode != null) {
+                comp.setMode(mode);
             }
             //render html object
             comp.render();

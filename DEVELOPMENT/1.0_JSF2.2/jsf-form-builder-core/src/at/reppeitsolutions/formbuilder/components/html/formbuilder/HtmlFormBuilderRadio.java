@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneRadio;
@@ -25,31 +26,34 @@ import javax.faces.component.html.HtmlSelectOneRadio;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public class HtmlFormBuilderRadio extends HtmlFormBuilderItem {
-    
+
     @Override
     public void renderView() {
         HtmlSelectOneRadio select = new HtmlSelectOneRadio();
         select.setLayout(properties.getLayout());
-        
+
         String[] valueArray = properties.getValues().split(";");
-        for(int i = 0; i < valueArray.length; ++i) {
+        for (int i = 0; i < valueArray.length; ++i) {
             UISelectItem item = new UISelectItem();
             item.setItemValue(valueArray[i]);
             item.setItemLabel(valueArray[i]);
             select.getChildren().add(item);
         }
-        
-        if(value != null) {
-            select.setValue(value);
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            select.setDisabled(true);
         }
-        if(getDataUuid() != null) {
+        if (value != null) {
+            select.setValue(value);
+            select.setDisabled(true);
+        }
+        if (getDataUuid() != null) {
             select.setId(getDataUuid());
         }
-        
+
         HtmlOutputText output = new HtmlOutputText();
         output.setValue(properties.getLabel());
-        
-        addLabeledComponent(output,select,"");
+
+        addLabeledComponent(output, select, "");
     }
-    
 }

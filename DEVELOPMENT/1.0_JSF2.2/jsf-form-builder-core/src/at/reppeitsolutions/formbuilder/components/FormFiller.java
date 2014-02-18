@@ -91,6 +91,14 @@ public class FormFiller extends FormComponent {
     public void setModel(FormData model) {
         getStateHelper().put("model", model);
     }
+    
+    public String getMode() {
+        return (String) getStateHelper().eval("mode");
+    }
+    
+    public void setMode(String mode) {
+        getStateHelper().put("mode", mode);
+    }
 
     @Override
     public String getFamily() {

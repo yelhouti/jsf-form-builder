@@ -48,7 +48,7 @@ public class FormFillerIFrameRenderer extends Renderer {
         String uuid = UUID.randomUUID().toString();
         ModelApplicationBean.getInstance().putModelData(uuid, formFillerIFrame.getModel());
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid);
+        formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFillerIFrame.getMode());
         
         if(formFillerIFrame.getTarget() != null) {
             formFillerIFrame.getForm().setTarget(formFillerIFrame.getTarget());

@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -29,7 +30,11 @@ public class HtmlFormBuilderTime extends HtmlFormBuilderItem {
     public void renderView() {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("timepicker");
-        if(getValue() != null) {
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            input.setDisabled(true);
+        }
+        if (getValue() != null) {
             input.setValue(getValue());
         } else {
             if (properties.getValues() == null) {
@@ -47,5 +52,4 @@ public class HtmlFormBuilderTime extends HtmlFormBuilderItem {
 
         addLabeledComponent(output, input, "width: 10em;");
     }
-
 }

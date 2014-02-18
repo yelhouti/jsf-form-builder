@@ -64,8 +64,6 @@ public class FormFillerRenderer extends Renderer {
         formFiller.getFormContent().setTransient(true);
         formFiller.getFormContent().setId(form.getId() + "formContent" + UUID.randomUUID().toString());
 
-
-
         FormData formModel = formFiller.getModel();
 
         if (formModel != null) {
@@ -74,7 +72,7 @@ public class FormFillerRenderer extends Renderer {
             if (formModel.getData() != null) {
                 for (FormBuilderItemData item : formModel.getData()) {
                     if (!item.getFormBuilderItem().getSkipRendering()) {
-                        components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item)));
+                        components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode())));
                     }
                 }
             }
@@ -198,7 +196,9 @@ public class FormFillerRenderer extends Renderer {
                             if (data.getFormBuilderItem() instanceof FormBuilderItemNumber) {
                                 if (result.size() == 1) {
                                     try {
-                                        data.setNumberValue(Float.parseFloat(result.get(0).replaceAll(",", ".")));
+                                        if(!"".equals(result.get(0).trim())) {
+                                            data.setNumberValue(Float.parseFloat(result.get(0).replaceAll(",", ".")));
+                                        }
                                     } catch(NumberFormatException ex) {
                                         throw new NumberFormatException("Internal error with number component. Number not parseable.");
                                     }

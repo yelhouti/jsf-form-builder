@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -29,7 +30,14 @@ public class HtmlFormBuilderDate extends HtmlFormBuilderItem {
     public void renderView() {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("datepicker");
-        if(getValue() != null) {
+        String backgroundColor = "";
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            input.setDisabled(true);
+        } else {
+            backgroundColor = "background-color: white;";
+        }
+        if (getValue() != null) {
             input.setValue(getValue());
         } else {
             if (properties.getValues() == null) {
@@ -46,7 +54,6 @@ public class HtmlFormBuilderDate extends HtmlFormBuilderItem {
         HtmlOutputText output = new HtmlOutputText();
         output.setValue(properties.getLabel());
 
-        addLabeledComponent(output, input, "width: 10em; background-color: white;");
+        addLabeledComponent(output, input, "width: 10em;" + backgroundColor);
     }
-
 }
