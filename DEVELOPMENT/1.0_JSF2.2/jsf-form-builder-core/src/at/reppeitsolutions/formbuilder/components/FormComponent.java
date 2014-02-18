@@ -17,18 +17,32 @@
 package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
-import javax.faces.component.UIComponentBase;
+import javax.annotation.PostConstruct;
+import javax.faces.component.UICommand;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public abstract class FormComponent extends UIComponentBase {
+public abstract class FormComponent extends UICommand {
     
     protected HtmlUnorderedList formContent;
     
     public HtmlUnorderedList getFormContent() {
         return formContent;
+    }
+    
+    @PostConstruct
+    public void init() {
+        setFromSave(false);
+    }
+    
+    public boolean getFromSave() {
+        return (boolean) getStateHelper().eval("fromSave");
+    }
+
+    public void setFromSave(boolean fromSave) {
+        getStateHelper().put("fromSave", fromSave);
     }
     
 }

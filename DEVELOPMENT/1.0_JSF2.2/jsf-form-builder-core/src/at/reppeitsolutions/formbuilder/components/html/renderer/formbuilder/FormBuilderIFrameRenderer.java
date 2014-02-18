@@ -16,12 +16,16 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormBuilderIFrame;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +39,8 @@ public class FormBuilderIFrameRenderer extends Renderer {
 
     public static final String RENDERTYPE = "FormBuilderIframeRenderer";
     public static final String FAMILY = "at.rits.formbuilder";
-    
+
     public FormBuilderIFrameRenderer() {
-        
     }
 
     @Override
@@ -46,8 +49,22 @@ public class FormBuilderIFrameRenderer extends Renderer {
         FormBuilderIFrame formBuilderIFrame = (FormBuilderIFrame) component;
         String uuid = UUID.randomUUID().toString();
         ModelApplicationBean.getInstance().putModel(uuid, formBuilderIFrame.getModel());
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formBuilderIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
+        
+        formBuilderIFrame.getCallbackButton().setAction(formBuilderIFrame.getAction());
+        FormBuilderRenderer.getHtmlForm(component).getChildren().add(formBuilderIFrame.getCallbackButton());
     }
-    
+
+    @Override
+    public void encodeEnd(FacesContext ctx,
+            UIComponent component) throws IOException {
+        FormBuilderIFrame formBuilderIFrame = (FormBuilderIFrame) component;
+        ResponseWriter writer = ctx.getResponseWriter();
+        writer.write("<script type=\"text/javascript\">"
+                + "function buffer() {"
+                + "document.getElementById(\"" + FormBuilderRenderer.getHtmlForm(component).getId() + Constants.sep + formBuilderIFrame.getCallbackButton().getId() + "\").click();"
+                + "}"
+                + "</script>");
+    }
 }
