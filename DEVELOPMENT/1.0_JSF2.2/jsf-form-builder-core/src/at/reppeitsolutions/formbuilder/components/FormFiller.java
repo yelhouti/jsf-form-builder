@@ -21,7 +21,6 @@ import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
 import at.reppeitsolutions.formbuilder.messages.Messages;
-import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;

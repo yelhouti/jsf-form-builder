@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
@@ -127,8 +128,9 @@ public class FormFillerRenderer extends Renderer {
                 + "initDownloadable(\"" + form.getClientId() + "\","
                 + "\"" + FormBuilderRenderer.getFormActionStringId(component) + "\","
                 + "\"" + FormBuilderRenderer.getFormContentStringId(component) + "\""
+                + ");"
                 + "});"
-                + ");</script>");
+                + "</script>");
 
         if (formFiller.getFromSave()) {
             writer.write("<script type=\"text/javascript\">"
@@ -193,15 +195,25 @@ public class FormFillerRenderer extends Renderer {
                     for (FormBuilderItemData data : formFiller.getModel().getData()) {
                         if (data.getUuid().equals(dataUuid)) {
                             List<String> result = multiRequest.getParameterMaps().get(key);
-                            if (result.size() == 1) {
-                                data.setValue(result.get(0));
-                            } else {
-                                String tmp = "";
-                                for (String str : result) {
-                                    tmp += str;
-                                    tmp += ";";
+                            if (data.getFormBuilderItem() instanceof FormBuilderItemNumber) {
+                                if (result.size() == 1) {
+                                    try {
+                                        data.setNumberValue(Float.parseFloat(result.get(0).replaceAll(",", ".")));
+                                    } catch(NumberFormatException ex) {
+                                        throw new NumberFormatException("Internal error with number component. Number not parseable.");
+                                    }
                                 }
-                                data.setValue(tmp.substring(0, tmp.length() - 1));
+                            } else {
+                                if (result.size() == 1) {
+                                    data.setValue(result.get(0));
+                                } else {
+                                    String tmp = "";
+                                    for (String str : result) {
+                                        tmp += str;
+                                        tmp += ";";
+                                    }
+                                    data.setValue(tmp.substring(0, tmp.length() - 1));
+                                }
                             }
                         }
                     }
