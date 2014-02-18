@@ -88,13 +88,6 @@ public class FormFillerIFrame extends UICommand {
         getStateHelper().put("model", model);
     }
     
-    public MethodExpression getSave() {
-        return (MethodExpression) getStateHelper().eval("save");
-    }
-    public void setSave(MethodExpression action) {
-        getStateHelper().put("save", action);
-    }
-    
     public String getMode() {
         return (String) getStateHelper().eval("mode");
     }
