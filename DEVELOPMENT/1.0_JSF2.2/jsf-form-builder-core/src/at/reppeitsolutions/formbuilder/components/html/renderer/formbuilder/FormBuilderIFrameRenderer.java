@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
@@ -51,9 +52,11 @@ public class FormBuilderIFrameRenderer extends Renderer {
         ModelApplicationBean.getInstance().putModel(uuid, formBuilderIFrame.getModel());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formBuilderIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
-        
+
         formBuilderIFrame.getCallbackButton().setAction(formBuilderIFrame.getAction());
         FormBuilderRenderer.getHtmlForm(component).getChildren().add(formBuilderIFrame.getCallbackButton());
+
+        formBuilderIFrame.addLoadImage();
     }
 
     @Override

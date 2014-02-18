@@ -25,6 +25,7 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlOutputText;
 
 /**
  *
@@ -32,17 +33,17 @@ import javax.faces.component.html.HtmlInputHidden;
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formBuilder")
 @ResourceDependencies(value = {
-    @ResourceDependency(library = "javax.faces", name = "jsf.js")
+    @ResourceDependency(library = "javax.faces", name = "jsf.js"),
+    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
 })
-public class FormBuilderIFrame extends FormComponent {
+public class FormBuilderIFrame extends IFrameComponent {
     
-    private HtmlIFrame iframe;
     private HtmlCommandButton callbackButton;
     private AjaxBehavior ajax;
-    private HtmlInputHidden inputhidden;
     
     public FormBuilderIFrame() {
         setRendererType(FormBuilderIFrameRenderer.RENDERTYPE);
+        
         iframe = new HtmlIFrame();
         iframe.setStyle("width: 1040px; height: 620px;");
         iframe.setBorder(0);
@@ -55,10 +56,6 @@ public class FormBuilderIFrame extends FormComponent {
         callbackButton.addClientBehavior("action", ajax);
         callbackButton.setStyle("display:none;");
         getChildren().add(callbackButton);
-    }
-    
-    public HtmlIFrame getIFrame() {
-        return iframe;
     }
 
     public HtmlCommandButton getCallbackButton() {

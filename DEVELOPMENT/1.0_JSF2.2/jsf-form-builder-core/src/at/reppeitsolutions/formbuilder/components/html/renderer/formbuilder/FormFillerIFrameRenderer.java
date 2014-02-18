@@ -54,6 +54,8 @@ public class FormFillerIFrameRenderer extends Renderer {
         if(formFillerIFrame.getTarget() != null) {
             formFillerIFrame.getForm().setTarget(formFillerIFrame.getTarget());
         }
+        
+        formFillerIFrame.addLoadImage();
     }
 
     @Override

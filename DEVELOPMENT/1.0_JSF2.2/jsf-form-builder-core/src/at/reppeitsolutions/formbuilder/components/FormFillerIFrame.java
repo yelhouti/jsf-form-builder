@@ -36,13 +36,14 @@ import javax.faces.component.html.HtmlForm;
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFiller")
 @ResourceDependencies(value = {
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js")})
-public class FormFillerIFrame extends UICommand {
+    @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
+    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
+})
+public class FormFillerIFrame extends IFrameComponent {
     
     public static final String MODE_VIEW = "view";
     public static final String MODE_FILL = "fill";
-    
-    private HtmlIFrame iframe;
+
     private HtmlForm form;
     
     public FormFillerIFrame() {
@@ -70,10 +71,6 @@ public class FormFillerIFrame extends UICommand {
     @PostConstruct
     public void init() {
         setMode(MODE_FILL);
-    }
-    
-    public HtmlIFrame getIFrame() {
-        return iframe;
     }
 
     public HtmlForm getForm() {
