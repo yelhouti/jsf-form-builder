@@ -30,6 +30,7 @@ public class HtmlIFrame extends HtmlBaseComponent {
     private Integer border;
     private boolean scrolling = false;
     private String id;
+    private String onload;
 
     public HtmlIFrame() {
         super("iframe");
@@ -41,6 +42,9 @@ public class HtmlIFrame extends HtmlBaseComponent {
         String append = "";
         if (border != null) {
             append += " frameborder=\"" + border + "\" ";
+        }
+        if (onload != null) {
+            append += " onload=\"" + onload + "\" ";
         }
         append += " scrolling=\"";
         if (scrolling) {
@@ -81,6 +85,14 @@ public class HtmlIFrame extends HtmlBaseComponent {
 
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
+    }
+    
+    public String getOnload() {
+        return onload;
+    }
+
+    public void setOnload(String onload) {
+        this.onload = onload;
     }
     
     @Override
