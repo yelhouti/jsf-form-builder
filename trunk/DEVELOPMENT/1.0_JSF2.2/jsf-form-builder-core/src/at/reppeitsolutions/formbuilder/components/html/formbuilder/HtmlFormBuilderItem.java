@@ -36,6 +36,7 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
      */
     protected abstract void renderView();
     protected String value;
+    protected Float numberValue;
     protected File file;
     protected String dataUuid;
     protected String itemUuid;
@@ -111,6 +112,14 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Float getNumberValue() {
+        return numberValue;
+    }
+
+    public void setNumberValue(Float numberValue) {
+        this.numberValue = numberValue;
     }
 
     public File getFile() {

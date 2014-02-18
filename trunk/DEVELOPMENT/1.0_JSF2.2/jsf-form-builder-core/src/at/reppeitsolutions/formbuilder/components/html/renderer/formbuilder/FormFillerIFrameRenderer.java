@@ -18,7 +18,6 @@ package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
-import at.reppeitsolutions.formbuilder.messages.Messages;
 import java.io.IOException;
 import java.util.UUID;
 import javax.faces.component.UIComponent;

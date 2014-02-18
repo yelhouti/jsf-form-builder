@@ -38,6 +38,7 @@ public class FormBuilderItemData implements Serializable, Comparable {
     @Id
     private String uuid = UUID.randomUUID().toString();
     private String value;
+    private Float numberValue;
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="form_data_id")
     protected FormData formData;
@@ -99,6 +100,14 @@ public class FormBuilderItemData implements Serializable, Comparable {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public Float getNumberValue() {
+        return numberValue;
+    }
+
+    public void setNumberValue(Float numberValue) {
+        this.numberValue = numberValue;
     }
     
 }

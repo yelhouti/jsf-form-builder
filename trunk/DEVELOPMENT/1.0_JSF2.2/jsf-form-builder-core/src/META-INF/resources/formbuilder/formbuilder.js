@@ -57,6 +57,28 @@ function showLoadImage() {
     $("#ajaxReload").show();
 }
 
+function initNumbers() {
+    $('.number').keydown(function(event) {
+        // Allow special chars + arrows 
+        if (event.keyCode === 46 || event.keyCode === 8 || event.keyCode === 9
+                || event.keyCode === 27 || event.keyCode === 13
+                || (event.keyCode === 65 && event.ctrlKey === true)
+                || (event.keyCode >= 35 && event.keyCode <= 39)
+                || (event.keyCode === 188)) {
+            if (event.keyCode === 188 && $(this).val().indexOf(",") !== -1) {
+                event.preventDefault();
+            } else {
+                return;
+            }
+        } else {
+            // If it's not a number stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                event.preventDefault();
+            }
+        }
+    });
+}
+
 function initJQuery() {
     $(".dialog").dialog({
         resizable: false,
@@ -69,6 +91,7 @@ function initJQuery() {
     $(".commandButton").button();
     initDatepicker();
     initTimepicker();
+    initNumbers();
 }
 
 function initDatepicker() {
@@ -93,12 +116,12 @@ function saveProperties(itemid) {
         json += "{";
         json += "\"method\":\"" + $(this).attr("method") + "\",";
         var value = "";
-        if($(this).val() === "on") {
+        if ($(this).val() === "on") {
             value = $(this).prop("checked");
         } else {
             value = $(this).val();
         }
-        json += "\"value\":\"" + value +"\"";
+        json += "\"value\":\"" + value + "\"";
         json += "},";
     });
     json = json.substr(0, json.length - 1);
@@ -128,12 +151,12 @@ function updateForm() {
 
 function updateFormajaxRequest() {
     window.jsf.ajax.request(formid_, null, {
-        render: formid_, 
+        render: formid_,
         onevent: function() {
             initJQuery();
             hideLoadImage();
         },
-        onerror: function (error) {
+        onerror: function(error) {
             alert(error.errorMessage);
             //TODO not saved changes get lost
             window.location.reload();
@@ -193,9 +216,10 @@ var formContent_;
 function initDownloadable(formid, formActionString, formContentString) {
     formid_ = formid;
     formActionString_ = formActionString;
-    formContentString_ = formContentString; 
+    formContentString_ = formContentString;
     initDatepicker();
     initTimepicker();
+    initNumbers();
 }
 
 function initDraggable(formid, palette, formContent, formActionString, formContentString) {

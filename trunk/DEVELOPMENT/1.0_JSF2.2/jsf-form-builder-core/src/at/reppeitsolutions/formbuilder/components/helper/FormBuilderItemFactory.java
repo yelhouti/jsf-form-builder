@@ -33,6 +33,7 @@ import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuild
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderInput;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderLabel;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderListbox;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderNumber;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderPagebreak;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderRadio;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderSelect;
@@ -69,6 +70,7 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_FORMATAREA = "fbformatarea";
     public static final String TYPE_PAGEBREAK = "fbpagebreak";
     public static final String TYPE_DOWNLOAD = "fbdownload";
+    public static final String TYPE_NUMBER = "fbnumber";
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data) {
         return getUIComponent(data.getFormBuilderItem(), data, false);
@@ -93,6 +95,9 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_INPUT:
                 comp = new HtmlFormBuilderInput();
+                break;
+            case TYPE_NUMBER:
+                comp = new HtmlFormBuilderNumber();
                 break;
             case TYPE_LABEL:
                 comp = new HtmlFormBuilderLabel();
@@ -149,6 +154,7 @@ public abstract class FormBuilderItemFactory {
             //Set data of html object
             if (data != null) {
                 comp.setValue(data.getValue());
+                comp.setNumberValue(data.getNumberValue());
                 comp.setDataUuid(data.getUuid());
                 comp.setFile(data.getFile());
             } else {

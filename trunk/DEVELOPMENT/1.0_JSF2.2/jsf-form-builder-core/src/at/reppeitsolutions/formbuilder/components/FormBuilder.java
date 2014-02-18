@@ -26,6 +26,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderIte
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemInput;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemLabel;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemListbox;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemRadio;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemSelect;
@@ -187,6 +188,7 @@ public class FormBuilder extends FormComponent {
         
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemInput(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTextarea(true)));
+        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemNumber(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDate(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTime(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemUpload(true)));
