@@ -20,6 +20,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
+import at.reppeitsolutions.formbuilder.messages.Messages;
 import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
@@ -55,6 +56,10 @@ public class FormFiller extends FormComponent {
         HtmlInputHidden formContentString = new HtmlInputHidden();
         formContentString.setValue("");
         formContentString.setId(FormBuilder.FORMCONTENTSTRING);
+        
+        HtmlInputHidden propDialogHeader = new HtmlInputHidden();
+        propDialogHeader.setValue(Messages.getStringJSF("dialog.header"));
+        propDialogHeader.setId("prop-dialog-header");
         
         HtmlDiv holder = new HtmlDiv(); 
         holder.setId("holderfiller");
