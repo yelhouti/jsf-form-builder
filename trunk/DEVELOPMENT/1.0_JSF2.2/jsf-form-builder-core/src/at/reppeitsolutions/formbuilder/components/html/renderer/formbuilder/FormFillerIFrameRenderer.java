@@ -50,6 +50,10 @@ public class FormFillerIFrameRenderer extends Renderer {
         ModelApplicationBean.getInstance().putModelData(uuid, formFillerIFrame.getModel());
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid);
+        
+        if(formFillerIFrame.getTarget() != null) {
+            formFillerIFrame.getForm().setTarget(formFillerIFrame.getTarget());
+        }
     }
 
     @Override
@@ -59,11 +63,10 @@ public class FormFillerIFrameRenderer extends Renderer {
         if (formFillerIFrame.getMode() != null &&
             formFillerIFrame.getMode().equals(FormFillerIFrame.MODE_FILL)) {
             ResponseWriter writer = ctx.getResponseWriter();
-            String btnid = "btn-" + UUID.randomUUID().toString();
-            writer.write("<br />");
-            writer.write("<button id=\"" + btnid + "\" onclick=\"submitForm();\">" + Messages.getStringJSF("formfiller.submit") + "</button>");
             writer.write("<script type=\"text/javascript\">"
-                    + "$('#" + btnid + "').button();"
+                    + "$(function(){"
+                    + "$(\"#"+formFillerIFrame.getButtonid()+"\").attr(\"onclick\",\"submitForm();\");"
+                    + "});"
                     + "function submitForm() {"
                     + "  var iframe = document.getElementById('" + formFillerIFrame.getIFrame().getId() + "');"
                     + "  var innerDoc = iframe.contentDocument || iframe.contentWindow.document;"

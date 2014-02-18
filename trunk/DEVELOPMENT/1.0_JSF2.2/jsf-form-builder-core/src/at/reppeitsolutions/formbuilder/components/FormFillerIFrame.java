@@ -27,6 +27,7 @@ import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlForm;
 
 /**
  *
@@ -42,6 +43,7 @@ public class FormFillerIFrame extends UICommand {
     public static final String MODE_FILL = "fill";
     
     private HtmlIFrame iframe;
+    private HtmlForm form;
     
     public FormFillerIFrame() {
         setRendererType(FormFillerIFrameRenderer.RENDERTYPE);
@@ -51,12 +53,18 @@ public class FormFillerIFrame extends UICommand {
         iframe.setScrolling(false);
         iframe.setId("iframe" + UUID.randomUUID().toString());
         
+        form = new HtmlForm();
+        form.setEnctype("multipart/form-data");
+        
         HtmlCommandButton submit = new HtmlCommandButton();
         submit.setStyleClass("btn");
         submit.setStyle("display:none;");
+        submit.setValue("Submit out of IFrame");
         
-        getChildren().add(iframe);
-        getChildren().add(submit);
+        form.getChildren().add(iframe);
+        form.getChildren().add(submit);
+        
+        getChildren().add(form);
     }
     
     @PostConstruct
@@ -66,6 +74,10 @@ public class FormFillerIFrame extends UICommand {
     
     public HtmlIFrame getIFrame() {
         return iframe;
+    }
+
+    public HtmlForm getForm() {
+        return form;
     }
     
     public FormData getModel() {
@@ -90,6 +102,23 @@ public class FormFillerIFrame extends UICommand {
     public void setMode(String mode) {
         getStateHelper().put("mode", mode);
     }
+    
+    public String getButtonid() {
+        return (String) getStateHelper().eval("buttonid");
+    }
+    
+    public void setButtonid(String buttonid) {
+        getStateHelper().put("buttonid", buttonid);
+    }    
+    
+    public String getTarget() {
+        return (String) getStateHelper().eval("target");
+    }
+    
+    public void setTarget(String target) {
+        getStateHelper().put("target", target);
+    }
+    
 
     @Override
     public String getFamily() {
