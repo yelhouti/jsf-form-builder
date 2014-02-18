@@ -35,6 +35,7 @@ public class FormBuilderItemCheckbox extends FormBuilderItemBase implements Seri
         properties.setValues(Messages.getStringJSF("listbox.default.values"));
         properties.setLayout("pageDirection");
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addValueTranslation("layout", "pageDirection", Messages.getStringJSF("radio.vertical"));
         addValueTranslation("layout", "lineDirection", Messages.getStringJSF("radio.horizontal"));
@@ -43,6 +44,7 @@ public class FormBuilderItemCheckbox extends FormBuilderItemBase implements Seri
         addPropertyTranslation("label", Messages.getStringJSF("listbox.label"));
         addPropertyTranslation("values", Messages.getStringJSF("listbox.values"));
         addPropertyTranslation("layout", Messages.getStringJSF("radio.layout"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemCheckbox(boolean renderDescription) {

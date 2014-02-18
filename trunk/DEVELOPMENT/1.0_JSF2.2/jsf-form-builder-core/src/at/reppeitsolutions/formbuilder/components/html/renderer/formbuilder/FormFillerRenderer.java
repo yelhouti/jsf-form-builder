@@ -19,7 +19,9 @@ package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 import at.reppeitsolutions.formbuilder.components.FormFiller;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
+import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
@@ -55,30 +57,56 @@ public class FormFillerRenderer extends Renderer {
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
         FormFiller formFiller = (FormFiller) component;
+        ResponseWriter writer = ctx.getResponseWriter();
         HtmlForm form = FormBuilderRenderer.getHtmlForm(formFiller);
         form.setTransient(true);
         formFiller.getFormContent().setTransient(true);
         formFiller.getFormContent().setId(form.getId() + "formContent" + UUID.randomUUID().toString());
 
+
+
         FormData formModel = formFiller.getModel();
 
         if (formModel != null) {
-            List<HtmlFormBuilderItem> components = new ArrayList<>();
+            List<FormBuilderContainer> components = new ArrayList<>();
 
             if (formModel.getData() != null) {
-                for (FormBuilderItemData item : formModel.getData()) {                        
-                    if(!item.getFormBuilderItem().getSkipRendering()) {
-                        components.add(FormBuilderItemFactory.getUIComponent(item));
+                for (FormBuilderItemData item : formModel.getData()) {
+                    if (!item.getFormBuilderItem().getSkipRendering()) {
+                        components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item)));
                     }
                 }
             }
 
-            for (HtmlFormBuilderItem comp : components) {
+            for (FormBuilderContainer comp : components) {
+                HtmlDiv icons = new HtmlDiv();
+                icons.setClassString("icons");
+
+                if (comp.getFbitem().getProperties().getDescription() != null
+                        && !"".equals(comp.getFbitem().getProperties().getDescription())) {
+                    HtmlDiv info = new HtmlDiv();
+                    String infoUuid = "info" + UUID.randomUUID().toString();
+                    info.setClassString("info");
+                    info.setId(infoUuid);
+                    icons.getChildren().add(info);
+
+                    writer.write("<script type=\"text/javascript\">"
+                            + "$(function(){"
+                            + "$(\"#" + infoUuid + "\").tooltip({"
+                            + "items : \"div\","
+                            + "content : \"<span style='font-size: 10pt;'>" + comp.getFbitem().getProperties().getDescription() + "</span>\""
+                            + "});"
+                            + "});"
+                            + "</script>");
+                }
+
                 HtmlListItem li = new HtmlListItem();
-                li.setClassString("ui-state-default");
-                li.setStyle("width:" + comp.getWidth() + ";");
-                li.getChildren().add(comp);
+                li.getChildren().add(icons);
+                li.setClassString("ui-state-default box-runde-ecken");
+                li.setStyle("width:" + comp.getHtmlfbitem().getWidth() + ";");
+                li.getChildren().add(comp.getHtmlfbitem());
                 li.setTransient(true);
+                li.setStyle("position: relative;width:" + comp.getHtmlfbitem().getWidth() + ";");
                 formFiller.getFormContent().getChildren().add(li);
             }
         } else {
@@ -94,18 +122,20 @@ public class FormFillerRenderer extends Renderer {
         ResponseWriter writer = ctx.getResponseWriter();
         FormFiller formFiller = (FormFiller) component;
         HtmlForm form = FormBuilderRenderer.getHtmlForm(formFiller);
-
-
         writer.write("<script type=\"text/javascript\">"
+                + "$(function(){"
                 + "initDownloadable(\"" + form.getClientId() + "\","
                 + "\"" + FormBuilderRenderer.getFormActionStringId(component) + "\","
                 + "\"" + FormBuilderRenderer.getFormContentStringId(component) + "\""
+                + "});"
                 + ");</script>");
-        
-        if(formFiller.getFromSave()) {
+
+        if (formFiller.getFromSave()) {
             writer.write("<script type=\"text/javascript\">"
+                    + "$(function(){"
                     + "parent.submitParentForm();"
-                + "</script>");
+                    + "});"
+                    + "</script>");
         }
     }
 

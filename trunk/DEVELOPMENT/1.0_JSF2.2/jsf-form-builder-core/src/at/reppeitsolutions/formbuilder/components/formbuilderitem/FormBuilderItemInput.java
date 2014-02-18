@@ -34,10 +34,12 @@ public class FormBuilderItemInput extends FormBuilderItemBase implements Seriali
         properties.setLabel(Messages.getStringJSF("input.default.label"));
         properties.setOnelinedescription(Boolean.FALSE);
         properties.setValues("");
+        properties.setDescription("");
         
         addPropertyTranslation("label", Messages.getStringJSF("input.label"));
         addPropertyTranslation("values", Messages.getStringJSF("input.values"));
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemInput(boolean renderDescription) {

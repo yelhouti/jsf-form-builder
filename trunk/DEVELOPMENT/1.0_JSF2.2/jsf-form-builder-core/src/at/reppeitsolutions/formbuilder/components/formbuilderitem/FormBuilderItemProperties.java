@@ -51,6 +51,7 @@ public class FormBuilderItemProperties implements Serializable {
     private String brother;
     private String formatareauuid;
     private Boolean onelinedescription;
+    private String description;
         
     public String getLabel() {
         return label;
@@ -169,4 +170,13 @@ public class FormBuilderItemProperties implements Serializable {
     public void setOnelinedescription(Boolean onelinedescription) {
         this.onelinedescription = onelinedescription;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 }

@@ -43,7 +43,8 @@ import javax.faces.component.html.HtmlInputHidden;
     @ResourceDependency(library = "formbuilder", name = "jquery.listAttributes.js"),
     @ResourceDependency(library = "formbuilder", name = "jquery.timepicker.css"),
     @ResourceDependency(library = "formbuilder", name = "formbuilder.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilder.css"),})
+    @ResourceDependency(library = "formbuilder", name = "formbuilder.css")
+})
 public class FormFiller extends FormComponent {
     
     public FormFiller() {
@@ -66,6 +67,7 @@ public class FormFiller extends FormComponent {
         
         holder.getChildren().add(formActionString);
         holder.getChildren().add(formContentString);
+        holder.getChildren().add(propDialogHeader);
         
         formContent = new HtmlUnorderedList();
         formContent.setClassString("sortable2");

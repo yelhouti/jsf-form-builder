@@ -34,10 +34,12 @@ public class FormBuilderItemDate extends FormBuilderItemBase implements Serializ
         properties.setLabel(Messages.getStringJSF("date.default.label"));
         properties.setValues("");
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
         addPropertyTranslation("label", Messages.getStringJSF("date.label"));
         addPropertyTranslation("values", Messages.getStringJSF("date.values"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemDate(boolean renderDescription) {

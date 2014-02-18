@@ -34,6 +34,7 @@ public class FormBuilderItemTextarea extends FormBuilderItemBase {
         properties.setRows(4);
         properties.setValues("");
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
         addPropertyTranslation("label", Messages.getStringJSF("textarea.label"));
@@ -41,6 +42,7 @@ public class FormBuilderItemTextarea extends FormBuilderItemBase {
         addPropertyTranslation("cols", Messages.getStringJSF("textarea.cols"));
         addPropertyTranslation("values", Messages.getStringJSF("textarea.values"));
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemTextarea(boolean renderDescription) {

@@ -34,10 +34,12 @@ public class FormBuilderItemSelect extends FormBuilderItemBase implements Serial
         properties.setLabel(Messages.getStringJSF("listbox.default.label"));
         properties.setValues(Messages.getStringJSF("listbox.default.values"));
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
         addPropertyTranslation("label", Messages.getStringJSF("listbox.label"));
         addPropertyTranslation("values", Messages.getStringJSF("listbox.values"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemSelect(boolean renderDescription) {

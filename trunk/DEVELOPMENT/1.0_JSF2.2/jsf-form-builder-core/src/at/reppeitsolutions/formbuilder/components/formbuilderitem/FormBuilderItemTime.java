@@ -34,10 +34,12 @@ public class FormBuilderItemTime extends FormBuilderItemBase implements Serializ
         properties.setLabel(Messages.getStringJSF("time.default.label"));
         properties.setValues("");
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
         addPropertyTranslation("label", Messages.getStringJSF("time.label"));
         addPropertyTranslation("values", Messages.getStringJSF("time.values"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemTime(boolean renderDescription) {
