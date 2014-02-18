@@ -19,16 +19,27 @@ package at.reppeitsolutions.formbuilder.components;
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderIFrameRenderer;
 import at.reppeitsolutions.formbuilder.model.Form;
+import javax.faces.application.ResourceDependencies;
+import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlInputHidden;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formBuilder")
+@ResourceDependencies(value = {
+    @ResourceDependency(library = "javax.faces", name = "jsf.js")
+})
 public class FormBuilderIFrame extends FormComponent {
     
     private HtmlIFrame iframe;
+    private HtmlCommandButton callbackButton;
+    private AjaxBehavior ajax;
+    private HtmlInputHidden inputhidden;
     
     public FormBuilderIFrame() {
         setRendererType(FormBuilderIFrameRenderer.RENDERTYPE);
@@ -37,10 +48,29 @@ public class FormBuilderIFrame extends FormComponent {
         iframe.setBorder(0);
         iframe.setScrolling(false);
         getChildren().add(iframe);
+               
+        callbackButton = new HtmlCommandButton();
+        callbackButton.setId("callbackbutton");
+        ajax = new AjaxBehavior();
+        callbackButton.addClientBehavior("action", ajax);
+        callbackButton.setStyle("display:none;");
+        getChildren().add(callbackButton);
     }
     
     public HtmlIFrame getIFrame() {
         return iframe;
+    }
+
+    public HtmlCommandButton getCallbackButton() {
+        return callbackButton;
+    }
+
+    public AjaxBehavior getAjax() {
+        return ajax;
+    }
+
+    public void setAjax(AjaxBehavior ajax) {
+        this.ajax = ajax;
     }
     
     public Form getModel() {

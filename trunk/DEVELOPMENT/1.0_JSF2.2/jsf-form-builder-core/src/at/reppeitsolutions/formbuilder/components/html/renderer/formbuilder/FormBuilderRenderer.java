@@ -132,6 +132,12 @@ public class FormBuilderRenderer extends Renderer {
                 + "\"" + getFormActionStringId(component) + "\","
                 + "\"" + getFormContentStringId(component) + "\""
                 + ");</script>");
+
+        if (formBuilder.getFromSave()) {
+            writer.write("<script type=\"text/javascript\">"
+                    + "parent.buffer();"
+                    + "</script>");
+        }
     }
 
     public static UIComponent getForm(UIComponent comp) {
@@ -147,6 +153,7 @@ public class FormBuilderRenderer extends Renderer {
     @Override
     public void decode(FacesContext ctx, UIComponent component) {
         FormBuilder formBuilder = (FormBuilder) component;
+        formBuilder.setFromSave(true);
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(getFormContentStringId(component));
         String formActionString = ctx.getExternalContext().getRequestParameterMap().get(getFormActionStringId(component));
 
