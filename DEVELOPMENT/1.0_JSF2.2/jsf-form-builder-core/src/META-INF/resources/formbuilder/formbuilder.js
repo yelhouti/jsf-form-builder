@@ -85,10 +85,6 @@ function initTimepicker() {
     });
 }
 
-$(function() {
-    initJQuery();
-});
-
 function saveProperties(itemid) {
     var json = "{";
     json += "\"itemId\":\"" + itemid + "\",";
@@ -270,4 +266,5 @@ function initDraggable(formid, palette, formContent, formActionString, formConte
         }
     });
     hideLoadImage();
+    initJQuery();
 }

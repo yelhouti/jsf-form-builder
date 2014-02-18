@@ -19,6 +19,7 @@ package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
 import javax.persistence.Entity;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import javax.annotation.PostConstruct;
 
 /**
  *

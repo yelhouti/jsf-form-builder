@@ -126,16 +126,21 @@ public class FormBuilderRenderer extends Renderer {
         HtmlForm form = getHtmlForm(formBuilder);
 
         writer.write("<script type=\"text/javascript\">"
+                + "$(function(){"
                 + "initDraggable(\"" + form.getClientId() + "\","
                 + "\"" + formBuilder.getPalette().getId() + "\","
                 + "\"" + formBuilder.getFormContent().getId() + "\","
                 + "\"" + getFormActionStringId(component) + "\","
                 + "\"" + getFormContentStringId(component) + "\""
-                + ");</script>");
+                + ");"
+                + "});"
+                + "</script>");
 
         if (formBuilder.getFromSave()) {
             writer.write("<script type=\"text/javascript\">"
+                    + "$(function(){"
                     + "parent.buffer();"
+                    + "});"
                     + "</script>");
         }
     }

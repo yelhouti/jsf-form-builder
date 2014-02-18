@@ -33,9 +33,11 @@ public class FormBuilderItemUpload extends FormBuilderItemBase implements Serial
         properties = new FormBuilderItemProperties();
         properties.setLabel(Messages.getStringJSF("upload.label.default"));
         properties.setOnelinedescription(Boolean.FALSE);
+        properties.setDescription("");
         
         addPropertyTranslation("onelinedescription", Messages.getStringJSF("onelinedescription"));
         addPropertyTranslation("label", Messages.getStringJSF("upload.label"));
+        addPropertyTranslation("description", Messages.getStringJSF("description"));
     }
     
     public FormBuilderItemUpload(boolean renderDescription) {

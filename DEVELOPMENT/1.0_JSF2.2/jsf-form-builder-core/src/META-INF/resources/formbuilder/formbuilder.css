@@ -127,6 +127,10 @@ body {
     display: block;
 }
 
+.sortable2 li:hover .info {
+    display: block;
+}
+
 .sortable2 li {
     background: none;
 }
@@ -164,7 +168,7 @@ body {
     display: none;
 }
 
-.settings, .delete {
+.settings, .delete, .info {
     width: 16px; 
     height: 16px; 
     background-repeat: no-repeat;
@@ -179,6 +183,10 @@ body {
 
 .delete {
     background-image: url("#{resource['formbuilder/images/delete.png']}");   
+}
+
+.info {
+    background-image: url("#{resource['formbuilder/images/info.png']}");
 }
 
 .oddColumn, .oddColumn input, .oddColumn select, .oddColumn textarea {
