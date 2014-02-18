@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import at.reppeitsolutions.formbuilder.components.html.HtmlTextarea;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -24,7 +25,7 @@ import javax.faces.component.html.HtmlOutputText;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public class HtmlFormBuilderTextarea extends HtmlFormBuilderItem {
-    
+
     @Override
     public void renderView() {
         HtmlOutputText output = new HtmlOutputText();
@@ -34,17 +35,20 @@ public class HtmlFormBuilderTextarea extends HtmlFormBuilderItem {
         if (getDataUuid() != null) {
             textarea.setName(getDataUuid());
         }
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            textarea.setDisabled(true);
+        }
         String tmpValue = "";
         if (getValue() != null) {
             tmpValue = getValue();
-        } else if(properties.getValues() != null) {
+        } else if (properties.getValues() != null) {
             tmpValue = properties.getValues();
         }
         textarea.setValue(tmpValue);
         textarea.setRows(properties.getRows());
         textarea.setCols(properties.getCols());
 
-        addLabeledComponent(output,textarea);
+        addLabeledComponent(output, textarea);
     }
-
 }

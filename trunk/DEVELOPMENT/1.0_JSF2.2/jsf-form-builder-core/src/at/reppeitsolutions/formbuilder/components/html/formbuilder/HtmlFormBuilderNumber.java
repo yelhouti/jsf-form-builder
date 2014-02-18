@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -29,6 +30,11 @@ public class HtmlFormBuilderNumber extends HtmlFormBuilderItem {
     public void renderView() {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("number");
+        
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            input.setDisabled(true);
+        }
         if (getNumberValue() != null) {
             input.setValue(String.valueOf(getNumberValue()).replaceAll("\\.", ","));
         } else {

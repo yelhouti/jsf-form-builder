@@ -30,6 +30,7 @@ public class HtmlTextarea extends HtmlBaseComponent {
     private Integer rows;
     private Integer cols;
     private String name;
+    private boolean disabled = false;
 
     public HtmlTextarea() {
         super("textarea");
@@ -46,13 +47,17 @@ public class HtmlTextarea extends HtmlBaseComponent {
         getPassThroughAttributes().remove("style");
         String tmpRows = "";
         String tmpCols = "";
+        String tmpdisabled = "";
         if(cols != null) {
             tmpCols = " cols=\"" + cols + "\" ";
         }
         if(rows != null) {
             tmpRows = " rows=\"" + rows + "\" ";
         }
-        writer.write("<" + tagName + " " + getStyleClassIdString() + tmpName + tmpRows + tmpCols + ">" + value);
+        if(disabled) {
+            tmpdisabled = " disabled ";
+        }
+        writer.write("<" + tagName + " " + getStyleClassIdString() + tmpName + tmpRows + tmpCols + tmpdisabled + ">" + value);
     }
 
     @Override
@@ -91,6 +96,14 @@ public class HtmlTextarea extends HtmlBaseComponent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
     
 }

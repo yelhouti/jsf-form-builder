@@ -43,6 +43,7 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
     protected boolean renderDescription = false;
     protected FormBuilderItemProperties properties = new FormBuilderItemProperties();
     public final static String DATA_UUID_PREFIX = "DATA";
+    private String mode;
 
     public void render() {
         if (properties.getRenderDescription()) {
@@ -157,4 +158,13 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
     public void setProperties(FormBuilderItemProperties properties) {
         this.properties = properties;
     }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+    
 }

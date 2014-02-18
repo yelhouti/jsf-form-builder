@@ -34,6 +34,7 @@ import javax.faces.context.FacesContext;
 public class ModelViewBean implements Serializable {
 
     private String uuid;
+    private String mode;
     ModelApplicationBean modelApplicationBean;
     
     public ModelViewBean() {
@@ -74,6 +75,14 @@ public class ModelViewBean implements Serializable {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public ModelApplicationBean getModelApplicationBean() {

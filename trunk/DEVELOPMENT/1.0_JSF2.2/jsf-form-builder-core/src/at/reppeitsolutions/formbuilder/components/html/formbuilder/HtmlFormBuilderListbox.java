@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyListbox;
@@ -25,29 +26,31 @@ import javax.faces.component.html.HtmlSelectManyListbox;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public class HtmlFormBuilderListbox extends HtmlFormBuilderItem {
-    
+
     @Override
     public void renderView() {
         HtmlSelectManyListbox select = new HtmlSelectManyListbox();
         String[] valueArray = properties.getValues().split(";");
-        for(int i = 0; i < valueArray.length; ++i) {
+        for (int i = 0; i < valueArray.length; ++i) {
             UISelectItem item = new UISelectItem();
             item.setItemValue(valueArray[i]);
             item.setItemLabel(valueArray[i]);
             select.getChildren().add(item);
         }
-        
-        if(value != null) {
+        if (getMode() != null
+                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+            select.setDisabled(true);
+        }
+        if (value != null) {
             select.setValue(value.split(";"));
         }
-        if(getDataUuid() != null) {
+        if (getDataUuid() != null) {
             select.setId(getDataUuid());
         }
-        
+
         HtmlOutputText output = new HtmlOutputText();
         output.setValue(properties.getLabel());
-        
-        addLabeledComponent(output,select);
+
+        addLabeledComponent(output, select);
     }
-    
 }

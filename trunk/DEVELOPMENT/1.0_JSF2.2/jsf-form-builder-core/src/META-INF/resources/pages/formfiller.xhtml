@@ -11,10 +11,11 @@
         <h:body>
             <f:metadata>
                 <f:viewParam name="uuid" value="#{modelViewBean.uuid}" />
+                <f:viewParam name="mode" value="#{modelViewBean.mode}" />
             </f:metadata>
             <h:form enctype="multipart/form-data">
                 <h:commandButton class="btn" value="Submit in IFrame" action="#{modelViewBean.save()}" style="display: none;" />
-                <r:formFillerInternal model="#{modelViewBean.modelData}" />
+                <r:formFillerInternal model="#{modelViewBean.modelData}" mode="#{modelViewBean.mode}" />
             </h:form>
         </h:body>
     </f:view>
