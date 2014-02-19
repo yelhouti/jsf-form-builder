@@ -15,7 +15,7 @@
             </f:metadata>
             <h:form enctype="multipart/form-data">
                 <h:commandButton class="btn" value="Submit in IFrame" action="#{modelViewBean.save()}" style="display: none;" />
-                <r:formFillerInternal model="#{modelViewBean.modelData}" mode="#{modelViewBean.mode}" />
+                <r:formFillerInternal formData="#{modelViewBean.formData}" mode="#{modelViewBean.mode}" />
             </h:form>
         </h:body>
     </f:view>

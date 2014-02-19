@@ -18,9 +18,6 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import javax.annotation.PostConstruct;
-import javax.faces.application.ResourceDependencies;
-import javax.faces.application.ResourceDependency;
-import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public abstract class IFrameComponent extends UICommand {
+public abstract class BuilderFillerComponentBase extends BuilderFillerComponent {
     
     protected HtmlIFrame iframe;
     

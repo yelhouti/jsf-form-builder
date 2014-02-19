@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,79 +17,70 @@
 package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
-import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
-import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
+import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
-import at.reppeitsolutions.formbuilder.messages.Messages;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlForm;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFillerInternal")
+@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFiller")
 @ResourceDependencies(value = {
-    @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery.timepicker.min.js"),
-    @ResourceDependency(library = "formbuilder", name = "css/smoothness/jquery-ui-1.10.3.custom.css"),
-    @ResourceDependency(library = "formbuilder", name = "css/smoothness/jquery-ui-1.10.3.custom.min.css"),
-    @ResourceDependency(library = "formbuilder", name = "jquery.listAttributes.js"),
-    @ResourceDependency(library = "formbuilder", name = "jquery.timepicker.css"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilder.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilder.css")
+    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
 })
-public class FormFiller extends FormComponent {
+public class FormFiller extends BuilderFillerComponentBase {
+    
+    public static final String MODE_VIEW = "view";
+    public static final String MODE_FILL = "fill";
+
+    private HtmlForm form;
     
     public FormFiller() {
         setRendererType(FormFillerRenderer.RENDERTYPE);
+        iframe = new HtmlIFrame();
+        iframe.setStyle("width: 795px; height: 610px;");
+        iframe.setBorder(0);
+        iframe.setScrolling(false);
+        iframe.setId("iframe" + UUID.randomUUID().toString());
         
-        HtmlInputHidden formActionString = new HtmlInputHidden();
-        formActionString.setValue("");
-        formActionString.setId(FormBuilder.FORMACTIONSTRING);
-
-        HtmlInputHidden formContentString = new HtmlInputHidden();
-        formContentString.setValue("");
-        formContentString.setId(FormBuilder.FORMCONTENTSTRING);
+        form = new HtmlForm();
+        form.setEnctype("multipart/form-data");
         
-        HtmlInputHidden propDialogHeader = new HtmlInputHidden();
-        propDialogHeader.setValue(Messages.getStringJSF("dialog.header"));
-        propDialogHeader.setId("prop-dialog-header");
+        HtmlCommandButton submit = new HtmlCommandButton();
+        submit.setStyleClass("btn");
+        submit.setStyle("display:none;");
+        submit.setValue("Submit out of IFrame");
         
-        HtmlDiv holder = new HtmlDiv(); 
-        holder.setId("holderfiller");
+        form.getChildren().add(iframe);
+        form.getChildren().add(submit);
         
-        holder.getChildren().add(formActionString);
-        holder.getChildren().add(formContentString);
-        holder.getChildren().add(propDialogHeader);
-        
-        formContent = new HtmlUnorderedList();
-        formContent.setClassString("sortable2");
-        
-        HtmlDiv contentHolder = new HtmlDiv();
-        contentHolder.setId("contentHolder");
-        contentHolder.getChildren().add(formContent);
-        
-        holder.getChildren().add(contentHolder);
-        
-        getChildren().add(holder);
-        
-        HtmlDiv div = new HtmlDiv();
-        div.setStyle("clear:left;");        
-        getChildren().add(div);
+        getChildren().add(form);
+    }
+    
+    @PostConstruct
+    public void init() {
+        setMode(MODE_FILL);
     }
 
-    public FormData getModel() {
-        return (FormData) getStateHelper().eval("model");
+    public HtmlForm getForm() {
+        return form;
+    }
+    
+    public FormData getFormData() {
+        return (FormData) getStateHelper().eval("formData");
     }
 
-    public void setModel(FormData model) {
-        getStateHelper().put("model", model);
+    public void setFormData(FormData formData) {
+        getStateHelper().put("formData", formData);
     }
     
     public String getMode() {
@@ -99,9 +90,27 @@ public class FormFiller extends FormComponent {
     public void setMode(String mode) {
         getStateHelper().put("mode", mode);
     }
+    
+    public String getButtonid() {
+        return (String) getStateHelper().eval("buttonid");
+    }
+    
+    public void setButtonid(String buttonid) {
+        getStateHelper().put("buttonid", buttonid);
+    }    
+    
+    public String getTarget() {
+        return (String) getStateHelper().eval("target");
+    }
+    
+    public void setTarget(String target) {
+        getStateHelper().put("target", target);
+    }
+    
 
     @Override
     public String getFamily() {
         return FormFillerRenderer.FAMILY;
     }
+    
 }
