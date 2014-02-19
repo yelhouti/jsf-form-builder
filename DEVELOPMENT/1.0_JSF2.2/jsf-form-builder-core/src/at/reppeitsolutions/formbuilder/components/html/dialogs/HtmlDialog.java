@@ -18,7 +18,6 @@ package at.reppeitsolutions.formbuilder.components.html.dialogs;
 
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.html.HtmlPanelGrid;
@@ -51,10 +50,10 @@ import at.reppeitsolutions.formbuilder.messages.Messages;
 public class HtmlDialog extends UIComponentBase {
 
     private String uuid;
-    private FormBuilderItem item;
+    private FormBuilderItemBase item;
     private String style = "";
 
-    public HtmlDialog(FormBuilderItem item) {
+    public HtmlDialog(FormBuilderItemBase item) {
         setRendererType(HtmlBaseComponentRenderer.RENDERTYPE);
         this.uuid = "diag:" + item.getId();
         this.item = item;

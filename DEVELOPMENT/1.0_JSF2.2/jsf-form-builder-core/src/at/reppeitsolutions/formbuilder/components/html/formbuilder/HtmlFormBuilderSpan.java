@@ -17,7 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.html.renderer.HtmlFormBuilderSpanRenderer;
 import java.beans.IntrospectionException;
@@ -36,9 +36,9 @@ import javax.faces.context.ResponseWriter;
  */
 public class HtmlFormBuilderSpan extends HtmlFormBuilderItem {
 
-    FormBuilderItem fbitem;
+    FormBuilderItemBase fbitem;
 
-    public HtmlFormBuilderSpan(FormBuilderItem fbitem) {
+    public HtmlFormBuilderSpan(FormBuilderItemBase fbitem) {
         this.fbitem = fbitem;
     }
 
@@ -71,7 +71,7 @@ public class HtmlFormBuilderSpan extends HtmlFormBuilderItem {
     public void encodeBegin(FacesContext context) throws IOException {
         try {
             ResponseWriter writer = context.getResponseWriter();
-            String props = getProperties("", "", Introspector.getBeanInfo(FormBuilderItem.class).getPropertyDescriptors(), fbitem);
+            String props = getProperties("", "", Introspector.getBeanInfo(FormBuilderItemBase.class).getPropertyDescriptors(), fbitem);
             props = getProperties(props, "properties_", Introspector.getBeanInfo(FormBuilderItemProperties.class).getPropertyDescriptors(), fbitem.getProperties());
             writer.write("<span " + props + ">");
         } catch (IntrospectionException ex) {

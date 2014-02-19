@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormBuilderInternal;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBaseHelper;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDownload;
@@ -82,7 +81,7 @@ public class FormBuilderInternalRenderer extends Renderer {
             List<FormBuilderContainer> components = new ArrayList<>();
 
             if (formModel.getItems() != null) {
-                for (FormBuilderItem item : formModel.getItems()) {
+                for (FormBuilderItemBase item : formModel.getItems()) {
                     components.add(new FormBuilderContainer(item, FormBuilderItemFactory.getUIComponentWithDialog(item)));
                 }
                 if (formModel.getItems().isEmpty()) {
@@ -255,11 +254,11 @@ public class FormBuilderInternalRenderer extends Renderer {
                     try {
                         FormBuilderItemUpdateHolder updateHolder = mapper.readValue(formContentString, FormBuilderItemUpdateHolder.class);
                         List<FormBuilderItemBase> items = formBuilder.getForm().getItems();
-                        for (FormBuilderItem item : items) {
+                        for (FormBuilderItemBase item : items) {
                             if (item.getId().equals(updateHolder.getItemId())) {
                                 FormBuilderItemFactory.updateFormBuilderItem(item, updateHolder.getUpdates());
                                 if (item instanceof FormBuilderItemFormatArea) {
-                                    for (FormBuilderItem item2 : items) {
+                                    for (FormBuilderItemBase item2 : items) {
                                         if (item2.getProperties().getBrother().equals(item.getId())) {
                                             Iterator<FormBuilderItemUpdate> updateIter = updateHolder.getUpdates().iterator();
                                             while (updateIter.hasNext()) {
@@ -283,7 +282,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                     Iterator<FormBuilderItemBase> itemIter = items.iterator();
                     String brotherToDelete = null;
                     while (itemIter.hasNext()) {
-                        FormBuilderItem item = itemIter.next();
+                        FormBuilderItemBase item = itemIter.next();
                         if (item.getId().equals(formContentString)) {
                             if (item instanceof FormBuilderItemFormatArea) {
                                 brotherToDelete = item.getProperties().getBrother();
@@ -295,7 +294,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                     if (brotherToDelete != null) {
                         itemIter = items.iterator();
                         while (itemIter.hasNext()) {
-                            FormBuilderItem item = itemIter.next();
+                            FormBuilderItemBase item = itemIter.next();
                             if (item.getId().equals(brotherToDelete)) {
                                 itemIter.remove();
                                 break;

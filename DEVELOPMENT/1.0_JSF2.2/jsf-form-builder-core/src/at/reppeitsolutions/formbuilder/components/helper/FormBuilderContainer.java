@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.helper;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 
 /**
@@ -25,19 +25,19 @@ import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuild
  */
 public class FormBuilderContainer {
     
-    FormBuilderItem fbitem;
+    FormBuilderItemBase fbitem;
     HtmlFormBuilderItem htmlfbitem;
 
-    public FormBuilderContainer(FormBuilderItem fbitem, HtmlFormBuilderItem htmlfbitem) {
+    public FormBuilderContainer(FormBuilderItemBase fbitem, HtmlFormBuilderItem htmlfbitem) {
         this.fbitem = fbitem;
         this.htmlfbitem = htmlfbitem;
     }
     
-    public FormBuilderItem getFbitem() {
+    public FormBuilderItemBase getFbitem() {
         return fbitem;
     }
 
-    public void setFbitem(FormBuilderItem fbitem) {
+    public void setFbitem(FormBuilderItemBase fbitem) {
         this.fbitem = fbitem;
     }
 
