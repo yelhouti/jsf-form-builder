@@ -18,8 +18,8 @@ package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormFillerInternal;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
+import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;

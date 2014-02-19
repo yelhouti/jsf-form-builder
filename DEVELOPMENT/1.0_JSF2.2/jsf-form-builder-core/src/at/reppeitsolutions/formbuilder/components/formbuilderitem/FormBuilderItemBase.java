@@ -18,6 +18,9 @@ package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 
 import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
+import at.reppeitsolutions.formbuilder.model.Constraint;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import at.reppeitsolutions.formbuilder.model.Form;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -56,6 +63,8 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
     protected Form form;
     @Embedded
     protected FormBuilderItemProperties properties;
+    @OneToMany(mappedBy = "formitem")
+    private List<Constraint> constraints = new ArrayList<>();
     @Transient
     private Map<String, Map> valueTranslations = new HashMap<>();
     @Transient
@@ -85,6 +94,19 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
     
     protected void addSpecialProperty(String property, SPECIALPROPERTY special) {
         specialProperties.put(property, special);
+    }
+    
+    public void addConstraintClient(ConstraintClient constraintClient, WorkflowState workflowState, ConstraintType constraintType) {
+        Constraint constraint = new Constraint();
+        constraint.setFormBuilderItem(this);
+        constraint.setConstraintClient(constraintClient);
+        constraint.setFormBuilderItemUuid(this.getId());
+        constraint.setConstraingClientId(constraintClient.getId());
+        constraint.setWorkflowState(workflowState);
+        constraint.setConstraintType(constraintType);
+        
+        this.constraints.add(constraint);
+        constraintClient.getConstraints().add(constraint);
     }
     
     public void setForm(Form form) {
@@ -210,13 +232,21 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
     }
 
     @IgnoreProperty
-    @IgnorePropertyInDialog
     public FormBuilderItemBase getBrother() {
         return brother;
     }
 
     public void setBrother(FormBuilderItemBase brother) {
         this.brother = brother;
+    }
+
+    @IgnoreProperty
+    public List<Constraint> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(List<Constraint> constraints) {
+        this.constraints = constraints;
     }
     
 }

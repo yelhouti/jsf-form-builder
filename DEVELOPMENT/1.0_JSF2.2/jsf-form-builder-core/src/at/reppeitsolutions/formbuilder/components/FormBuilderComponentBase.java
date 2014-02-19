@@ -17,9 +17,8 @@
 package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.model.Form;
-import at.reppeitsolutions.formbuilder.model.IGroup;
-import at.reppeitsolutions.formbuilder.model.IUser;
-import at.reppeitsolutions.formbuilder.model.IWorkflowState;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.util.List;
 
 /**
@@ -36,28 +35,20 @@ public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
         getStateHelper().put("form", form);
     }
     
-    public List<IWorkflowState> getWorkflowStates() {
-        return (List<IWorkflowState>) getStateHelper().eval("workflowStates");
+    public List<WorkflowState> getWorkflowStates() {
+        return (List<WorkflowState>) getStateHelper().eval("workflowStates");
     }
 
-    public void setWorkflowStates(List<IWorkflowState> workflowStates) {
+    public void setWorkflowStates(List<WorkflowState> workflowStates) {
         getStateHelper().put("workflowStates", workflowStates);
     }
 
-    public List<IUser> getUsers() {
-        return (List<IUser>) getStateHelper().eval("users");
+    public List<ConstraintClient> getConstraintClients() {
+        return (List<ConstraintClient>) getStateHelper().eval("constraintClient");
     }
 
-    public void setUsers(List<IUser> users) {
-        getStateHelper().put("users", users);
-    }
-    
-    public List<IGroup> getGroups() {
-        return (List<IGroup>) getStateHelper().eval("groups");
-    }
-
-    public void setGroups(List<IGroup> groups) {
-        getStateHelper().put("groups", groups);
+    public void setConstraintClients(List<ConstraintClient> constraintClient) {
+        getStateHelper().put("constraintClient", constraintClient);
     }
     
 }

@@ -18,11 +18,6 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
-import at.reppeitsolutions.formbuilder.model.Form;
-import at.reppeitsolutions.formbuilder.model.IGroup;
-import at.reppeitsolutions.formbuilder.model.IUser;
-import at.reppeitsolutions.formbuilder.model.IWorkflowState;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlOutputText;

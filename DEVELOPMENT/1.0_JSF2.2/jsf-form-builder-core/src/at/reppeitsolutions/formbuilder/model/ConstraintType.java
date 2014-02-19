@@ -20,11 +20,9 @@ package at.reppeitsolutions.formbuilder.model;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public interface IWorkflowState {
-    
-    String getName();
-    void setName(String name);
-    String getId();
-    void setId(String id);
-    
+public enum ConstraintType {
+    DEFAULT,
+    READONLY,
+    MANDATORY,
+    INVISIBLE
 }

@@ -49,8 +49,8 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlInputHidden;
 import at.reppeitsolutions.formbuilder.messages.Messages;
 import at.reppeitsolutions.formbuilder.model.Form;
-import at.reppeitsolutions.formbuilder.model.IUser;
-import at.reppeitsolutions.formbuilder.model.IWorkflowState;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
 
 /**
  *
