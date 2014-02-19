@@ -23,6 +23,7 @@ import at.reppeitsolutions.formbuilder.components.FormBuilderInternal;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBaseHelper;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemConstraint;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDownload;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemImage;
@@ -93,11 +94,11 @@ public class FormBuilderInternalRenderer extends Renderer {
                 HtmlListItem li = new HtmlListItem();
                 HtmlDiv icons = new HtmlDiv();
                 icons.setClassString("icons");
-                
+
                 addSettingsIcon(comp, icons);
                 addDeleteIcon(comp, icons);
                 FormFillerInternalRenderer.addInfoIcon(comp, icons, writer);
-                
+
                 li.getChildren().add(icons);
                 li.setClassString("ui-state-default box-runde-ecken");
                 li.setStyle("width:" + comp.getHtmlfbitem().getWidth() + ";");
@@ -166,6 +167,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                     List<FormBuilderItemBase> list = new ArrayList<>();
                     Map<String, FormBuilderItemBase> cachedObjects = new HashMap<>();
                     String activeFormatArea = null;
+                    String activeConstraint = null;
                     try {
                         int positionOffset = 0;
                         for (String content : contents) {
@@ -187,18 +189,29 @@ public class FormBuilderInternalRenderer extends Renderer {
                                 itemBase.setPosition(itemBase.getPosition() + positionOffset);
                                 list.add((FormBuilderItemBase) o);
                                 //Start format area specific code
-                                if (o instanceof FormBuilderItemFormatArea) {
-                                    FormBuilderItemFormatArea area = (FormBuilderItemFormatArea) o;
+                                if (o instanceof FormBuilderItemFormatArea || o instanceof FormBuilderItemConstraint) {
+                                    FormBuilderItemBase area = (FormBuilderItemBase) o;
                                     if (area.getProperties().getBrother() == null) {
                                         HashMap<String, String> areasMap = new HashMap<>();
+                                        HashMap<String, String> constraintsMap = new HashMap<>();
                                         for (FormBuilderItemBase tmpItem : formBuilder.getForm().getItems()) {
                                             if (tmpItem instanceof FormBuilderItemFormatArea
                                                     && !areasMap.containsKey(tmpItem.getProperties().getFormatareauuid())) {
                                                 areasMap.put(tmpItem.getProperties().getFormatareauuid(), null);
                                             }
+                                            if (tmpItem instanceof FormBuilderItemConstraint
+                                                    && !areasMap.containsKey(tmpItem.getProperties().getFormatareauuid())) {
+                                                constraintsMap.put(tmpItem.getProperties().getFormatareauuid(), null);
+                                            }
                                         }
                                         int areas = 1 + areasMap.size();
-                                        FormBuilderItemFormatArea brother = new FormBuilderItemFormatArea();
+                                        int constrains = 1 + constraintsMap.size();
+                                        FormBuilderItemBase brother = null;
+                                        if (o instanceof FormBuilderItemFormatArea) {
+                                            brother = new FormBuilderItemFormatArea();
+                                        } else {
+                                            brother = new FormBuilderItemConstraint();
+                                        }
                                         brother.getProperties().setBrother(area.getId());
                                         brother.setBrother(area);
                                         brother.setPosition(area.getPosition() + 1);
@@ -208,16 +221,31 @@ public class FormBuilderInternalRenderer extends Renderer {
                                         String formatAreaUuid = UUID.randomUUID().toString();
                                         area.getProperties().setFormatareauuid(formatAreaUuid);
                                         brother.getProperties().setFormatareauuid(formatAreaUuid);
-                                        area.getProperties().setValues(area.getProperties().getValues() + " " + areas);
-                                        brother.getProperties().setValues(brother.getProperties().getValues() + " " + areas);
+                                        if (o instanceof FormBuilderItemFormatArea) {
+                                            area.getProperties().setValues(area.getProperties().getValues() + " " + areas);
+                                            brother.getProperties().setValues(brother.getProperties().getValues() + " " + areas);
+                                        } else {
+                                            area.getProperties().setValues(area.getProperties().getValues() + " " + constrains);
+                                            brother.getProperties().setValues(brother.getProperties().getValues() + " " + constrains);
+                                        }
                                         positionOffset++;
                                     }
-                                    if (activeFormatArea == null) {
-                                        activeFormatArea = area.getProperties().getFormatareauuid();
-                                    } else if (activeFormatArea.equals(area.getProperties().getFormatareauuid())) {
-                                        activeFormatArea = null;
+                                    if (o instanceof FormBuilderItemFormatArea) {
+                                        if (activeFormatArea == null) {
+                                            activeFormatArea = area.getProperties().getFormatareauuid();
+                                        } else if (activeFormatArea.equals(area.getProperties().getFormatareauuid())) {
+                                            activeFormatArea = null;
+                                        } else {
+                                            throw new RuntimeException(Messages.getStringJSF("formatarea.error"));
+                                        }
                                     } else {
-                                        throw new RuntimeException(Messages.getStringJSF("formatarea.error"));
+                                        if (activeConstraint == null) {
+                                            activeConstraint = area.getProperties().getFormatareauuid();
+                                        } else if (activeConstraint.equals(area.getProperties().getFormatareauuid())) {
+                                            activeConstraint = null;
+                                        } else {
+                                            throw new RuntimeException(Messages.getStringJSF("constraint.error"));
+                                        }
                                     }
                                 }
                                 //End format area specific code
@@ -284,7 +312,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                     while (itemIter.hasNext()) {
                         FormBuilderItemBase item = itemIter.next();
                         if (item.getId().equals(formContentString)) {
-                            if (item instanceof FormBuilderItemFormatArea) {
+                            if (item instanceof FormBuilderItemFormatArea || item instanceof FormBuilderItemConstraint) {
                                 brotherToDelete = item.getProperties().getBrother();
                             }
                             itemIter.remove();

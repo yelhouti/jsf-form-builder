@@ -18,7 +18,6 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderRenderer;
-import at.reppeitsolutions.formbuilder.model.Form;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -43,7 +42,7 @@ public class FormBuilder extends FormBuilderComponentBase  {
         setRendererType(FormBuilderRenderer.RENDERTYPE);
         
         iframe = new HtmlIFrame();
-        iframe.setStyle("width: 1040px; height: 620px;");
+        iframe.setStyle("width: 1040px; height: 700px;");//height: 620px;");
         iframe.setBorder(0);
         iframe.setScrolling(false);
         getChildren().add(iframe);
