@@ -16,14 +16,33 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public class WorkflowState {
-    
+@Entity(name = Constants.TABLE_PREFIX + "workflowstate")
+public class WorkflowState implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String displayName;
     private String uuid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDisplayName() {
         return displayName;

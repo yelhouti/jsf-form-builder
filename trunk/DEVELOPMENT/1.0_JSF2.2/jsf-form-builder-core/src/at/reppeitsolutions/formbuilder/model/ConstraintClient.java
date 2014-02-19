@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import javax.persistence.OneToMany;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@Entity(name = "constraintclient")
+@Entity(name = Constants.TABLE_PREFIX + "constraintclient")
 public class ConstraintClient implements Serializable {
 
     @Id
@@ -37,7 +38,7 @@ public class ConstraintClient implements Serializable {
     private Long id;
     private String displayName;
     private String uuid;
-    @OneToMany(mappedBy = "constraintclient")
+    @OneToMany(mappedBy = "constraintClient")
     private List<Constraint> constraints = new ArrayList<>();
 
     public Long getId() {

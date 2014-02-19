@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,13 +32,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import at.reppeitsolutions.formbuilder.model.Form;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@Entity
+@Entity(name = Constants.TABLE_PREFIX + "formdata")
 public class FormData implements Serializable {
 
     @Id

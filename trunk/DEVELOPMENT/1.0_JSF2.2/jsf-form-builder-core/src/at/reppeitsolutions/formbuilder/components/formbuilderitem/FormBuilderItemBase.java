@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
 import at.reppeitsolutions.formbuilder.model.Constraint;
@@ -44,7 +45,7 @@ import javax.persistence.OneToMany;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@Entity(name = "formitem")
+@Entity(name = Constants.TABLE_PREFIX + "formitem")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class FormBuilderItemBase implements Comparable, Serializable {
     
@@ -63,7 +64,7 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     protected Form form;
     @Embedded
     protected FormBuilderItemProperties properties;
-    @OneToMany(mappedBy = "formitem")
+    @OneToMany(mappedBy = "formBuilderItem")
     private List<Constraint> constraints = new ArrayList<>();
     @Transient
     private Map<String, Map> valueTranslations = new HashMap<>();
