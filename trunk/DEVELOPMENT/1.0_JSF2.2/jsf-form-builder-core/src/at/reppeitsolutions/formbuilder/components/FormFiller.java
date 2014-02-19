@@ -37,7 +37,7 @@ import javax.faces.component.html.HtmlForm;
     @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
     @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
 })
-public class FormFiller extends BuilderFillerComponentBase {
+public class FormFiller extends FormFillerComponentBase {
     
     public static final String MODE_VIEW = "view";
     public static final String MODE_FILL = "fill";
@@ -73,22 +73,6 @@ public class FormFiller extends BuilderFillerComponentBase {
 
     public HtmlForm getForm() {
         return form;
-    }
-    
-    public FormData getFormData() {
-        return (FormData) getStateHelper().eval("formData");
-    }
-
-    public void setFormData(FormData formData) {
-        getStateHelper().put("formData", formData);
-    }
-    
-    public String getMode() {
-        return (String) getStateHelper().eval("mode");
-    }
-    
-    public void setMode(String mode) {
-        getStateHelper().put("mode", mode);
     }
     
     public String getButtonid() {

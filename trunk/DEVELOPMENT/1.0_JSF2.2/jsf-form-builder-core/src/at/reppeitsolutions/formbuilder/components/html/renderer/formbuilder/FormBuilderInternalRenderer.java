@@ -136,7 +136,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                 + "});"
                 + "</script>");
 
-        if (formBuilder.getFromSave()) {
+        if (formBuilder.getInvokeCallback()) {
             writer.write("<script type=\"text/javascript\">"
                     + "$(function(){"
                     + "parent.buffer();"
@@ -158,7 +158,7 @@ public class FormBuilderInternalRenderer extends Renderer {
     @Override
     public void decode(FacesContext ctx, UIComponent component) {
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
-        formBuilder.setFromSave(true);
+        formBuilder.setInvokeCallback(true);
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(getFormContentStringId(component));
         String formActionString = ctx.getExternalContext().getRequestParameterMap().get(getFormActionStringId(component));
 

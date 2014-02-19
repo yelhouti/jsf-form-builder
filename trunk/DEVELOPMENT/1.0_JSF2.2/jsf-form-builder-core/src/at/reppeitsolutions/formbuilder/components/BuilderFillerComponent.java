@@ -16,41 +16,61 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
+import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.IGroup;
 import at.reppeitsolutions.formbuilder.model.IUser;
 import at.reppeitsolutions.formbuilder.model.IWorkflowState;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.component.UICommand;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public abstract class BuilderFillerComponent extends UICommand {
-        
-    public List<IWorkflowState> getWorkflowStates() {
-        return (List<IWorkflowState>) getStateHelper().eval("workflowStates");
-    }
-
-    public void setWorkflowStates(List<IWorkflowState> workflowStates) {
-        getStateHelper().put("workflowStates", workflowStates);
-    }
-
-    public List<IUser> getUser() {
-        return (List<IUser>) getStateHelper().eval("user");
-    }
-
-    public void setUser(List<IUser> user) {
-        getStateHelper().put("user", user);
+    
+    protected HtmlUnorderedList formContent;
+    protected HtmlIFrame iframe;
+    
+    @PostConstruct
+    public void initBase() {
+        setInvokeCallback(false);
+        if(iframe != null) {
+            iframe.setOnload("document.getElementById('loadImg').style.display='none';");
+        }
     }
     
-    public List<IGroup> getGroups() {
-        return (List<IGroup>) getStateHelper().eval("groups");
+    /*
+     * Call only from renderer
+     */
+    public void addLoadImage() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HtmlOutputText loadImage = new HtmlOutputText();
+        loadImage.setEscape(false);
+        loadImage.setValue("<div id=\"loadImg\"><img width=\"50px\" height=\"50px\" src=\"" + request.getContextPath() + "/javax.faces.resource/formbuilder/images/ajaxReload.gif.xhtml\" /></div>");
+        getChildren().add(loadImage);
+    }
+    
+    public HtmlUnorderedList getFormContent() {
+        return formContent;
+    }
+    
+    public HtmlIFrame getIFrame() {
+        return iframe;
+    }
+    
+    public boolean getInvokeCallback() {
+        return (boolean) getStateHelper().eval("invokeCallback");
     }
 
-    public void setGroups(List<IGroup> groups) {
-        getStateHelper().put("groups", groups);
+    public void setInvokeCallback(boolean invokeCallback) {
+        getStateHelper().put("invokeCallback", invokeCallback);
     }
     
 }

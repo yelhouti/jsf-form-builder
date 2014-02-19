@@ -44,7 +44,7 @@ import javax.faces.component.html.HtmlInputHidden;
     @ResourceDependency(library = "formbuilder", name = "formbuilder.js"),
     @ResourceDependency(library = "formbuilder", name = "formbuilder.css")
 })
-public class FormFillerInternal extends BuilderFillerInternalComponentBase {
+public class FormFillerInternal extends FormFillerComponentBase {
     
     public FormFillerInternal() {
         setRendererType(FormFillerInternalRenderer.RENDERTYPE);
@@ -82,22 +82,6 @@ public class FormFillerInternal extends BuilderFillerInternalComponentBase {
         HtmlDiv div = new HtmlDiv();
         div.setStyle("clear:left;");        
         getChildren().add(div);
-    }
-
-    public FormData getFormData() {
-        return (FormData) getStateHelper().eval("formData");
-    }
-
-    public void setFormData(FormData formData) {
-        getStateHelper().put("formData", formData);
-    }
-    
-    public String getMode() {
-        return (String) getStateHelper().eval("mode");
-    }
-    
-    public void setMode(String mode) {
-        getStateHelper().put("mode", mode);
     }
 
     @Override
