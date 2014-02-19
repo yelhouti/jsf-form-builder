@@ -23,6 +23,7 @@ import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderHeading;
 import at.reppeitsolutions.formbuilder.components.html.dialogs.HtmlDialog;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderCheckbox;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderConstraint;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderDate;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderDownload;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderFormatArea;
@@ -71,6 +72,7 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_PAGEBREAK = "fbpagebreak";
     public static final String TYPE_DOWNLOAD = "fbdownload";
     public static final String TYPE_NUMBER = "fbnumber";
+    public static final String TYPE_CONSTRAINT = "fbconstraint";
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data, String mode) {
         return getUIComponent(data.getFormBuilderItem(), data, false, mode);
@@ -137,6 +139,9 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_FORMATAREA:
                 comp = new HtmlFormBuilderFormatArea();
+                break;
+            case TYPE_CONSTRAINT:
+                comp = new HtmlFormBuilderConstraint();
                 break;
             case TYPE_PAGEBREAK:
                 comp = new HtmlFormBuilderPagebreak();

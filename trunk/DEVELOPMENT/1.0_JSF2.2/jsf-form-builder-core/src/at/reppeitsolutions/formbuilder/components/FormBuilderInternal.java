@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemCheckbox;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemConstraint;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDate;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemDownload;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
@@ -162,6 +163,7 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemCheckbox(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemListbox(true)));
         
+        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemConstraint(true)));
         components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemPagebreak(true)));
 
         palette = new HtmlUnorderedList();
