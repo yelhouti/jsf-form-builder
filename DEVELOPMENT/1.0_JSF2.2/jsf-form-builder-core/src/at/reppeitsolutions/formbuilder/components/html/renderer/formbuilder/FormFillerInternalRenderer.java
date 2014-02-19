@@ -130,7 +130,7 @@ public class FormFillerInternalRenderer extends Renderer {
                 + "});"
                 + "</script>");
 
-        if (formFiller.getFromSave()) {
+        if (formFiller.getInvokeCallback()) {
             writer.write("<script type=\"text/javascript\">"
                     + "$(function(){"
                     + "parent.submitParentForm();"
@@ -146,7 +146,7 @@ public class FormFillerInternalRenderer extends Renderer {
     @Override
     public void decode(FacesContext ctx, UIComponent component) {
         FormFillerInternal formFiller = (FormFillerInternal) component;
-        formFiller.setFromSave(true);
+        formFiller.setInvokeCallback(true);
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
 
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(FormBuilderInternalRenderer.getFormContentStringId(component));

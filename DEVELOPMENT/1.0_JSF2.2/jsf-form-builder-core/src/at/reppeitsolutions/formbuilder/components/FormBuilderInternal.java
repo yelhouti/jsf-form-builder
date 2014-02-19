@@ -69,7 +69,7 @@ import at.reppeitsolutions.formbuilder.model.IWorkflowState;
     @ResourceDependency(library = "formbuilder", name = "jquery.timepicker.css"),
     @ResourceDependency(library = "formbuilder", name = "formbuilder.js"),
     @ResourceDependency(library = "formbuilder", name = "formbuilder.css")})
-public class FormBuilderInternal extends BuilderFillerInternalComponentBase {
+public class FormBuilderInternal extends FormBuilderComponentBase {
 
     private List<HtmlFormBuilderItem> components = new ArrayList<>();
     private HtmlUnorderedList palette;
@@ -133,14 +133,6 @@ public class FormBuilderInternal extends BuilderFillerInternalComponentBase {
         HtmlDiv div = new HtmlDiv();
         div.setStyle("clear:both;");        
         getChildren().add(div);
-    }
-    
-    public Form getForm() {
-        return (Form) getStateHelper().eval("form");
-    }
-
-    public void setForm(Form form) {
-        getStateHelper().put("form", form);
     }
 
     @Override

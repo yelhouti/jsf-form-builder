@@ -34,7 +34,7 @@ import javax.faces.component.html.HtmlCommandButton;
     @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
 })
-public class FormBuilder extends BuilderFillerComponentBase  {
+public class FormBuilder extends FormBuilderComponentBase  {
     
     private HtmlCommandButton callbackButton;
     private AjaxBehavior ajax;
@@ -54,14 +54,6 @@ public class FormBuilder extends BuilderFillerComponentBase  {
         callbackButton.addClientBehavior("action", ajax);
         callbackButton.setStyle("display:none;");
         getChildren().add(callbackButton);
-    }
-    
-    public Form getForm() {
-        return (Form) getStateHelper().eval("form");
-    }
-
-    public void setForm(Form form) {
-        getStateHelper().put("form", form);
     }
 
     public HtmlCommandButton getCallbackButton() {
