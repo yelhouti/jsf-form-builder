@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ import javax.persistence.Table;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 @Entity
-@Table(name = "formitem_constraintclient")
+@Table(name = Constants.TABLE_PREFIX + "formitem_constraintclient")
 @IdClass(ConstraintId.class)
 public class Constraint implements Serializable {
 

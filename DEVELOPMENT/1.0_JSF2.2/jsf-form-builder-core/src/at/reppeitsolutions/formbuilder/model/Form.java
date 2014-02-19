@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import java.io.Serializable;
@@ -35,7 +36,7 @@ import javax.persistence.OneToMany;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@Entity
+@Entity(name = Constants.TABLE_PREFIX + "form")
 public class Form implements Serializable {
 
     @Id

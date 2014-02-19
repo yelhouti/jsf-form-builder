@@ -33,4 +33,6 @@ public class Constants {
     public static final int MAXLABELLENGTH = 20;
     public static final int LABELLENGTHPADDING = 2;
     public static int MINLABELLENGTH = 10;
+    
+    public static final String TABLE_PREFIX = "formbuilder_";
 }

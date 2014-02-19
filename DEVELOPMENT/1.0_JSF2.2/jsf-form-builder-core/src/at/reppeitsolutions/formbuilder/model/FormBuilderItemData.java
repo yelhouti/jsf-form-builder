@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
 import java.io.Serializable;
@@ -32,7 +33,7 @@ import javax.persistence.OneToOne;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@Entity(name = "formdataitem")
+@Entity(name = Constants.TABLE_PREFIX + "formdataitem")
 public class FormBuilderItemData implements Serializable, Comparable {
     
     @Id
