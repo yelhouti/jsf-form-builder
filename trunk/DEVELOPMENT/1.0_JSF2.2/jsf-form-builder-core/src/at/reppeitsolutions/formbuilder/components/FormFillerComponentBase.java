@@ -16,9 +16,9 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
-import at.reppeitsolutions.formbuilder.model.IUser;
-import at.reppeitsolutions.formbuilder.model.IWorkflowState;
+import at.reppeitsolutions.formbuilder.model.FormData;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.util.List;
 
 /**
@@ -35,19 +35,19 @@ public abstract class FormFillerComponentBase extends BuilderFillerComponent {
         getStateHelper().put("formData", formData);
     }
     
-    public IWorkflowState getWorkflowState() {
-        return (IWorkflowState) getStateHelper().eval("workflowState");
+    public WorkflowState getWorkflowState() {
+        return (WorkflowState) getStateHelper().eval("workflowState");
     }
 
-    public void setWorkflowState(List<IWorkflowState> workflowState) {
+    public void setWorkflowState(List<WorkflowState> workflowState) {
         getStateHelper().put("workflowState", workflowState);
     }
 
-    public IUser getUser() {
-        return (IUser) getStateHelper().eval("user");
+    public ConstraintClient getUser() {
+        return (ConstraintClient) getStateHelper().eval("user");
     }
 
-    public void setUser(IUser user) {
+    public void setUser(ConstraintClient user) {
         getStateHelper().put("user", user);
     }
     

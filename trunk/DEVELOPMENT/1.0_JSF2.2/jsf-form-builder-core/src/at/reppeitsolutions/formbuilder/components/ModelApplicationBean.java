@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.model.Form;
 import java.io.Serializable;
 import java.util.HashMap;

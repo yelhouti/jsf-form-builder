@@ -16,18 +16,29 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
-import java.util.List;
-
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public interface IGroup {
+public class WorkflowState {
     
-    String getName();
-    void setName(String name);
-    List<IUser> getUser();
-    String getId();
-    void setId(String id); 
+    private String displayName;
+    private String uuid;
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
     
 }

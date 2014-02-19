@@ -59,4 +59,5 @@ public interface FormBuilderItem {
     public Map<String, FormBuilderItemBase.SPECIALPROPERTY> getSpecialProperties();
     
     public boolean getSkipRendering();
+    
 }

@@ -19,7 +19,7 @@ package at.reppeitsolutions.formbuilder.components.helper;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
+import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderHeading;
 import at.reppeitsolutions.formbuilder.components.html.dialogs.HtmlDialog;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderCheckbox;
