@@ -16,7 +16,6 @@
  */
 package at.reppeitsolutions.formbuilder.model;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import java.io.Serializable;
@@ -113,7 +112,7 @@ public class Form implements Serializable {
 
     private void setLabelLength(List<FormBuilderItemBase> items) {
         int maxLabelLength = -1;
-        for (FormBuilderItem item : items) {
+        for (FormBuilderItemBase item : items) {
             if (item.getProperties() != null
                     && item.getProperties().getLabel() != null) {
                 int offset = 0;
@@ -127,7 +126,7 @@ public class Form implements Serializable {
                 }
             }
         }
-        for (FormBuilderItem item : items) {
+        for (FormBuilderItemBase item : items) {
             if (item.getProperties() != null) {
                 item.getProperties().setLabelLength(maxLabelLength);
             }

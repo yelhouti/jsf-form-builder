@@ -17,7 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.helper;
 
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderHeading;
@@ -76,15 +76,15 @@ public abstract class FormBuilderItemFactory {
         return getUIComponent(data.getFormBuilderItem(), data, false, mode);
     }
 
-    public static HtmlFormBuilderItem getUIComponent(FormBuilderItem item) {
+    public static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item) {
         return getUIComponent(item, null, false, null);
     }
 
-    public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItem item) {
+    public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item) {
         return getUIComponent(item, null, true, null);
     }
 
-    private static HtmlFormBuilderItem getUIComponent(FormBuilderItem item, FormBuilderItemData data, boolean dialog, String mode) {
+    private static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item, FormBuilderItemData data, boolean dialog, String mode) {
         String type = item.getFormbuildertype();
         HtmlFormBuilderSpan res = new HtmlFormBuilderSpan(item);
         HtmlFormBuilderItem comp = null;
@@ -174,9 +174,9 @@ public abstract class FormBuilderItemFactory {
         return res;
     }
 
-    public static void updateFormBuilderItem(FormBuilderItem item, FormBuilderItemUpdate update) {
+    public static void updateFormBuilderItem(FormBuilderItemBase item, FormBuilderItemUpdate update) {
         if (update != null) {
-            invokeMethods(FormBuilderItem.class.getMethods(), update, item);
+            invokeMethods(FormBuilderItemBase.class.getMethods(), update, item);
             invokeMethods(FormBuilderItemProperties.class.getMethods(), update, item.getProperties());
         }
     }
@@ -206,7 +206,7 @@ public abstract class FormBuilderItemFactory {
         }
     }
 
-    public static void updateFormBuilderItem(FormBuilderItem item, List<FormBuilderItemUpdate> updates) {
+    public static void updateFormBuilderItem(FormBuilderItemBase item, List<FormBuilderItemUpdate> updates) {
         if (updates != null) {
             for (FormBuilderItemUpdate update : updates) {
                 updateFormBuilderItem(item, update);

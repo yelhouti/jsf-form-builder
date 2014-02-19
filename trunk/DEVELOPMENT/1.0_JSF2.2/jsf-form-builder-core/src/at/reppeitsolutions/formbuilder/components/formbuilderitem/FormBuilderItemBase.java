@@ -46,7 +46,7 @@ import javax.persistence.OneToMany;
  */
 @Entity(name = "formitem")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class FormBuilderItemBase implements Comparable, FormBuilderItem, Serializable {
+public class FormBuilderItemBase implements Comparable, Serializable {
     
     public static final String FULLWIDTH = "600px";
     public static final String HALFWIDTH = "300px";
@@ -118,29 +118,24 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
         return form;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public int getPosition() {
         return position;
     }
 
-    @Override
     public void setPosition(int position) {
         this.position = position;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public String getFormbuildertype() {
         return formbuildertype;
     }
 
-    @Override
     public void setFormbuildertype(String formbuildertype) {
         this.formbuildertype = formbuildertype;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public String getClassname() {
         if (className == null) {
@@ -149,14 +144,12 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
         return className;
     }
 
-    @Override
     public void setClassname(String className) {
         this.className = className;
     }
 
-    @Override
     public int compareTo(Object t) {
-        FormBuilderItem item = (FormBuilderItem) t;
+        FormBuilderItemBase item = (FormBuilderItemBase) t;
         if (getPosition() > item.getPosition()) {
             return 1;
         } else if (getPosition() < item.getPosition()) {
@@ -165,18 +158,15 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
         return 0;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public String getId() {
         return uuid;
     }
 
-    @Override
     public void setId(String uuid) {
         this.uuid = uuid;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public String getDiagid() {
         if (diagid == null) {
@@ -185,48 +175,39 @@ public class FormBuilderItemBase implements Comparable, FormBuilderItem, Seriali
         return diagid;
     }
 
-    @Override
     public void setDiagid(String diagid) {
         this.diagid = diagid;
     }
 
-    @Override
     @IgnorePropertyInDialog
     public String getWidth() {
         return width;
     }
 
-    @Override
     public void setWidth(String width) {
         this.width = width;
     }
 
-    @Override
     public FormBuilderItemProperties getProperties() {
         return properties;
     }
 
-    @Override
     public void setProperties(FormBuilderItemProperties properties) {
         this.properties = properties;
     }
 
-    @Override
     public Map<String, Map> getValueTranslations() {
         return valueTranslations;
     }
 
-    @Override
     public Map<String, String> getPropertyTranslations() {
         return propertyTranslations;
     }
 
-    @Override
     public Map<String, FormBuilderItemBase.SPECIALPROPERTY> getSpecialProperties() {
         return specialProperties;
     }
     
-    @Override
     public boolean getSkipRendering() {
         return false;
     }
