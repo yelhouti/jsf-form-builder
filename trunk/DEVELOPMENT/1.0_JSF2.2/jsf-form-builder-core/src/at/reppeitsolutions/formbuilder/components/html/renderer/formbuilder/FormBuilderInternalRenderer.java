@@ -67,6 +67,7 @@ public class FormBuilderInternalRenderer extends Renderer {
     @Override
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
+        ResponseWriter writer = ctx.getResponseWriter();
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
         HtmlForm form = getHtmlForm(formBuilder);
         form.setTransient(true);
@@ -93,16 +94,11 @@ public class FormBuilderInternalRenderer extends Renderer {
                 HtmlListItem li = new HtmlListItem();
                 HtmlDiv icons = new HtmlDiv();
                 icons.setClassString("icons");
-                if (!comp.getHtmlfbitem().getChildren().get(0).getClass().isAnnotationPresent(SkipDialog.class)) {
-                    HtmlDiv settings = new HtmlDiv();
-                    settings.setClassString("settings");
-                    settings.setOnClick("openDialog('" + comp.getFbitem().getId() + "');");
-                    icons.getChildren().add(settings);
-                }
-                HtmlDiv delete = new HtmlDiv();
-                delete.setClassString("delete");
-                delete.setOnClick("deleteItem('" + comp.getFbitem().getId() + "');");
-                icons.getChildren().add(delete);
+                
+                addSettingsIcon(comp, icons);
+                addDeleteIcon(comp, icons);
+                FormFillerInternalRenderer.addInfoIcon(comp, icons, writer);
+                
                 li.getChildren().add(icons);
                 li.setClassString("ui-state-default box-runde-ecken");
                 li.setStyle("width:" + comp.getHtmlfbitem().getWidth() + ";");
@@ -344,5 +340,21 @@ public class FormBuilderInternalRenderer extends Renderer {
         placeholder.setTransient(true);
 
         formBuilder.getFormContent().getChildren().add(placeholder);
+    }
+
+    public void addSettingsIcon(FormBuilderContainer comp, HtmlDiv icons) {
+        if (!comp.getHtmlfbitem().getChildren().get(0).getClass().isAnnotationPresent(SkipDialog.class)) {
+            HtmlDiv settings = new HtmlDiv();
+            settings.setClassString("settings");
+            settings.setOnClick("openDialog('" + comp.getFbitem().getId() + "');");
+            icons.getChildren().add(settings);
+        }
+    }
+
+    public void addDeleteIcon(FormBuilderContainer comp, HtmlDiv icons) {
+        HtmlDiv delete = new HtmlDiv();
+        delete.setClassString("delete");
+        delete.setOnClick("deleteItem('" + comp.getFbitem().getId() + "');");
+        icons.getChildren().add(delete);
     }
 }

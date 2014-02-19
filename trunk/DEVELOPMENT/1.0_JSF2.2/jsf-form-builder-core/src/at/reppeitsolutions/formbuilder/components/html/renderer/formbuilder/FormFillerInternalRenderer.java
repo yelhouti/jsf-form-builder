@@ -93,24 +93,8 @@ public class FormFillerInternalRenderer extends Renderer {
             for (FormBuilderContainer comp : components) {
                 HtmlDiv icons = new HtmlDiv();
                 icons.setClassString("icons");
-
-                if (comp.getFbitem().getProperties().getDescription() != null
-                        && !"".equals(comp.getFbitem().getProperties().getDescription())) {
-                    HtmlDiv info = new HtmlDiv();
-                    String infoUuid = "info" + UUID.randomUUID().toString();
-                    info.setClassString("info");
-                    info.setId(infoUuid);
-                    icons.getChildren().add(info);
-
-                    writer.write("<script type=\"text/javascript\">"
-                            + "$(function(){"
-                            + "$(\"#" + infoUuid + "\").tooltip({"
-                            + "items : \"div\","
-                            + "content : \"<span style='font-size: 10pt;'>" + comp.getFbitem().getProperties().getDescription() + "</span>\""
-                            + "});"
-                            + "});"
-                            + "</script>");
-                }
+                
+                addInfoIcon(comp, icons, writer);
 
                 HtmlListItem li = new HtmlListItem();
                 li.getChildren().add(icons);
@@ -269,5 +253,25 @@ public class FormFillerInternalRenderer extends Renderer {
         OutputStream os = response.getOutputStream();
         os.write(file.getFile());
         os.flush();
+    }
+
+    public static void addInfoIcon(FormBuilderContainer comp, HtmlDiv icons, ResponseWriter writer) throws IOException {
+        if (comp.getFbitem().getProperties().getDescription() != null
+                && !"".equals(comp.getFbitem().getProperties().getDescription())) {
+            HtmlDiv info = new HtmlDiv();
+            String infoUuid = "info" + UUID.randomUUID().toString();
+            info.setClassString("info");
+            info.setId(infoUuid);
+            icons.getChildren().add(info);
+
+            writer.write("<script type=\"text/javascript\">"
+                    + "$(function(){"
+                    + "$(\"#" + infoUuid + "\").tooltip({"
+                    + "items : \"div\","
+                    + "content : \"<span style='font-size: 10pt;'>" + comp.getFbitem().getProperties().getDescription() + "</span>\""
+                    + "});"
+                    + "});"
+                    + "</script>");
+        }
     }
 }
