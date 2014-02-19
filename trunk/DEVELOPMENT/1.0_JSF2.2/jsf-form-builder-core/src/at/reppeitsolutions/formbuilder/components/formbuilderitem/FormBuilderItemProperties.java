@@ -52,6 +52,11 @@ public class FormBuilderItemProperties implements Serializable {
     private String formatareauuid;
     private Boolean onelinedescription;
     private String description;
+    private Boolean visible = true;
+    private Boolean locked = false;
+    private Boolean mandatory = false;
+    @Transient
+    private Boolean mandatoryError = false;
         
     public String getLabel() {
         return label;
@@ -177,6 +182,54 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @IgnorePropertyInDialog
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
+        if(!visible) {
+            setMandatory(false);
+            setLocked(false);
+        }
+    }
+
+    @IgnorePropertyInDialog
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+        if(locked) {
+            setVisible(true);
+            setMandatory(false);
+        }
+    }
+
+    @IgnorePropertyInDialog
+    public Boolean getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(Boolean mandatory) {
+        this.mandatory = mandatory;
+        if(mandatory) {
+            setVisible(true);
+            setLocked(false);
+        }
+    }
+
+    @IgnorePropertyInDialog
+    public Boolean getMandatoryError() {
+        return mandatoryError;
+    }
+
+    public void setMandatoryError(Boolean mandatoryError) {
+        this.mandatoryError = mandatoryError;
     }
     
 }

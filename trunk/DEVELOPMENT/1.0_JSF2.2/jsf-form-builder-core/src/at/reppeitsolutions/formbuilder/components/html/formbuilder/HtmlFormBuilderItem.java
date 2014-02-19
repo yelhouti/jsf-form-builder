@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFiller;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.renderer.HtmlBaseComponentRenderer;
@@ -96,6 +97,15 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
 
     protected void addLabeledComponent(HtmlOutputText label, UIComponent output) {
         addLabeledComponent(label, output, "width: 100%; margin-right: 10px;");
+    }
+    
+    protected boolean isDisabled() {
+        if (getMode() == null ||
+            getMode().equals(FormFiller.MODE_VIEW) ||
+            (getMode().equals(FormFiller.MODE_FILL) && getProperties().getLocked())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

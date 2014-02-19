@@ -42,15 +42,14 @@ public class Form implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(mappedBy="form", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL)
     private List<FormBuilderItemBase> items;
 
     public Form() {
         items = new ArrayList<>();
     }
-    
     private static final String WITHOUTAREAKEY = "withoutarea";
-    
+
     @Override
     public Form clone() {
         //TODO copy form and all items
@@ -62,18 +61,18 @@ public class Form implements Serializable {
         Map<String, List<FormBuilderItemBase>> labelLengthGroups = new HashMap<>();
         labelLengthGroups.put(WITHOUTAREAKEY, new ArrayList<FormBuilderItemBase>());
         String activeAreaId = null;
-        for(FormBuilderItemBase item : items) {
-            if(item instanceof FormBuilderItemFormatArea) {
-                if(item.getProperties().getFormatareauuid().equals(activeAreaId)) {
+        for (FormBuilderItemBase item : items) {
+            if (item instanceof FormBuilderItemFormatArea) {
+                if (item.getProperties().getFormatareauuid().equals(activeAreaId)) {
                     activeAreaId = null;
                 } else {
                     activeAreaId = item.getProperties().getFormatareauuid();
                 }
             } else {
-                if(activeAreaId == null) {
+                if (activeAreaId == null) {
                     labelLengthGroups.get(WITHOUTAREAKEY).add(item);
                 } else {
-                    if(labelLengthGroups.containsKey(activeAreaId)) {
+                    if (labelLengthGroups.containsKey(activeAreaId)) {
                         labelLengthGroups.get(activeAreaId).add(item);
                     } else {
                         List<FormBuilderItemBase> newItems = new ArrayList<>();
@@ -83,19 +82,19 @@ public class Form implements Serializable {
                 }
             }
         }
-        for(List<FormBuilderItemBase> labelLengthGroup : labelLengthGroups.values()) {
+        for (List<FormBuilderItemBase> labelLengthGroup : labelLengthGroups.values()) {
             setLabelLength(labelLengthGroup);
         }
         return items;
     }
-    
+
     public void addItem(FormBuilderItemBase item) {
         item.setForm(this);
         items.add(item);
     }
-    
+
     public void addItems(List<FormBuilderItemBase> items) {
-        for(FormBuilderItemBase item : items) {
+        for (FormBuilderItemBase item : items) {
             addItem(item);
         }
     }
@@ -114,16 +113,22 @@ public class Form implements Serializable {
 
     private void setLabelLength(List<FormBuilderItemBase> items) {
         int maxLabelLength = -1;
-        for(FormBuilderItem item : items) {
-            if(item.getProperties() != null 
-                    && item.getProperties().getLabel() != null
-                    && item.getProperties().getLabel().length() > maxLabelLength
-                    && (item.getProperties().getOnelinedescription() == null || item.getProperties().getOnelinedescription() == Boolean.FALSE)) {
-                maxLabelLength = item.getProperties().getLabel().length();
+        for (FormBuilderItem item : items) {
+            if (item.getProperties() != null
+                    && item.getProperties().getLabel() != null) {
+                int offset = 0;
+                if(item.getProperties().getMandatory()) {
+                    offset = 2;
+                }
+                int labelLength = item.getProperties().getLabel().length() + offset;
+                if (labelLength > maxLabelLength
+                        && (item.getProperties().getOnelinedescription() == null || item.getProperties().getOnelinedescription() == Boolean.FALSE)) {
+                    maxLabelLength = labelLength;
+                }
             }
         }
-        for(FormBuilderItem item : items) {
-            if(item.getProperties() != null) {
+        for (FormBuilderItem item : items) {
+            if (item.getProperties() != null) {
                 item.getProperties().setLabelLength(maxLabelLength);
             }
         }
