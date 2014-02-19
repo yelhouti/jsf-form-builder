@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -14,25 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.reppeitsolutions.formbuilder.components;
+package at.reppeitsolutions.formbuilder.model;
 
-import at.reppeitsolutions.formbuilder.components.html.renderer.BaseComponentRenderer;
-import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponentBase;
+import java.util.List;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "baseComponent")
-public class BaseComponent extends UIComponentBase {
-
-    public BaseComponent() {
-        setRendererType(BaseComponentRenderer.RENDERTYPE);
-    }
-
-    @Override
-    public String getFamily() {
-        return BaseComponentRenderer.FAMILY;
-    }
+public interface IGroup {
+    
+    String getName();
+    void setName(String name);
+    List<IUser> getUser();
+    String getId();
+    void setId(String id); 
+    
 }

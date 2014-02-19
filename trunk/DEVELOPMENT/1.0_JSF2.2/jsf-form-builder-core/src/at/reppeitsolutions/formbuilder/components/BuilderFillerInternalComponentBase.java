@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,34 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
+import at.reppeitsolutions.formbuilder.model.Form;
+import javax.annotation.PostConstruct;
+import javax.faces.component.UICommand;
+
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public class Test {
+public abstract class BuilderFillerInternalComponentBase extends BuilderFillerComponent {
+    
+    protected HtmlUnorderedList formContent;
+    
+    public HtmlUnorderedList getFormContent() {
+        return formContent;
+    }
+    
+    @PostConstruct
+    public void init() {
+        setFromSave(false);
+    }
+    
+    public boolean getFromSave() {
+        return (boolean) getStateHelper().eval("fromSave");
+    }
+
+    public void setFromSave(boolean fromSave) {
+        getStateHelper().put("fromSave", fromSave);
+    }
     
 }

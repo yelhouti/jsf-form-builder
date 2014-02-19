@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
+import at.reppeitsolutions.formbuilder.components.FormFiller;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneRadio;
@@ -40,7 +40,7 @@ public class HtmlFormBuilderRadio extends HtmlFormBuilderItem {
             select.getChildren().add(item);
         }
         if (getMode() != null
-                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+                && getMode().equals(FormFiller.MODE_VIEW)) {
             select.setDisabled(true);
         }
         if (value != null) {

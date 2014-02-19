@@ -43,30 +43,30 @@ public class ModelViewBean implements Serializable {
     
     @PreDestroy
     public void preDestroy() {
-        getModelApplicationBean().destroyModel(uuid);
-        getModelApplicationBean().destroyModelData(uuid);
+        getModelApplicationBean().destroyForm(uuid);
+        getModelApplicationBean().destroyFormData(uuid);
     }
     
     public void save() {
         
     }
     
-    public Form getModel() {
-        return getModelApplicationBean().getModel(uuid);
+    public Form getForm() {
+        return getModelApplicationBean().getForm(uuid);
     } 
     
     //Just for ide to restore session after deploy
-    private void setModel(Form form) {
-        getModelApplicationBean().putModel(uuid, form);
+    private void setForm(Form form) {
+        getModelApplicationBean().putForm(uuid, form);
     }
     
-    public FormData getModelData() {
-        return getModelApplicationBean().getModelData(uuid);
+    public FormData getFormData() {
+        return getModelApplicationBean().getFormData(uuid);
     }
     
     //Just for ide to restore session after deploy
-    private void setModelData(FormData formdata) {
-        getModelApplicationBean().putModelData(uuid, formdata);
+    private void setFormData(FormData formdata) {
+        getModelApplicationBean().putFormData(uuid, formdata);
     }
 
     public String getUuid() {

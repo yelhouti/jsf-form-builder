@@ -36,31 +36,31 @@ public class ModelApplicationBean implements Serializable {
     private Map<String, Form> models = new HashMap<>();
     private Map<String, FormData> datamodels = new HashMap<>();
     
-    public Form getModel(String uuid) {
+    public Form getForm(String uuid) {
         return models.get(uuid);
     }
     
-    public FormData getModelData(String uuid) {
+    public FormData getFormData(String uuid) {
         return datamodels.get(uuid);
     }
     
-    public void putModel(String uuid, Form model) {
-        destroyModel(uuid);
+    public void putForm(String uuid, Form model) {
+        destroyForm(uuid);
         models.put(uuid, model);
     }
     
-    public void putModelData(String uuid, FormData model) {
-        destroyModelData(uuid);
+    public void putFormData(String uuid, FormData model) {
+        destroyFormData(uuid);
         datamodels.put(uuid, model);
     }
     
-    public void destroyModel(String uuid) {
+    public void destroyForm(String uuid) {
         if(models.containsKey(uuid)) {
             models.remove(uuid);
         }
     }
     
-    public void destroyModelData(String uuid) {
+    public void destroyFormData(String uuid) {
         if(datamodels.containsKey(uuid)) {
             datamodels.remove(uuid);
         }

@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.multipart;
 
-import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
+import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerInternalRenderer;
 import at.reppeitsolutions.formbuilder.helper.StreamUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,9 +78,9 @@ public class MultipartRequest {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(FormFillerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormFillerInternalRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ServletException ex) {
-            Logger.getLogger(FormFillerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormFillerInternalRenderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

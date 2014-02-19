@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFillerIFrame;
+import at.reppeitsolutions.formbuilder.components.FormFiller;
 import at.reppeitsolutions.formbuilder.components.html.HtmlTextarea;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -36,7 +36,7 @@ public class HtmlFormBuilderTextarea extends HtmlFormBuilderItem {
             textarea.setName(getDataUuid());
         }
         if (getMode() != null
-                && getMode().equals(FormFillerIFrame.MODE_VIEW)) {
+                && getMode().equals(FormFiller.MODE_VIEW)) {
             textarea.setDisabled(true);
         }
         String tmpValue = "";
