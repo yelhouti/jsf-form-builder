@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -30,8 +30,7 @@ public class HtmlFormBuilderTime extends HtmlFormBuilderItem {
     public void renderView() {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("timepicker");
-        if (getMode() != null
-                && getMode().equals(FormFiller.MODE_VIEW)) {
+        if (isDisabled()) {
             input.setDisabled(true);
         }
         if (getValue() != null) {
@@ -47,8 +46,7 @@ public class HtmlFormBuilderTime extends HtmlFormBuilderItem {
             input.setId(getDataUuid());
         }
 
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         addLabeledComponent(output, input, "width: 10em;");
     }

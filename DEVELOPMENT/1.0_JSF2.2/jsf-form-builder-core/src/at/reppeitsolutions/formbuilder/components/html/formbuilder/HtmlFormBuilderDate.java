@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -31,8 +31,7 @@ public class HtmlFormBuilderDate extends HtmlFormBuilderItem {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("datepicker");
         String backgroundColor = "";
-        if (getMode() != null
-                && getMode().equals(FormFiller.MODE_VIEW)) {
+        if (isDisabled()) {
             input.setDisabled(true);
         } else {
             backgroundColor = "background-color: white;";
@@ -51,8 +50,7 @@ public class HtmlFormBuilderDate extends HtmlFormBuilderItem {
         }
         input.setReadonly(true);
 
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         addLabeledComponent(output, input, "width: 10em;" + backgroundColor);
     }

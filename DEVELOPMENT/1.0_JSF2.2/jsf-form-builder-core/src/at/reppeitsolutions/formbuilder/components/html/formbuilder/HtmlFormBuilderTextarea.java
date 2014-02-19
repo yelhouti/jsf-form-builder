@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import at.reppeitsolutions.formbuilder.components.html.HtmlTextarea;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -28,15 +28,11 @@ public class HtmlFormBuilderTextarea extends HtmlFormBuilderItem {
 
     @Override
     public void renderView() {
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
-
         HtmlTextarea textarea = new HtmlTextarea();
         if (getDataUuid() != null) {
             textarea.setName(getDataUuid());
         }
-        if (getMode() != null
-                && getMode().equals(FormFiller.MODE_VIEW)) {
+        if (isDisabled()) {
             textarea.setDisabled(true);
         }
         String tmpValue = "";
@@ -49,6 +45,8 @@ public class HtmlFormBuilderTextarea extends HtmlFormBuilderItem {
         textarea.setRows(properties.getRows());
         textarea.setCols(properties.getCols());
 
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
+        
         addLabeledComponent(output, textarea);
     }
 }

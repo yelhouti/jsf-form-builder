@@ -47,7 +47,7 @@ public class FormFiller extends FormFillerComponentBase {
     public FormFiller() {
         setRendererType(FormFillerRenderer.RENDERTYPE);
         iframe = new HtmlIFrame();
-        iframe.setStyle("width: 795px; height: 610px;");
+        iframe.setStyle("width: 795px; height: 625px;");
         iframe.setBorder(0);
         iframe.setScrolling(false);
         iframe.setId("iframe" + UUID.randomUUID().toString());
@@ -75,22 +75,13 @@ public class FormFiller extends FormFillerComponentBase {
         return form;
     }
     
-    public String getButtonid() {
-        return (String) getStateHelper().eval("buttonid");
+    public String getSubmitButtonId() {
+        return (String) getStateHelper().eval("submitButtonId");
     }
     
-    public void setButtonid(String buttonid) {
-        getStateHelper().put("buttonid", buttonid);
-    }    
-    
-    public String getTarget() {
-        return (String) getStateHelper().eval("target");
+    public void setSubmitButtonId(String submitButtonId) {
+        getStateHelper().put("submitButtonId", submitButtonId);
     }
-    
-    public void setTarget(String target) {
-        getStateHelper().put("target", target);
-    }
-    
 
     @Override
     public String getFamily() {

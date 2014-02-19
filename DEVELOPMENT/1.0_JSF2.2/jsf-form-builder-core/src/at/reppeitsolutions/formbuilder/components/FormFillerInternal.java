@@ -16,7 +16,6 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerInternalRenderer;
@@ -25,6 +24,7 @@ import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlOutputText;
 
 /**
  *
@@ -75,6 +75,14 @@ public class FormFillerInternal extends FormFillerComponentBase {
         contentHolder.setId("contentHolder");
         contentHolder.getChildren().add(formContent);
         
+        HtmlDiv mandatoryError = new HtmlDiv();
+        mandatoryError.setId("mandatoryError");
+        mandatoryError.setStyle("color: red;");
+        HtmlOutputText mandatoryErrorText = new HtmlOutputText();
+        mandatoryErrorText.setValue(Messages.getStringJSF("error.mandatory"));
+        mandatoryError.getChildren().add(mandatoryErrorText);
+        
+        holder.getChildren().add(mandatoryError);
         holder.getChildren().add(contentHolder);
         
         getChildren().add(holder);

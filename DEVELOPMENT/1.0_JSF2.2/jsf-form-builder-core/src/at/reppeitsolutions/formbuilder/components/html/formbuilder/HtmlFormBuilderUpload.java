@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.html.HtmlInputFile;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
@@ -28,13 +29,15 @@ public class HtmlFormBuilderUpload extends HtmlFormBuilderItem {
 
     @Override
     public void renderView() {
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         if (file == null) {
             HtmlInputFile input = new HtmlInputFile();
             if (getDataUuid() != null) {
                 input.setId(getDataUuid());
+            }
+            if (isDisabled()) {
+                input.setDisabled(true);
             }
             addLabeledComponent(output, input);
         } else {

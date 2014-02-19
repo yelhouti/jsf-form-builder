@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
@@ -31,8 +31,7 @@ public class HtmlFormBuilderNumber extends HtmlFormBuilderItem {
         HtmlInputText input = new HtmlInputText();
         input.setStyleClass("number");
         
-        if (getMode() != null
-                && getMode().equals(FormFiller.MODE_VIEW)) {
+        if (isDisabled()) {
             input.setDisabled(true);
         }
         if (getNumberValue() != null) {
@@ -44,8 +43,7 @@ public class HtmlFormBuilderNumber extends HtmlFormBuilderItem {
             input.setId(getDataUuid());
         }
 
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         addLabeledComponent(output, input, "text-align:right; width: 100%;");
     }

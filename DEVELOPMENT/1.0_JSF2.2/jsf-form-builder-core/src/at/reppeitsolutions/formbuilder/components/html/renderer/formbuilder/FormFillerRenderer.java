@@ -47,13 +47,9 @@ public class FormFillerRenderer extends Renderer {
         FormFiller formFillerIFrame = (FormFiller) component;
         String uuid = UUID.randomUUID().toString();
         ModelApplicationBean.getInstance().putFormData(uuid, formFillerIFrame.getFormData());
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFillerIFrame.getMode());
-        
-        if(formFillerIFrame.getTarget() != null) {
-            formFillerIFrame.getForm().setTarget(formFillerIFrame.getTarget());
-        }
-        
+
         formFillerIFrame.addLoadImage();
     }
 
@@ -61,14 +57,16 @@ public class FormFillerRenderer extends Renderer {
     public void encodeEnd(FacesContext ctx,
             UIComponent component) throws IOException {
         FormFiller formFillerIFrame = (FormFiller) component;
-        if (formFillerIFrame.getMode() != null &&
-            formFillerIFrame.getMode().equals(FormFiller.MODE_FILL)) {
+        if (formFillerIFrame.getMode() != null
+                && formFillerIFrame.getMode().equals(FormFiller.MODE_FILL)) {
             ResponseWriter writer = ctx.getResponseWriter();
-            writer.write("<script type=\"text/javascript\">"
-                    + "$(function(){"
-                    + "$(\"#"+formFillerIFrame.getButtonid()+"\").attr(\"onclick\",\"submitForm();\");"
-                    + "});"
-                    + "function submitForm() {"
+            writer.write("<script type=\"text/javascript\">");
+            if (formFillerIFrame.getSubmitButtonId() != null) {
+                writer.write("$(function(){"
+                        + "$(\"#" + formFillerIFrame.getSubmitButtonId() + "\").attr(\"onclick\",\"submitForm();\");"
+                        + "});");
+            }
+            writer.write("function submitForm() {"
                     + "  var iframe = document.getElementById('" + formFillerIFrame.getIFrame().getId() + "');"
                     + "  var innerDoc = iframe.contentDocument || iframe.contentWindow.document;"
                     + "  $(innerDoc).find(\".btn\").click();"

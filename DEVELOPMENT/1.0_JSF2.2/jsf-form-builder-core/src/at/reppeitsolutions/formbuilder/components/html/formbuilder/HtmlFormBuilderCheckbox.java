@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
@@ -39,8 +40,7 @@ public class HtmlFormBuilderCheckbox extends HtmlFormBuilderItem {
             select.getChildren().add(item);
         }
 
-        if (getMode() != null
-                && getMode().equals(FormFiller.MODE_VIEW)) {
+        if (isDisabled()) {
             select.setDisabled(true);
         }
         if (value != null) {
@@ -50,8 +50,7 @@ public class HtmlFormBuilderCheckbox extends HtmlFormBuilderItem {
             select.setId(getDataUuid());
         }
 
-        HtmlOutputText output = new HtmlOutputText();
-        output.setValue(properties.getLabel());
+        HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         addLabeledComponent(output, select, "");
     }

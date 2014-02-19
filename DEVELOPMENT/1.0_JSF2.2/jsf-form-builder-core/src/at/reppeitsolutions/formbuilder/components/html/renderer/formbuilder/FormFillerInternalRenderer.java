@@ -69,12 +69,25 @@ public class FormFillerInternalRenderer extends Renderer {
         if (formModel != null) {
             List<FormBuilderContainer> components = new ArrayList<>();
 
+            boolean mandatoryError = false;
+
             if (formModel.getData() != null) {
                 for (FormBuilderItemData item : formModel.getData()) {
-                    if (!item.getFormBuilderItem().getSkipRendering()) {
+                    if (!item.getFormBuilderItem().getSkipRendering()
+                            && item.getFormBuilderItem().getProperties().getVisible()) {
                         components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode())));
+                        if (item.getFormBuilderItem().getProperties().getMandatoryError()) {
+                            mandatoryError = true;
+                            item.getFormBuilderItem().getProperties().setMandatoryError(false);
+                        }
                     }
                 }
+            }
+
+            if (mandatoryError) {
+                writer.write("<script type=\"text/javascript\">$(function(){$(\"#mandatoryError\").show();});</script>");
+            } else {
+                writer.write("<script type=\"text/javascript\">$(function(){$(\"#mandatoryError\").hide();});</script>");
             }
 
             for (FormBuilderContainer comp : components) {
@@ -146,7 +159,7 @@ public class FormFillerInternalRenderer extends Renderer {
     @Override
     public void decode(FacesContext ctx, UIComponent component) {
         FormFillerInternal formFiller = (FormFillerInternal) component;
-        formFiller.setInvokeCallback(true);
+        boolean fillError = false;
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
 
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(FormBuilderInternalRenderer.getFormContentStringId(component));
@@ -196,12 +209,17 @@ public class FormFillerInternalRenderer extends Renderer {
                             if (data.getFormBuilderItem() instanceof FormBuilderItemNumber) {
                                 if (result.size() == 1) {
                                     try {
-                                        if(!"".equals(result.get(0).trim())) {
+                                        if (!"".equals(result.get(0).trim())) {
                                             data.setNumberValue(Float.parseFloat(result.get(0).replaceAll(",", ".")));
                                         }
-                                    } catch(NumberFormatException ex) {
+                                    } catch (NumberFormatException ex) {
                                         throw new NumberFormatException("Internal error with number component. Number not parseable.");
                                     }
+                                }
+                                if (data.getFormBuilderItem().getProperties().getMandatory()
+                                        && data.getNumberValue() == null) {
+                                    fillError = true;
+                                    data.getFormBuilderItem().getProperties().setMandatoryError(true);
                                 }
                             } else {
                                 if (result.size() == 1) {
@@ -214,11 +232,22 @@ public class FormFillerInternalRenderer extends Renderer {
                                     }
                                     data.setValue(tmp.substring(0, tmp.length() - 1));
                                 }
+                                if (data.getFormBuilderItem().getProperties().getMandatory()
+                                        && (data.getValue() == null
+                                        || "".equals(data.getValue().trim()))) {
+                                    fillError = true;
+                                    data.getFormBuilderItem().getProperties().setMandatoryError(true);
+                                }
                             }
                         }
                     }
                 }
             }
+            //Check every field if it is filled
+        }
+
+        if (!fillError) {
+            formFiller.setInvokeCallback(true);
         }
     }
 
