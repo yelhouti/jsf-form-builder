@@ -50,8 +50,7 @@ public class FormBuilderRenderer extends Renderer {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formBuilder.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
 
-        formBuilder.getCallbackButton().setAction(formBuilder.getAction());
-        FormBuilderInternalRenderer.getHtmlForm(component).getChildren().add(formBuilder.getCallbackButton());
+        formBuilder.getCallbackButton().setActionExpression(formBuilder.getActionExpression());
 
         formBuilder.addLoadImage();
     }
