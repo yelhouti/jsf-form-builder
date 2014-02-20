@@ -52,18 +52,20 @@ public class FormFillerPdfRenderer extends Renderer {
     public static final String FAMILY = "at.rits.pdf";
 
     public FormFillerPdfRenderer() {
+        
     }
 
     @Override
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
         PdfResponseWriter writer = (PdfResponseWriter) FacesContext.getCurrentInstance().getResponseWriter();
-        Document document = writer.getOpenTag().getDocument();
+        Document document = writer.getDocument();
         FormFillerPdf formFiller = (FormFillerPdf) component;
         FormData formModel = formFiller.getModel();
+        encodePdf(formModel, document);
+    }
 
-
-
+    public void encodePdf(FormData formModel, Document document) {
         try {
             if (formModel != null) {
                 ITextOuterTable outerTable = new ITextOuterTable();
@@ -120,14 +122,6 @@ public class FormFillerPdfRenderer extends Renderer {
         } catch (DocumentException ex) {
             Logger.getLogger(FormFillerPdfRenderer.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-
-    
-    private PdfPCell getCell() {
-        PdfPCell cell = new PdfPCell();
-        cell.setPadding(0);
-        return cell;
     }
 
 }
