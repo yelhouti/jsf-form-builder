@@ -16,15 +16,11 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
-import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.behavior.AjaxBehavior;
-import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlForm;
 
 /**
@@ -36,7 +32,6 @@ import javax.faces.component.html.HtmlForm;
     @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css"),
     @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
 public class FormFiller extends FormFillerComponentBase {
@@ -54,7 +49,7 @@ public class FormFiller extends FormFillerComponentBase {
     public void init() {
         setMode(MODE_FILL);
         addCallbackButton();
-        addIFrame("795px");
+        addIFrame(795);
     }
 
     public HtmlForm getForm() {

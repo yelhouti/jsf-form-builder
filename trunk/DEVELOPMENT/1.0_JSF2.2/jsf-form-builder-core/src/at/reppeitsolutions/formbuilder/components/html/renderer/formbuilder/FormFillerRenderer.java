@@ -52,8 +52,6 @@ public class FormFillerRenderer extends Renderer {
         formFiller.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFiller.getMode());
 
         formFiller.getCallbackButton().setActionExpression(formFiller.getActionExpression());
-
-        formFiller.addLoadImage();
     }
 
     @Override
