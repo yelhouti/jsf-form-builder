@@ -15,204 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var count = 1;
-
-function setHtmlFormBuilderSpanProperty(id, property, value) {
-    $("#" + id).attr(property, value);
-    updateForm();
-}
-
-function openDialog(id) {
-    //TODO why this does not work with $("#" + $("#" + id).attr("diagid")).dialog("open");
-    $(".dialog").each(function() {
-        if ($(this).attr("id") === $("#" + id).attr("diagid")) {
-            $(this).dialog("open");
-        }
-    });
-}
-
-function downloadFile(formdatauuid) {
-    document.getElementById(formActionString_).value = "download";
-    document.getElementById(formContentString_).value = formdatauuid;
-    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
-            window.location.reload();
-        }});
-}
-
-function deleteItem(id) {
-    showLoadImage();
-    document.getElementById(formActionString_).value = "delete";
-    document.getElementById(formContentString_).value = id;
-    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
-            initJQuery();
-            hideLoadImage();
-        }});
-}
-
-function hideLoadImage() {
-    $("#ajaxReload").hide();
-}
-
-function showLoadImage() {
-    $("#ajaxReload").show();
-}
-
-function initNumbers() {
-    $('.number').keydown(function(event) {
-        // Allow special chars + arrows 
-        if (event.keyCode === 46 || event.keyCode === 8 || event.keyCode === 9
-                || event.keyCode === 27 || event.keyCode === 13
-                || (event.keyCode === 65 && event.ctrlKey === true)
-                || (event.keyCode >= 35 && event.keyCode <= 39)
-                || (event.keyCode === 188)) {
-            if (event.keyCode === 188 && $(this).val().indexOf(",") !== -1) {
-                event.preventDefault();
-            } else {
-                return;
-            }
-        } else {
-            // If it's not a number stop the keypress
-            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
-                event.preventDefault();
-            }
-        }
-    });
-}
-
-function initJQuery() {
-    $(".dialog").dialog({
-        resizable: false,
-        draggable: false,
-        autoOpen: false,
-        modal: true,
-        width: 450,
-        title: document.getElementById(formid_ + ":prop-dialog-header").value
-    });
-    $(".commandButton").button();
-    initDatepicker();
-    initTimepicker();
-    initNumbers();
-}
-
-function initDatepicker() {
-    $(".datepicker").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: "dd.mm.yy"
-    });
-}
-
-function initTimepicker() {
-    $(".timepicker").timepicker({
-        timeFormat: 'H:i'
-    });
-}
-
-function saveProperties(itemid) {
-    var json = "{";
-    json += "\"itemId\":\"" + itemid + "\",";
-    json += "\"updates\":[";
-    $(".property-" + itemid).each(function() {
-        json += "{";
-        json += "\"method\":\"" + $(this).attr("method") + "\",";
-        var value = "";
-        if ($(this).val() === "on") {
-            value = $(this).prop("checked");
-        } else {
-            value = $(this).val();
-        }
-        json += "\"value\":\"" + value + "\"";
-        json += "},";
-    });
-    json = json.substr(0, json.length - 1);
-    json += "]";
-    json += "}";
-    $(".dialog").remove();
-    editForm(json);
-}
-
-function editForm(json) {
-    showLoadImage();
-    document.getElementById(formActionString_).value = "edit";
-    document.getElementById(formContentString_).value = json;
-    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
-            initJQuery();
-            hideLoadImage();
-        }});
-}
-
-function updateForm() {
-    showLoadImage();
-    $(".dialog").remove();
-    document.getElementById(formActionString_).value = "update";
-    document.getElementById(formContentString_).value = getJson(formContent_);
-    updateFormajaxRequest();
-}
-
-function updateFormajaxRequest() {
-    window.jsf.ajax.request(formid_, null, {
-        render: formid_,
-        onevent: function() {
-            initJQuery();
-            hideLoadImage();
-        },
-        onerror: function(error) {
-            alert(error.errorMessage);
-            //TODO not saved changes get lost
-            window.location.reload();
-        }
-    });
-}
-
-function getJson() {
-    var pos = 0;
-    var json = "";
-    var sep = "<seperator>";
-    $("#" + formContent_ + " li span").each(function(index) {
-        json += "{";
-        json += "\"position\":\"" + pos + "\",";
-        pos++;
-        var attributes = $(this).listAttributes();
-        var properties_prefix = "properties_";
-        var properties = "\"properties\":{";
-        var properties_added = false;
-        for (var i = 0; i < attributes.length; i++) {
-            if (attributes[i] !== "position" && attributes[i] !== "onclick" && attributes[i].indexOf(properties_prefix) === -1) {
-                try {
-                    json += "\"" + attributes[i] + "\":\"" + $(this).attr(attributes[i]) + "\",";
-                } catch (ex) {
-
-                }
-            }
-            if (attributes[i].indexOf(properties_prefix) === 0) {
-                try {
-                    if ($(this).attr(attributes[i]) !== "null") {
-                        properties += ("\"" + attributes[i].substr(properties_prefix.length, attributes[i].length) + "\":\"" + $(this).attr(attributes[i]) + "\",");
-                        properties_added = true;
-                    }
-                } catch (ex) {
-
-                }
-            }
-        }
-        json = json.substr(0, json.length - 1);
-        properties = properties.substr(0, properties.length - 1);
-        properties += "}";
-        if (properties_added) {
-            json += "," + properties;
-        }
-        json += "}" + sep;
-    });
-    json = json.substr(0, json.length - sep.length);
-    return json;
-}
-
+/*
+ * -----------------------------------------------------------------------------
+ * Variables
+ * -----------------------------------------------------------------------------
+ */
 var formActionString_;
 var formContentString_;
 var formid_;
 var formContent_;
+var count = 1;
 
-function initDownloadable(formid, formActionString, formContentString) {
+/*
+ * -----------------------------------------------------------------------------
+ * Init methods
+ * -----------------------------------------------------------------------------
+ */
+
+function initFormFiller(formid, formActionString, formContentString) {
     formid_ = formid;
     formActionString_ = formActionString;
     formContentString_ = formContentString;
@@ -221,7 +41,7 @@ function initDownloadable(formid, formActionString, formContentString) {
     initNumbers();
 }
 
-function initDraggable(formid, palette, formContent, formActionString, formContentString, formActiveTabString) {
+function initFormBuilder(formid, palette, formContent, formActionString, formContentString, formActiveTabString) {
     showLoadImage();
     formid_ = formid;
     var palettes = palette.split(";");
@@ -297,3 +117,225 @@ function initDraggable(formid, palette, formContent, formActionString, formConte
     hideLoadImage();
     initJQuery();
 }
+
+/*
+ * -----------------------------------------------------------------------------
+ * Init helper methods
+ * -----------------------------------------------------------------------------
+ */
+
+function initNumbers() {
+    $('.number').keydown(function(event) {
+        // Allow special chars + arrows 
+        if (event.keyCode === 46 || event.keyCode === 8 || event.keyCode === 9
+                || event.keyCode === 27 || event.keyCode === 13
+                || (event.keyCode === 65 && event.ctrlKey === true)
+                || (event.keyCode >= 35 && event.keyCode <= 39)
+                || (event.keyCode === 188)) {
+            if (event.keyCode === 188 && $(this).val().indexOf(",") !== -1) {
+                event.preventDefault();
+            } else {
+                return;
+            }
+        } else {
+            // If it's not a number stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                event.preventDefault();
+            }
+        }
+    });
+}
+
+function initJQuery() {
+    $(".dialog").dialog({
+        resizable: false,
+        draggable: false,
+        autoOpen: false,
+        modal: true,
+        width: 450,
+        title: document.getElementById(formid_ + ":prop-dialog-header").value
+    });
+    $(".commandButton").button();
+    initDatepicker();
+    initTimepicker();
+    initNumbers();
+}
+
+function initDatepicker() {
+    $(".datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd.mm.yy"
+    });
+}
+
+function initTimepicker() {
+    $(".timepicker").timepicker({
+        timeFormat: 'H:i'
+    });
+}
+
+
+/*
+ * -----------------------------------------------------------------------------
+ * Submit methods
+ * -----------------------------------------------------------------------------
+ */
+
+function downloadFile(formdatauuid) {
+    document.getElementById(formActionString_).value = "download";
+    document.getElementById(formContentString_).value = formdatauuid;
+    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
+            window.location.reload();
+        }});
+}
+
+function deleteItem(id) {
+    showLoadImage();
+    document.getElementById(formActionString_).value = "delete";
+    document.getElementById(formContentString_).value = id;
+    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
+            initJQuery();
+            hideLoadImage();
+        }});
+}
+
+/*
+ * Called if the size of a component changes.
+ */
+function editForm(json) {
+    showLoadImage();
+    document.getElementById(formActionString_).value = "edit";
+    document.getElementById(formContentString_).value = json;
+    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
+            initJQuery();
+            hideLoadImage();
+        }});
+}
+
+/*
+ * Called if a new component is added or order of components change.
+ */
+function updateForm() {
+    showLoadImage();
+    $(".dialog").remove();
+    document.getElementById(formActionString_).value = "update";
+    document.getElementById(formContentString_).value = getFormJson();
+    window.jsf.ajax.request(formid_, null, {
+        render: formid_,
+        onevent: function() {
+            initJQuery();
+            hideLoadImage();
+        },
+        onerror: function(error) {
+            alert(error.errorMessage);
+            //TODO not saved changes get lost
+            window.location.reload();
+        }
+    });
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * Submit helper methods
+ * -----------------------------------------------------------------------------
+ */
+
+/*
+ * Builds json from the whole form. Is used when a component is added or the
+ * order of the components changes. 
+ */
+function getFormJson() {
+    var pos = 0;
+    var json = "";
+    var sep = "<seperator>";
+    $("#" + formContent_ + " li span").each(function(index) {
+        json += "{";
+        json += "\"position\":\"" + pos + "\",";
+        pos++;
+        var attributes = $(this).listAttributes();
+        var properties_prefix = "properties_";
+        var properties = "\"properties\":{";
+        var properties_added = false;
+        for (var i = 0; i < attributes.length; i++) {
+            if (attributes[i] !== "position" && attributes[i] !== "onclick" && attributes[i].indexOf(properties_prefix) === -1) {
+                try {
+                    json += "\"" + attributes[i] + "\":\"" + $(this).attr(attributes[i]) + "\",";
+                } catch (ex) {
+
+                }
+            }
+            if (attributes[i].indexOf(properties_prefix) === 0) {
+                try {
+                    if ($(this).attr(attributes[i]) !== "null") {
+                        properties += ("\"" + attributes[i].substr(properties_prefix.length, attributes[i].length) + "\":\"" + $(this).attr(attributes[i]) + "\",");
+                        properties_added = true;
+                    }
+                } catch (ex) {
+
+                }
+            }
+        }
+        json = json.substr(0, json.length - 1);
+        properties = properties.substr(0, properties.length - 1);
+        properties += "}";
+        if (properties_added) {
+            json += "," + properties;
+        }
+        json += "}" + sep;
+    });
+    json = json.substr(0, json.length - sep.length);
+    return json;
+}
+
+/*
+ * Method is called when a form components property dialog is saved.
+ */
+function saveProperties(itemid) {
+    var json = "{";
+    json += "\"itemId\":\"" + itemid + "\",";
+    json += "\"updates\":[";
+    $(".property-" + itemid).each(function() {
+        json += "{";
+        json += "\"method\":\"" + $(this).attr("method") + "\",";
+        var value = "";
+        if ($(this).val() === "on") {
+            value = $(this).prop("checked");
+        } else {
+            value = $(this).val();
+        }
+        json += "\"value\":\"" + value + "\"";
+        json += "},";
+    });
+    json = json.substr(0, json.length - 1);
+    json += "]";
+    json += "}";
+    $(".dialog").remove();
+    editForm(json);
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * Helper methods
+ * -----------------------------------------------------------------------------
+ */
+
+function hideLoadImage() {
+    $("#ajaxReload").hide();
+}
+
+function showLoadImage() {
+    $("#ajaxReload").show();
+}
+
+function openDialog(id) {
+    //TODO why this does not work with $("#" + $("#" + id).attr("diagid")).dialog("open");
+    $(".dialog").each(function() {
+        if ($(this).attr("id") === $("#" + id).attr("diagid")) {
+            $(this).dialog("open");
+        }
+    });
+}
+
+
+
