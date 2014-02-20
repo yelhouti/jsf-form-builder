@@ -10,12 +10,6 @@
 <project name="jsf-form-builder-extensions-pdf" default="default" basedir=".">
     <description>Builds, tests, and runs the project jsf-form-builder-extensions-pdf.</description>
     <import file="nbproject/build-impl.xml"/>
-    
-    <target name="-post-jar">
-        <copy file="dist/jsf-form-builder-extensions-pdf.jar" todir="../jsf-form-builder-example-dev/lib/" force="true" />
-        <copy file="dist/jsf-form-builder-extensions-pdf.jar" todir="/home/reppe/NetBeansProjects/jsf-form-builder-demo/lib/" force="true" />
-        <copy file="dist/jsf-form-builder-extensions-pdf.jar" todir="/home/reppe/NetBeansProjects/jsf-form-builder-gettingstarted/lib/" force="true" />
-    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
