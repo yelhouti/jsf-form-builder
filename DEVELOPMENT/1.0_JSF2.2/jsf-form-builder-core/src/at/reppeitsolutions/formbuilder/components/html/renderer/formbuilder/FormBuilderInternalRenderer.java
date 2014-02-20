@@ -33,6 +33,7 @@ import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdate;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdateHolder;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
+import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,8 +72,10 @@ public class FormBuilderInternalRenderer extends Renderer {
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
         HtmlForm form = getHtmlForm(formBuilder);
         form.setTransient(true);
-        formBuilder.getPalette().setTransient(true);
-        formBuilder.getPalette().setId(form.getId() + "palette" + UUID.randomUUID().toString());
+        for(HtmlUnorderedList palette : formBuilder.getPalettes()) {
+            palette.setTransient(true);
+            palette.setId(form.getId() + "palette" + UUID.randomUUID().toString());
+        }
         formBuilder.getFormContent().setTransient(true);
         formBuilder.getFormContent().setId(form.getId() + "formContent" + UUID.randomUUID().toString());
 
@@ -120,14 +123,21 @@ public class FormBuilderInternalRenderer extends Renderer {
         ResponseWriter writer = ctx.getResponseWriter();
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
         HtmlForm form = getHtmlForm(formBuilder);
-
+        
+        String paletteIds = "";
+        for(HtmlUnorderedList palette : formBuilder.getPalettes()) {
+            paletteIds += palette.getId() + ";";
+        }
+        paletteIds = paletteIds.substring(0, paletteIds.length() - 1);
+        
         writer.write("<script type=\"text/javascript\">"
                 + "$(function(){"
                 + "initDraggable(\"" + form.getClientId() + "\","
-                + "\"" + formBuilder.getPalette().getId() + "\","
+                + "\"" + paletteIds + "\","
                 + "\"" + formBuilder.getFormContent().getId() + "\","
                 + "\"" + getFormActionStringId(component) + "\","
-                + "\"" + getFormContentStringId(component) + "\""
+                + "\"" + getFormContentStringId(component) + "\","
+                + "\"" + getFormActiveTabStringId(component) + "\""
                 + ");"
                 + "});"
                 + "</script>");
@@ -347,6 +357,10 @@ public class FormBuilderInternalRenderer extends Renderer {
             throw new IOException("formBuilder must be inside a h:form tag");
         }
         return form;
+    }
+    
+    public static String getFormActiveTabStringId(UIComponent component) {
+        return getForm(component).getId() + Constants.sep + FormBuilderInternal.FORMACTIVETABSTRING;
     }
 
     public static String getFormActionStringId(UIComponent component) {
