@@ -359,12 +359,13 @@ public class FormBuilderInternalRenderer extends Renderer {
 
     private void addPlaceholder(FormBuilderInternal formBuilder) {
         HtmlOutputText placeholderText = new HtmlOutputText();
-        placeholderText.setValue("drop here");
+        placeholderText.setValue(Messages.getStringJSF("emptyform.info"));
 
         HtmlListItem placeholder = new HtmlListItem();
         placeholder.setClassString("placeholder");
         placeholder.getChildren().add(placeholderText);
         placeholder.setTransient(true);
+        placeholder.setStyle("border: 0px solid black;font-size: 10pt;");
 
         formBuilder.getFormContent().getChildren().add(placeholder);
     }
