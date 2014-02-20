@@ -23,6 +23,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlForm;
 
@@ -47,29 +48,13 @@ public class FormFiller extends FormFillerComponentBase {
     
     public FormFiller() {
         setRendererType(FormFillerRenderer.RENDERTYPE);
-        iframe = new HtmlIFrame();
-        iframe.setStyle("width: 795px;");
-        iframe.setBorder(0);
-        iframe.setScrolling(false);
-        iframe.setId("iframe" + UUID.randomUUID().toString());
-        
-        form = new HtmlForm();
-        form.setEnctype("multipart/form-data");
-        
-        HtmlCommandButton submit = new HtmlCommandButton();
-        submit.setStyleClass("btn");
-        submit.setStyle("display:none;");
-        submit.setValue("Submit out of IFrame");
-        
-        form.getChildren().add(iframe);
-        form.getChildren().add(submit);
-        
-        getChildren().add(form);
     }
     
     @PostConstruct
     public void init() {
         setMode(MODE_FILL);
+        addCallbackButton();
+        addIFrame("795px");
     }
 
     public HtmlForm getForm() {

@@ -16,12 +16,15 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import static at.reppeitsolutions.formbuilder.components.FormFiller.MODE_FILL;
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderRenderer;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.html.HtmlCommandButton;
 
@@ -36,44 +39,21 @@ import javax.faces.component.html.HtmlCommandButton;
     @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css"),
     @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
-public class FormBuilder extends FormBuilderComponentBase  {
-    
-    private HtmlCommandButton callbackButton;
-    private AjaxBehavior ajax;
-    
+public class FormBuilder extends FormBuilderComponentBase {
+
     public FormBuilder() {
         setRendererType(FormBuilderRenderer.RENDERTYPE);
-        
-        iframe = new HtmlIFrame();
-        iframe.setStyle("width: 1040px;");
-        iframe.setBorder(0);
-        iframe.setScrolling(false);
-        iframe.setId("iframe" + UUID.randomUUID().toString());
-        getChildren().add(iframe);
-               
-        callbackButton = new HtmlCommandButton();
-        callbackButton.setId("callbackbutton");
-        ajax = new AjaxBehavior();
-        callbackButton.addClientBehavior("action", ajax);
-        callbackButton.setStyle("display:none;");
-        getChildren().add(callbackButton);
     }
 
-    public HtmlCommandButton getCallbackButton() {
-        return callbackButton;
-    }
-
-    public AjaxBehavior getAjax() {
-        return ajax;
-    }
-
-    public void setAjax(AjaxBehavior ajax) {
-        this.ajax = ajax;
+    @PostConstruct
+    public void init() {
+        addCallbackButton();
+        addIFrame("1040px");
     }
 
     @Override
     public String getFamily() {
         return FormBuilderRenderer.FAMILY;
     }
-    
+
 }
