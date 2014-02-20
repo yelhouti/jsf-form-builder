@@ -93,6 +93,7 @@ public class PdfResponseWriter extends ResponseWriter {
             throw new IOException(ex);
         }
         document.open();
+        document.newPage();
         openTag = new ITextOpenTag(document);
         openTag.setTag(document);
     }

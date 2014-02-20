@@ -17,17 +17,17 @@
 package at.reppeitsolutions.formbuilder.components.pdf;
 
 import at.reppeitsolutions.formbuilder.components.Constants;
-import at.reppeitsolutions.formbuilder.components.FormComponent;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.components.FormFillerComponentBase;
 import javax.faces.component.FacesComponent;
 import at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder.FormFillerPdfRenderer;
+import at.reppeitsolutions.formbuilder.model.FormData;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE_PDF, tagName = "formFillerPdf")
-public class FormFillerPdf extends FormComponent {
+public class FormFillerPdf extends FormFillerComponentBase {
     
     public FormFillerPdf() {
         setRendererType(FormFillerPdfRenderer.RENDERTYPE);

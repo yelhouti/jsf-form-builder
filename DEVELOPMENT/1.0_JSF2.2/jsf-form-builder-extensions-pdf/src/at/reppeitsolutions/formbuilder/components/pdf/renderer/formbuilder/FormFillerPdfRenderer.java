@@ -20,8 +20,6 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfPCell;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -36,6 +34,9 @@ import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOut
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextParagraph;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfRenderKit;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfResponseWriter;
+import at.reppeitsolutions.formbuilder.messages.Messages;
+import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
+import at.reppeitsolutions.formbuilder.model.FormData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ public class FormFillerPdfRenderer extends Renderer {
                 ITextOuterTableCell outputCell;
                 ITextOuterTableCell dummyCell = null;
 
-                if (formModel.getData() != null) {
+                if (formModel.getData() != null && !formModel.getData().isEmpty()) {
                     List<FormBuilderItemData> items = formModel.getData();
                     int halfwidthcount = 0;
                     for (int i = 0; i < items.size(); ++i) {
@@ -109,6 +110,8 @@ public class FormFillerPdfRenderer extends Renderer {
                             outerTable = new ITextOuterTable();
                         }
                     }
+                } else {
+                    document.add(new Paragraph(Messages.getStringJSF("pdf.empty")));
                 }
                 document.add(outerTable);
             } else {
