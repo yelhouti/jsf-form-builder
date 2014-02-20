@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormFiller;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import java.io.IOException;
@@ -50,6 +51,8 @@ public class FormFillerRenderer extends Renderer {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formFiller.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFiller.getMode());
 
+        formFiller.getCallbackButton().setActionExpression(formFiller.getActionExpression());
+
         formFiller.addLoadImage();
     }
 
@@ -72,7 +75,7 @@ public class FormFillerRenderer extends Renderer {
                     + "  $(innerDoc).find(\".btn\").click();"
                     + "} "
                     + "function submitParentForm() {"
-                    + "  $(\".btn\").click();"
+                    + "  document.getElementById(\"" + FormBuilderInternalRenderer.getHtmlForm(component).getId() + Constants.sep + formFiller.getCallbackButton().getId() + "\").click();"
                     + "}");
         }
         writer.write("$(function(){regIframe('" + formFiller.getIFrame().getId() + "');});"

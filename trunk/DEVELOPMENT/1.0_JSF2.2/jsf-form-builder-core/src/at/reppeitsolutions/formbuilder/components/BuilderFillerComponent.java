@@ -18,8 +18,11 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UICommand;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -30,15 +33,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class BuilderFillerComponent extends UICommand {
     
+    protected HtmlCommandButton callbackButton;
     protected HtmlUnorderedList formContent;
     protected HtmlIFrame iframe;
     
     @PostConstruct
     public void initBase() {
         setInvokeCallback(false);
-        if(iframe != null) {
-            iframe.setOnload("document.getElementById('loadImg').style.display='none';");
-        }
     }
     
     /*
@@ -52,12 +53,35 @@ public abstract class BuilderFillerComponent extends UICommand {
         getChildren().add(loadImage);
     }
     
+    protected void addIFrame(String width) {
+        iframe = new HtmlIFrame();
+        iframe.setStyle("width: " + width + ";");
+        iframe.setBorder(0);
+        iframe.setScrolling(false);
+        iframe.setId("iframe" + UUID.randomUUID().toString());
+        iframe.setOnload("document.getElementById('loadImg').style.display='none';");
+        getChildren().add(iframe);
+    }
+
+    protected void addCallbackButton() {
+        callbackButton = new HtmlCommandButton();
+        callbackButton.setId("callbackbutton");
+        callbackButton.addClientBehavior("action", new AjaxBehavior());
+        callbackButton.setStyle("display:none;");
+        callbackButton.setValue("callback button");
+        getChildren().add(callbackButton);
+    }
+    
     public HtmlUnorderedList getFormContent() {
         return formContent;
     }
     
     public HtmlIFrame getIFrame() {
         return iframe;
+    }
+    
+    public HtmlCommandButton getCallbackButton() {
+        return callbackButton;
     }
     
     public boolean getInvokeCallback() {
