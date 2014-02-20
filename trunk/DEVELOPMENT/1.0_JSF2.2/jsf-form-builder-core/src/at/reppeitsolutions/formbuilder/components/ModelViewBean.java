@@ -23,7 +23,6 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -35,6 +34,7 @@ public class ModelViewBean implements Serializable {
 
     private String uuid;
     private String mode;
+    @ManagedProperty(value = "#{modelApplicationBean}")
     ModelApplicationBean modelApplicationBean;
     
     public ModelViewBean() {
@@ -43,8 +43,8 @@ public class ModelViewBean implements Serializable {
     
     @PreDestroy
     public void preDestroy() {
-        getModelApplicationBean().destroyForm(uuid);
-        getModelApplicationBean().destroyFormData(uuid);
+        modelApplicationBean.destroyForm(uuid);
+        modelApplicationBean.destroyFormData(uuid);
     }
     
     public void save() {
@@ -52,21 +52,21 @@ public class ModelViewBean implements Serializable {
     }
     
     public Form getForm() {
-        return getModelApplicationBean().getForm(uuid);
+        return modelApplicationBean.getForm(uuid);
     } 
     
     //Just for ide to restore session after deploy
     private void setForm(Form form) {
-        getModelApplicationBean().putForm(uuid, form);
+        modelApplicationBean.putForm(uuid, form);
     }
     
     public FormData getFormData() {
-        return getModelApplicationBean().getFormData(uuid);
+        return modelApplicationBean.getFormData(uuid);
     }
     
     //Just for ide to restore session after deploy
     private void setFormData(FormData formdata) {
-        getModelApplicationBean().putFormData(uuid, formdata);
+        modelApplicationBean.putFormData(uuid, formdata);
     }
 
     public String getUuid() {
@@ -86,10 +86,6 @@ public class ModelViewBean implements Serializable {
     }
 
     public ModelApplicationBean getModelApplicationBean() {
-        if(modelApplicationBean == null) {
-            FacesContext ctx = FacesContext.getCurrentInstance();
-            modelApplicationBean = (ModelApplicationBean) ctx.getApplication().evaluateExpressionGet(ctx, "#{modelApplicationBean}", ModelApplicationBean.class);
-        }
         return modelApplicationBean;
     }
 

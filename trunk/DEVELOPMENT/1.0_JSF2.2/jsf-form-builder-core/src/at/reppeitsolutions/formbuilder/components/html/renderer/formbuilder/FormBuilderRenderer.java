@@ -44,16 +44,16 @@ public class FormBuilderRenderer extends Renderer {
     @Override
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
-        FormBuilder formBuilderIFrame = (FormBuilder) component;
+        FormBuilder formBuilder = (FormBuilder) component;
         String uuid = UUID.randomUUID().toString();
-        ModelApplicationBean.getInstance().putForm(uuid, formBuilderIFrame.getForm());
+        ModelApplicationBean.getInstance().putForm(uuid, formBuilder.getForm());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        formBuilderIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
+        formBuilder.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
 
-        formBuilderIFrame.getCallbackButton().setAction(formBuilderIFrame.getAction());
-        FormBuilderInternalRenderer.getHtmlForm(component).getChildren().add(formBuilderIFrame.getCallbackButton());
+        formBuilder.getCallbackButton().setAction(formBuilder.getAction());
+        FormBuilderInternalRenderer.getHtmlForm(component).getChildren().add(formBuilder.getCallbackButton());
 
-        formBuilderIFrame.addLoadImage();
+        formBuilder.addLoadImage();
     }
 
     @Override
