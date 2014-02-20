@@ -49,6 +49,7 @@ import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlInputHidden;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import java.util.Locale;
 
 /**
  *
@@ -69,15 +70,18 @@ import at.reppeitsolutions.formbuilder.messages.Messages;
     @ResourceDependency(library = "formbuilder", name = "formbuilder.css")})
 public class FormBuilderInternal extends FormBuilderComponentBase {
 
-    private List<HtmlFormBuilderItem> components = new ArrayList<>();
-    private HtmlUnorderedList palette;
     public static final String FORMACTIONSTRING = "formActionString";
     public static final String FORMCONTENTSTRING = "formContentString";
+    public static final String FORMACTIVETABSTRING = "formActiveTabString";
+    private List<HtmlUnorderedList> palettes = new ArrayList<>();
+
+    private enum COMPONENT_CATEGORY {
+        INPUT, OUTPUT, FORMAT, WORKFLOW
+    }
 
     public FormBuilderInternal() {
         setRendererType(FormBuilderInternalRenderer.RENDERTYPE);
 
-        initPalette();
         initFormBuilder();
 
         HtmlInputHidden formActionString = new HtmlInputHidden();
@@ -88,48 +92,57 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         formContentString.setValue("");
         formContentString.setId(FORMCONTENTSTRING);
         
+        HtmlInputHidden formActiveTabString = new HtmlInputHidden();
+        formActiveTabString.setValue("0");
+        formActiveTabString.setId(FORMACTIVETABSTRING);
+
         HtmlInputHidden propDialogHeader = new HtmlInputHidden();
         propDialogHeader.setValue(Messages.getStringJSF("dialog.header"));
         propDialogHeader.setId("prop-dialog-header");
-        
-        HtmlDiv holder = new HtmlDiv(); 
+
+        HtmlDiv holder = new HtmlDiv();
         holder.setId("holder");
-        
+
         holder.getChildren().add(formActionString);
         holder.getChildren().add(formContentString);
+        holder.getChildren().add(formActiveTabString);
         holder.getChildren().add(propDialogHeader);
-        
+
         HtmlDiv accordion = new HtmlDiv();
         accordion.setId("accordion");
-        
-        HtmlHeading heading = new HtmlHeading();
-        heading.setSize(3);
-        heading.setValue(Messages.getStringJSF("menu.palette"));
-        HtmlDiv paletteDiv = new HtmlDiv();
-        paletteDiv.getChildren().add(palette);
-        accordion.getChildren().add(heading);
-        accordion.getChildren().add(paletteDiv);
-        
+
+        for(COMPONENT_CATEGORY category : COMPONENT_CATEGORY.values()) {
+            HtmlHeading heading = new HtmlHeading();
+            heading.setSize(3);
+            heading.setValue(Messages.getStringJSF("menu.palette." + category.name()));
+            HtmlDiv paletteDiv = new HtmlDiv();
+            HtmlUnorderedList palette = getPalette(category);
+            palettes.add(palette);
+            paletteDiv.getChildren().add(palette);
+            accordion.getChildren().add(heading);
+            accordion.getChildren().add(paletteDiv);
+        }
+
         HtmlDiv accordionHolder = new HtmlDiv();
         accordionHolder.setId("accordionHolder");
-        
+
         HtmlDiv ajaxReload = new HtmlDiv();
         ajaxReload.setId("ajaxReload");
         accordionHolder.getChildren().add(ajaxReload);
         accordionHolder.getChildren().add(accordion);
-        
+
         holder.getChildren().add(accordionHolder);
-        
+
         HtmlDiv contentHolder = new HtmlDiv();
         contentHolder.setId("contentHolder");
         contentHolder.getChildren().add(formContent);
-        
+
         holder.getChildren().add(contentHolder);
-        
+
         getChildren().add(holder);
-        
+
         HtmlDiv div = new HtmlDiv();
-        div.setStyle("clear:both;");        
+        div.setStyle("clear:both;");
         getChildren().add(div);
     }
 
@@ -138,38 +151,44 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         return FormBuilderInternalRenderer.FAMILY;
     }
 
-    public HtmlUnorderedList getPalette() {
-        return palette;
+    public List<HtmlUnorderedList> getPalettes() {
+        return palettes;
     }
 
-    private void initPalette() {
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemHeading(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemLabel(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemHorizonalRule(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemSpace(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemImage(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDownload(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemFormatArea(true)));
-        
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemInput(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTextarea(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemNumber(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDate(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTime(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemUpload(true)));
-        
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemSelect(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemRadio(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemCheckbox(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemListbox(true)));
-        
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemConstraint(true)));
-        components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemPagebreak(true)));
+    private HtmlUnorderedList getPalette(COMPONENT_CATEGORY category) {
+        List<HtmlFormBuilderItem> components = new ArrayList<>();
 
-        palette = new HtmlUnorderedList();
+        if (category == COMPONENT_CATEGORY.OUTPUT) {
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemHeading(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemLabel(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemImage(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDownload(true)));
+        } else if (category == COMPONENT_CATEGORY.INPUT) {
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemInput(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTextarea(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemNumber(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemDate(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemTime(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemUpload(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemSelect(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemRadio(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemCheckbox(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemListbox(true)));
+        } else if (category == COMPONENT_CATEGORY.FORMAT) {
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemHorizonalRule(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemSpace(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemFormatArea(true)));
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemPagebreak(true)));
+        } else if (category == COMPONENT_CATEGORY.WORKFLOW) {
+            components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemConstraint(true)));
+        }
+
+        HtmlUnorderedList palette = new HtmlUnorderedList();
         palette.setClassString("connectedSortable sortable1");
 
         JQueryHelper.encasulateForJQuery(palette, components);
+
+        return palette;
     }
 
     private void initFormBuilder() {

@@ -210,7 +210,6 @@ function getJson() {
 var formActionString_;
 var formContentString_;
 var formid_;
-var palette_;
 var formContent_;
 
 function initDownloadable(formid, formActionString, formContentString) {
@@ -222,23 +221,29 @@ function initDownloadable(formid, formActionString, formContentString) {
     initNumbers();
 }
 
-function initDraggable(formid, palette, formContent, formActionString, formContentString) {
+function initDraggable(formid, palette, formContent, formActionString, formContentString, formActiveTabString) {
     showLoadImage();
     formid_ = formid;
-    palette_ = palette;
+    var palettes = palette.split(";");
     formContent_ = formContent;
     formActionString_ = formActionString;
     formContentString_ = formContentString;
 
     $("#accordion").accordion({
-        heightStyle: "content"
+        heightStyle: "content",
+        active: parseInt(document.getElementById(formActiveTabString).value),
+        activate: function() {
+            document.getElementById(formActiveTabString).value = $("#accordion").accordion("option","active");
+        }
     });
 
-    $("#" + palette_ + " li").draggable({
-        appendTo: "body",
-        helper: "clone",
-        cursor: "move"
-    });
+    for(var i = 0; i < palettes.length; i++) {
+        $("#" + palettes[i] + " li").draggable({
+            appendTo: "body",
+            helper: "clone",
+            cursor: "move"
+        });
+    }
 
     $("#" + formContent_).droppable({
         activeClass: "ui-state-highlight",
