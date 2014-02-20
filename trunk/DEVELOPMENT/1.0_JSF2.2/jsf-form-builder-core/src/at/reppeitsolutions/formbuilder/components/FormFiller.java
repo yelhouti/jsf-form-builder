@@ -16,7 +16,6 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormFillerRenderer;
 import java.util.UUID;
@@ -33,9 +32,11 @@ import javax.faces.component.html.HtmlForm;
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formFiller")
 @ResourceDependencies(value = {
+    @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-ui-1.10.3.custom.min.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
+    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css"),
+    @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
 public class FormFiller extends FormFillerComponentBase {
     
@@ -47,7 +48,7 @@ public class FormFiller extends FormFillerComponentBase {
     public FormFiller() {
         setRendererType(FormFillerRenderer.RENDERTYPE);
         iframe = new HtmlIFrame();
-        iframe.setStyle("width: 795px; height: 625px;");
+        iframe.setStyle("width: 795px;");
         iframe.setBorder(0);
         iframe.setScrolling(false);
         iframe.setId("iframe" + UUID.randomUUID().toString());

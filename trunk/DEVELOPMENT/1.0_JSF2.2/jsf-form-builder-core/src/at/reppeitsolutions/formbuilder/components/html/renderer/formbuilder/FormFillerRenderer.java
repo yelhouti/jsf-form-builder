@@ -44,38 +44,39 @@ public class FormFillerRenderer extends Renderer {
     @Override
     public void encodeBegin(FacesContext ctx,
             UIComponent component) throws IOException {
-        FormFiller formFillerIFrame = (FormFiller) component;
+        FormFiller formFiller = (FormFiller) component;
         String uuid = UUID.randomUUID().toString();
-        ModelApplicationBean.getInstance().putFormData(uuid, formFillerIFrame.getFormData());
+        ModelApplicationBean.getInstance().putFormData(uuid, formFiller.getFormData());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        formFillerIFrame.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFillerIFrame.getMode());
+        formFiller.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFiller.getMode());
 
-        formFillerIFrame.addLoadImage();
+        formFiller.addLoadImage();
     }
 
     @Override
     public void encodeEnd(FacesContext ctx,
             UIComponent component) throws IOException {
-        FormFiller formFillerIFrame = (FormFiller) component;
-        if (formFillerIFrame.getMode() != null
-                && formFillerIFrame.getMode().equals(FormFiller.MODE_FILL)) {
-            ResponseWriter writer = ctx.getResponseWriter();
-            writer.write("<script type=\"text/javascript\">");
-            if (formFillerIFrame.getSubmitButtonId() != null) {
+        FormFiller formFiller = (FormFiller) component;
+        ResponseWriter writer = ctx.getResponseWriter();
+        writer.write("<script type=\"text/javascript\">");
+        if (formFiller.getMode() != null
+                && formFiller.getMode().equals(FormFiller.MODE_FILL)) {
+            if (formFiller.getSubmitButtonId() != null) {
                 writer.write("$(function(){"
-                        + "$(\"#" + formFillerIFrame.getSubmitButtonId() + "\").attr(\"onclick\",\"submitForm();\");"
+                        + "$(\"#" + formFiller.getSubmitButtonId() + "\").attr(\"onclick\",\"submitForm();\");"
                         + "});");
             }
             writer.write("function submitForm() {"
-                    + "  var iframe = document.getElementById('" + formFillerIFrame.getIFrame().getId() + "');"
+                    + "  var iframe = document.getElementById('" + formFiller.getIFrame().getId() + "');"
                     + "  var innerDoc = iframe.contentDocument || iframe.contentWindow.document;"
                     + "  $(innerDoc).find(\".btn\").click();"
                     + "} "
                     + "function submitParentForm() {"
                     + "  $(\".btn\").click();"
-                    + "}"
-                    + "</script>");
+                    + "}");
         }
+        writer.write("$(function(){regIframe('" + formFiller.getIFrame().getId() + "');});"
+                + "</script>");
     }
 
     @Override

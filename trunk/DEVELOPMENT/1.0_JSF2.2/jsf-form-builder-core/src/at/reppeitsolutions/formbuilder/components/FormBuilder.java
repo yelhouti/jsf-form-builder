@@ -18,6 +18,7 @@ package at.reppeitsolutions.formbuilder.components;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderRenderer;
+import java.util.UUID;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
@@ -31,7 +32,9 @@ import javax.faces.component.html.HtmlCommandButton;
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formBuilder")
 @ResourceDependencies(value = {
     @ResourceDependency(library = "javax.faces", name = "jsf.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css")
+    @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
+    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css"),
+    @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
 public class FormBuilder extends FormBuilderComponentBase  {
     
@@ -42,9 +45,10 @@ public class FormBuilder extends FormBuilderComponentBase  {
         setRendererType(FormBuilderRenderer.RENDERTYPE);
         
         iframe = new HtmlIFrame();
-        iframe.setStyle("width: 1040px; height: 700px;");//height: 620px;");
+        iframe.setStyle("width: 1040px;");
         iframe.setBorder(0);
         iframe.setScrolling(false);
+        iframe.setId("iframe" + UUID.randomUUID().toString());
         getChildren().add(iframe);
                
         callbackButton = new HtmlCommandButton();
