@@ -58,12 +58,13 @@ public class FormBuilderRenderer extends Renderer {
     @Override
     public void encodeEnd(FacesContext ctx,
             UIComponent component) throws IOException {
-        FormBuilder formBuilderIFrame = (FormBuilder) component;
+        FormBuilder formBuilder = (FormBuilder) component;
         ResponseWriter writer = ctx.getResponseWriter();
         writer.write("<script type=\"text/javascript\">"
                 + "function buffer() {"
-                + "document.getElementById(\"" + FormBuilderInternalRenderer.getHtmlForm(component).getId() + Constants.sep + formBuilderIFrame.getCallbackButton().getId() + "\").click();"
+                + "document.getElementById(\"" + FormBuilderInternalRenderer.getHtmlForm(component).getId() + Constants.sep + formBuilder.getCallbackButton().getId() + "\").click();"
                 + "}"
+                + "$(function(){regIframe('" + formBuilder.getIFrame().getId() + "');});"
                 + "</script>");
     }
 }
