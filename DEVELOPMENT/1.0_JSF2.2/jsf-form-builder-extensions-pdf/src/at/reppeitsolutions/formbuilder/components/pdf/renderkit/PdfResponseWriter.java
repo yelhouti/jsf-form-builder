@@ -19,7 +19,6 @@ package at.reppeitsolutions.formbuilder.components.pdf.renderkit;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextOpenTag;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -40,7 +39,6 @@ public class PdfResponseWriter extends ResponseWriter {
     String contentType = "application/pdf";
     Document document;
     FacesContext facesContext;
-    ITextOpenTag openTag;
 
     public PdfResponseWriter(String characterEncoding) {
         this.characterEncoding = characterEncoding;
@@ -84,23 +82,12 @@ public class PdfResponseWriter extends ResponseWriter {
         response.setContentType(contentType);
         response.setHeader("Content-Disposition", "inline; filename=\"" + UUID.randomUUID().toString() + ".pdf" + "\"");
         OutputStream browserStream = response.getOutputStream();
-
-        document = new Document();
-
-        try {
-            PdfWriter.getInstance(document, browserStream);
-        } catch (DocumentException ex) {
-            throw new IOException(ex);
-        }
-        document.open();
-        document.newPage();
-        openTag = new ITextOpenTag(document);
-        openTag.setTag(document);
+        startDocumentInternal(browserStream);
     }
 
     @Override
     public void endDocument() throws IOException {
-        document.close();
+        endDocumentInternal();
         facesContext.responseComplete();
     }
 
@@ -153,8 +140,24 @@ public class PdfResponseWriter extends ResponseWriter {
         
     }
 
-    public ITextOpenTag getOpenTag() {
-        return openTag;
+    public Document getDocument() {
+        return document;
+    }
+
+    public void startDocumentInternal(OutputStream outputStream) throws IOException {
+        document = new Document();
+
+        try {
+            PdfWriter.getInstance(document, outputStream);
+        } catch (DocumentException ex) {
+            throw new IOException(ex);
+        }
+        document.open();
+        document.newPage();
+    }
+
+    public void endDocumentInternal() {
+        document.close();
     }
     
 }
