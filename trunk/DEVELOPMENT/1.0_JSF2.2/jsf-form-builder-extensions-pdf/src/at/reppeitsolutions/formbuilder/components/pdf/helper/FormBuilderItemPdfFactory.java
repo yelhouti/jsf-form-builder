@@ -16,10 +16,9 @@
  */
 package at.reppeitsolutions.formbuilder.components.pdf.helper;
 
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
 import com.lowagie.text.Element;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItem;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderCheckbox;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderSelect;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderHeading;
@@ -34,6 +33,7 @@ import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilder
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderTextarea;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderUpload;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 
 /**
  *
@@ -45,11 +45,11 @@ public abstract class FormBuilderItemPdfFactory {
         return getUIPdfComponent(data.getFormBuilderItem(), data);
     }
 
-    public static Element getUIPdfComponent(FormBuilderItem item) {
+    public static Element getUIPdfComponent(FormBuilderItemBase item) {
         return getUIPdfComponent(item, null);
     }
 
-    public static Element getUIPdfComponent(FormBuilderItem item, FormBuilderItemData data) {
+    public static Element getUIPdfComponent(FormBuilderItemBase item, FormBuilderItemData data) {
         String type = item.getFormbuildertype();
         PdfFormBuilderItem comp;
         boolean skipPropertiesCopy = false;
