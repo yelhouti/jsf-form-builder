@@ -120,7 +120,7 @@ public class FormFillerInternalRenderer extends Renderer {
         HtmlForm form = FormBuilderInternalRenderer.getHtmlForm(formFiller);
         writer.write("<script type=\"text/javascript\">"
                 + "$(function(){"
-                + "initDownloadable(\"" + form.getClientId() + "\","
+                + "initFormFiller(\"" + form.getClientId() + "\","
                 + "\"" + FormBuilderInternalRenderer.getFormActionStringId(component) + "\","
                 + "\"" + FormBuilderInternalRenderer.getFormContentStringId(component) + "\""
                 + ");"

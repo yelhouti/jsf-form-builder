@@ -132,7 +132,7 @@ public class FormBuilderInternalRenderer extends Renderer {
         
         writer.write("<script type=\"text/javascript\">"
                 + "$(function(){"
-                + "initDraggable(\"" + form.getClientId() + "\","
+                + "initFormBuilder(\"" + form.getClientId() + "\","
                 + "\"" + paletteIds + "\","
                 + "\"" + formBuilder.getFormContent().getId() + "\","
                 + "\"" + getFormActionStringId(component) + "\","
