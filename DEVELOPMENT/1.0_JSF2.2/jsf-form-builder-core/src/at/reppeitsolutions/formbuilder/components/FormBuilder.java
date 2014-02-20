@@ -16,17 +16,11 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import static at.reppeitsolutions.formbuilder.components.FormFiller.MODE_FILL;
-import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderRenderer;
-import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponent;
-import javax.faces.component.behavior.AjaxBehavior;
-import javax.faces.component.html.HtmlCommandButton;
 
 /**
  *
@@ -36,7 +30,6 @@ import javax.faces.component.html.HtmlCommandButton;
 @ResourceDependencies(value = {
     @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
-    @ResourceDependency(library = "formbuilder", name = "formbuilderiframe.css"),
     @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
 public class FormBuilder extends FormBuilderComponentBase {
@@ -48,7 +41,7 @@ public class FormBuilder extends FormBuilderComponentBase {
     @PostConstruct
     public void init() {
         addCallbackButton();
-        addIFrame("1040px");
+        addIFrame(1040);
     }
 
     @Override

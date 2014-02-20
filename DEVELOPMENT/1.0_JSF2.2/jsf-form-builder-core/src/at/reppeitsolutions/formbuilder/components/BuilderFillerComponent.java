@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlIFrame;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
 import java.util.UUID;
@@ -32,35 +33,39 @@ import javax.servlet.http.HttpServletRequest;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public abstract class BuilderFillerComponent extends UICommand {
-    
+
     protected HtmlCommandButton callbackButton;
     protected HtmlUnorderedList formContent;
     protected HtmlIFrame iframe;
-    
+
     @PostConstruct
     public void initBase() {
         setInvokeCallback(false);
     }
-    
+
     /*
-     * Call only from renderer
+     * @param width: width in pixel
      */
-    public void addLoadImage() {
+    protected void addIFrame(int width) {
+        HtmlDiv div = new HtmlDiv();
+        div.setStyle("margin:0;padding:0;position:relative;width:" + width + "px;");
+
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HtmlOutputText loadImage = new HtmlOutputText();
         loadImage.setEscape(false);
-        loadImage.setValue("<div id=\"loadImg\"><img width=\"50px\" height=\"50px\" src=\"" + request.getContextPath() + "/javax.faces.resource/formbuilder/images/ajaxReload.gif.xhtml\" /></div>");
-        getChildren().add(loadImage);
-    }
-    
-    protected void addIFrame(String width) {
+        loadImage.setValue("<div id=\"loadImg\" style=\"position:absolute; left: " + (width / 2 - 25) + "px; top: 200px;\">"
+                + "<img width=\"50px\" height=\"50px\" src=\"" + request.getContextPath() + "/javax.faces.resource/formbuilder/images/ajaxReload.gif.xhtml\" />"
+                + "</div>");
+        div.getChildren().add(loadImage);
+
         iframe = new HtmlIFrame();
-        iframe.setStyle("width: " + width + ";");
+        iframe.setStyle("width: " + width + "px;");
         iframe.setBorder(0);
         iframe.setScrolling(false);
         iframe.setId("iframe" + UUID.randomUUID().toString());
         iframe.setOnload("document.getElementById('loadImg').style.display='none';");
-        getChildren().add(iframe);
+        div.getChildren().add(iframe);
+        getChildren().add(div);
     }
 
     protected void addCallbackButton() {
@@ -71,19 +76,19 @@ public abstract class BuilderFillerComponent extends UICommand {
         callbackButton.setValue("callback button");
         getChildren().add(callbackButton);
     }
-    
+
     public HtmlUnorderedList getFormContent() {
         return formContent;
     }
-    
+
     public HtmlIFrame getIFrame() {
         return iframe;
     }
-    
+
     public HtmlCommandButton getCallbackButton() {
         return callbackButton;
     }
-    
+
     public boolean getInvokeCallback() {
         return (boolean) getStateHelper().eval("invokeCallback");
     }
@@ -91,5 +96,4 @@ public abstract class BuilderFillerComponent extends UICommand {
     public void setInvokeCallback(boolean invokeCallback) {
         getStateHelper().put("invokeCallback", invokeCallback);
     }
-    
 }

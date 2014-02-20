@@ -51,8 +51,6 @@ public class FormBuilderRenderer extends Renderer {
         formBuilder.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);
 
         formBuilder.getCallbackButton().setActionExpression(formBuilder.getActionExpression());
-
-        formBuilder.addLoadImage();
     }
 
     @Override
