@@ -16,6 +16,8 @@
  */
 package at.reppeitsolutions.formbuilder.components.helper;
 
+import at.reppeitsolutions.formbuilder.components.FormBuilder;
+import at.reppeitsolutions.formbuilder.components.FormBuilderInternal;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
@@ -74,19 +76,29 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_NUMBER = "fbnumber";
     public static final String TYPE_CONSTRAINT = "fbconstraint";
 
-    public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data, String mode) {
-        return getUIComponent(data.getFormBuilderItem(), data, false, mode);
+    public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data,
+            String mode) {
+        return getUIComponent(data.getFormBuilderItem(), data, false, mode, null);
     }
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item) {
-        return getUIComponent(item, null, false, null);
+        return getUIComponent(item, null, false, null, null);
     }
-
+    
     public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item) {
-        return getUIComponent(item, null, true, null);
+        return getUIComponent(item, null, true, null, null);
     }
 
-    private static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item, FormBuilderItemData data, boolean dialog, String mode) {
+    public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item,
+            FormBuilderInternal formBuilderInternal) {
+        return getUIComponent(item, null, true, null, formBuilderInternal);
+    }
+
+    private static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item,
+            FormBuilderItemData data,
+            boolean dialog,
+            String mode,
+            FormBuilderInternal formBuilderInternal) {
         String type = item.getFormbuildertype();
         HtmlFormBuilderSpan res = new HtmlFormBuilderSpan(item);
         HtmlFormBuilderItem comp = null;
@@ -141,7 +153,13 @@ public abstract class FormBuilderItemFactory {
                 comp = new HtmlFormBuilderFormatArea();
                 break;
             case TYPE_CONSTRAINT:
-                comp = new HtmlFormBuilderConstraint();
+                if (formBuilderInternal != null
+                        && formBuilderInternal.getWorkflowStates() != null
+                        && formBuilderInternal.getConstraintClients() != null) {
+                    comp = new HtmlFormBuilderConstraint(formBuilderInternal.getWorkflowStates(), formBuilderInternal.getConstraintClients());
+                } else {
+                    comp = new HtmlFormBuilderConstraint();
+                }
                 break;
             case TYPE_PAGEBREAK:
                 comp = new HtmlFormBuilderPagebreak();
@@ -165,7 +183,7 @@ public abstract class FormBuilderItemFactory {
             } else {
                 comp.setItemUuid(item.getId());
             }
-            if(mode != null) {
+            if (mode != null) {
                 comp.setMode(mode);
             }
             //render html object
