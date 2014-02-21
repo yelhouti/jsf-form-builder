@@ -18,6 +18,7 @@ package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormFiller;
+import at.reppeitsolutions.formbuilder.components.FormFillerAttributesContainer;
 import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import java.io.IOException;
 import java.util.UUID;
@@ -47,7 +48,11 @@ public class FormFillerRenderer extends Renderer {
             UIComponent component) throws IOException {
         FormFiller formFiller = (FormFiller) component;
         String uuid = UUID.randomUUID().toString();
-        ModelApplicationBean.getInstance().putFormData(uuid, formFiller.getFormData());
+        FormFillerAttributesContainer container = new FormFillerAttributesContainer();
+        container.setFormData(formFiller.getFormData());
+        container.setWorkflowState(formFiller.getWorkflowState());
+        container.setConstraintClient(formFiller.getConstraintClient());
+        ModelApplicationBean.getInstance().putFormData(uuid, container);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formFiller.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFiller.getMode());
 

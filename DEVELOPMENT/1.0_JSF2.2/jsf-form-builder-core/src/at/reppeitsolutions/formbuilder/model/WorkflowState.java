@@ -36,6 +36,15 @@ public class WorkflowState implements Serializable {
     private String displayName;
     private String uuid;
 
+    public WorkflowState() {
+        
+    }
+
+    public WorkflowState(String displayName, String uuid) {
+        this.displayName = displayName;
+        this.uuid = uuid;
+    }
+
     public Long getId() {
         return id;
     }

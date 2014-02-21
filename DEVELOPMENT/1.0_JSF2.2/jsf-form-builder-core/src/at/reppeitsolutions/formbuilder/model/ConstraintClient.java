@@ -41,6 +41,15 @@ public class ConstraintClient implements Serializable {
     @OneToMany(mappedBy = "constraintClient")
     private List<Constraint> constraints = new ArrayList<>();
 
+    public ConstraintClient() {
+        
+    }
+
+    public ConstraintClient(String displayName, String uuid) {
+        this.displayName = displayName;
+        this.uuid = uuid;
+    }
+
     public Long getId() {
         return id;
     }

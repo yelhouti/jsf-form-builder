@@ -16,47 +16,42 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
-import java.util.List;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public abstract class FormFillerComponentBase extends BuilderFillerComponent {
+public class FormFillerAttributesContainer {
     
+    private FormData formData;
+    private WorkflowState workflowState;
+    private ConstraintClient constraintClient;
+
     public FormData getFormData() {
-        return (FormData) getStateHelper().eval("formData");
+        return formData;
     }
 
     public void setFormData(FormData formData) {
-        getStateHelper().put("formData", formData);
-    }
-    
-    public WorkflowState getWorkflowState() {
-        return (WorkflowState) getStateHelper().eval("workflowState");
+        this.formData = formData;
     }
 
-    public void setWorkflowState(List<WorkflowState> workflowState) {
-        getStateHelper().put("workflowState", workflowState);
+    public WorkflowState getWorkflowState() {
+        return workflowState;
+    }
+
+    public void setWorkflowState(WorkflowState workflowState) {
+        this.workflowState = workflowState;
     }
 
     public ConstraintClient getConstraintClient() {
-        return (ConstraintClient) getStateHelper().eval("constraintClient");
+        return constraintClient;
     }
 
     public void setConstraintClient(ConstraintClient constraintClient) {
-        getStateHelper().put("constraintClient", constraintClient);
-    }
-    
-    public String getMode() {
-        return (String) getStateHelper().eval("mode");
-    }
-    
-    public void setMode(String mode) {
-        getStateHelper().put("mode", mode);
+        this.constraintClient = constraintClient;
     }
     
 }

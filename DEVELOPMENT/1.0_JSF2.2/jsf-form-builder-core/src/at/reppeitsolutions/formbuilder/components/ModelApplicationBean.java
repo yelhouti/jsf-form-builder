@@ -33,25 +33,25 @@ import javax.faces.context.FacesContext;
 @ApplicationScoped
 public class ModelApplicationBean implements Serializable {
     
-    private Map<String, Form> models = new HashMap<>();
-    private Map<String, FormData> datamodels = new HashMap<>();
+    private Map<String, FormBuilderAttributesContainer> models = new HashMap<>();
+    private Map<String, FormFillerAttributesContainer> datamodels = new HashMap<>();
     
-    public Form getForm(String uuid) {
+    public FormBuilderAttributesContainer getForm(String uuid) {
         return models.get(uuid);
     }
     
-    public FormData getFormData(String uuid) {
+    public FormFillerAttributesContainer getFormData(String uuid) {
         return datamodels.get(uuid);
     }
     
-    public void putForm(String uuid, Form model) {
+    public void putForm(String uuid, FormBuilderAttributesContainer container) {
         destroyForm(uuid);
-        models.put(uuid, model);
+        models.put(uuid, container);
     }
     
-    public void putFormData(String uuid, FormData model) {
+    public void putFormData(String uuid, FormFillerAttributesContainer container) {
         destroyFormData(uuid);
-        datamodels.put(uuid, model);
+        datamodels.put(uuid, container);
     }
     
     public void destroyForm(String uuid) {
