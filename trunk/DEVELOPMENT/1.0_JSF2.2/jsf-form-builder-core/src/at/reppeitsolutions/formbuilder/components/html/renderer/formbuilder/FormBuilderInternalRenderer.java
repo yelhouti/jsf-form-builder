@@ -34,6 +34,7 @@ import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdateHo
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class FormBuilderInternalRenderer extends Renderer {
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
         HtmlForm form = getHtmlForm(formBuilder);
         form.setTransient(true);
-        for(HtmlUnorderedList palette : formBuilder.getPalettes()) {
+        for (HtmlUnorderedList palette : formBuilder.getPalettes()) {
             palette.setTransient(true);
             palette.setId(form.getId() + "palette" + UUID.randomUUID().toString());
         }
@@ -85,8 +86,19 @@ public class FormBuilderInternalRenderer extends Renderer {
             List<FormBuilderContainer> components = new ArrayList<>();
 
             if (formModel.getItems() != null) {
+                String activeConstraint = null;
                 for (FormBuilderItemBase item : formModel.getItems()) {
-                    components.add(new FormBuilderContainer(item, FormBuilderItemFactory.getUIComponentWithDialog(item)));
+                    HtmlFormBuilderItem htmlItem = null;
+                    if (item instanceof FormBuilderItemConstraint && activeConstraint == null) {
+                        htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item, formBuilder);
+                        activeConstraint = item.getId();
+                    } else {
+                        htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item);
+                        if (item instanceof FormBuilderItemConstraint) {
+                            activeConstraint = null;
+                        }
+                    }
+                    components.add(new FormBuilderContainer(item, htmlItem));
                 }
                 if (formModel.getItems().isEmpty()) {
                     addPlaceholder(formBuilder);
@@ -123,13 +135,13 @@ public class FormBuilderInternalRenderer extends Renderer {
         ResponseWriter writer = ctx.getResponseWriter();
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
         HtmlForm form = getHtmlForm(formBuilder);
-        
+
         String paletteIds = "";
-        for(HtmlUnorderedList palette : formBuilder.getPalettes()) {
+        for (HtmlUnorderedList palette : formBuilder.getPalettes()) {
             paletteIds += palette.getId() + ";";
         }
         paletteIds = paletteIds.substring(0, paletteIds.length() - 1);
-        
+
         writer.write("<script type=\"text/javascript\">"
                 + "$(function(){"
                 + "initFormBuilder(\"" + form.getClientId() + "\","
@@ -358,7 +370,7 @@ public class FormBuilderInternalRenderer extends Renderer {
         }
         return form;
     }
-    
+
     public static String getFormActiveTabStringId(UIComponent component) {
         return getForm(component).getId() + Constants.sep + FormBuilderInternal.FORMACTIVETABSTRING;
     }

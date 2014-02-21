@@ -16,7 +16,17 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
+import at.reppeitsolutions.formbuilder.messages.Messages;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.ConstraintType;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
+import java.util.List;
+import java.util.UUID;
+import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlSelectOneMenu;
 
 /**
  *
@@ -24,15 +34,98 @@ import javax.faces.component.html.HtmlOutputText;
  */
 public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
 
+    private List<WorkflowState> workflowStates;
+    private List<ConstraintClient> constraintClients;
+
     public HtmlFormBuilderConstraint() {
+    }
+
+    public HtmlFormBuilderConstraint(List<WorkflowState> workflowStates, List<ConstraintClient> constraintClients) {
+        this.workflowStates = workflowStates;
+        this.constraintClients = constraintClients;
     }
 
     @Override
     public void renderView() {
+        HtmlDiv constraintEditorDiv = new HtmlDiv();
+        constraintEditorDiv.setId("constraintEditor" + UUID.randomUUID().toString());
+        HtmlDiv constraintHeader = new HtmlDiv();
+        constraintHeader.setStyle("text-align: center; border-bottom: 1px solid black;");
         HtmlOutputText output = new HtmlOutputText();
-        output.setValue("<div style=\"text-align: center; border-bottom: 1px solid black;\">" + properties.getValues() + "</div>");
-        output.setEscape(false);
+        output.setValue(properties.getValues());
         output.setTransient(true);
-        getChildren().add(output);
+        constraintHeader.getChildren().add(output);
+        getChildren().add(constraintHeader);
+        if (workflowStates != null && constraintClients != null) {
+            HtmlOutputText show = new HtmlOutputText();
+            show.setEscape(false);
+            String showLinkId = "link" + UUID.randomUUID().toString();
+            String hideLinkId = "link" + UUID.randomUUID().toString();
+            show.setValue("<a id=\"" + showLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').show("
+                    + "{complete:function(){"
+                    + "$('#" + showLinkId + "').hide();"
+                    + "$('#" + hideLinkId + "').show();"
+                    + "}});\">show</a>");
+            HtmlOutputText hide = new HtmlOutputText();
+            hide.setEscape(false);
+            hide.setValue("<a style=\"display:none;\" id=\"" + hideLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').hide("
+                    + "{complete:function(){"
+                    + "$('#" + showLinkId + "').show();"
+                    + "$('#" + hideLinkId + "').hide();"
+                    + "}});\">hide</a>");
+            constraintHeader.getChildren().add(show);
+            constraintHeader.getChildren().add(hide);
+            constraintEditorDiv.setStyle("text-align:center;font-size:10pt;display:none;");
+            output = new HtmlOutputText();
+            output.setEscape(false);
+            output.setValue(Messages.getStringJSF("constraint.info.new") + "<br />");
+            constraintEditorDiv.getChildren().add(output);
+            HtmlPanelGrid panel = new HtmlPanelGrid();
+            panel.setStyle("font-size:10pt;text-align:left;");
+            panel.setColumns(2);
+            output = new HtmlOutputText();
+            output.setValue(Messages.getStringJSF("constraint.info.workflowState"));
+            panel.getChildren().add(output);
+            HtmlSelectOneMenu select = new HtmlSelectOneMenu();
+            for (WorkflowState workflowState : workflowStates) {
+                UISelectItem item = new UISelectItem();
+                item.setItemValue(workflowState.getUuid());
+                item.setItemLabel(workflowState.getDisplayName());
+                select.getChildren().add(item);
+            }
+            panel.getChildren().add(select);
+            output = new HtmlOutputText();
+            output.setEscape(false);
+            output.setValue(Messages.getStringJSF("constraint.info.constraintType"));
+            panel.getChildren().add(output);
+            select = new HtmlSelectOneMenu();
+            for (ConstraintType constraintType : ConstraintType.values()) {
+                if (constraintType != ConstraintType.DEFAULT) {
+                    UISelectItem item = new UISelectItem();
+                    item.setItemValue(constraintType);
+                    item.setItemLabel(Messages.getStringJSF("ConstraintType." + constraintType.name()));
+                    select.getChildren().add(item);
+                }
+            }
+            panel.getChildren().add(select);
+            output = new HtmlOutputText();
+            output.setEscape(false);
+            output.setValue(Messages.getStringJSF("constraint.info.constraintClient"));
+            panel.getChildren().add(output);
+            select = new HtmlSelectOneMenu();
+            for (ConstraintClient constraintClient : constraintClients) {
+                UISelectItem item = new UISelectItem();
+                item.setItemValue(constraintClient.getUuid());
+                item.setItemLabel(constraintClient.getDisplayName());
+                select.getChildren().add(item);
+            }
+            panel.getChildren().add(select);
+            constraintEditorDiv.getChildren().add(panel);
+            output = new HtmlOutputText();
+            output.setEscape(false);
+            output.setValue("<br />" + Messages.getStringJSF("constraint.info.current") + "<br />");
+            constraintEditorDiv.getChildren().add(output);
+            getChildren().add(constraintEditorDiv);
+        }
     }
 }
