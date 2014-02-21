@@ -51,22 +51,22 @@ public class ModelViewBean implements Serializable {
         
     }
     
-    public Form getForm() {
+    public FormBuilderAttributesContainer getFormBuilderAttributesContainer() {
         return modelApplicationBean.getForm(uuid);
     } 
     
     //Just for ide to restore session after deploy
-    private void setForm(Form form) {
-        modelApplicationBean.putForm(uuid, form);
+    private void setFormBuilderAttributesContainer(FormBuilderAttributesContainer container) {
+        modelApplicationBean.putForm(uuid, container);
     }
     
-    public FormData getFormData() {
+    public FormFillerAttributesContainer getFormFillerAttributesContainer() {
         return modelApplicationBean.getFormData(uuid);
     }
     
     //Just for ide to restore session after deploy
-    private void setFormData(FormData formdata) {
-        modelApplicationBean.putFormData(uuid, formdata);
+    private void setFormFillerAttributesContainer(FormFillerAttributesContainer container) {
+        modelApplicationBean.putFormData(uuid, container);
     }
 
     public String getUuid() {

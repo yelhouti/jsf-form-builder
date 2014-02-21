@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,39 +16,48 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
+public class FormBuilderAttributesContainer implements Serializable {
     
+    private Form form;
+    private List<WorkflowState> workflowStates;
+    private List<ConstraintClient> constraintClients;
+
+    public FormBuilderAttributesContainer() {
+        
+    }
+
     public Form getForm() {
-        return (Form) getStateHelper().eval("form");
+        return form;
     }
 
     public void setForm(Form form) {
-        getStateHelper().put("form", form);
+        this.form = form;
     }
-    
+
     public List<WorkflowState> getWorkflowStates() {
-        return (List<WorkflowState>) getStateHelper().eval("workflowStates");
+        return workflowStates;
     }
 
     public void setWorkflowStates(List<WorkflowState> workflowStates) {
-        getStateHelper().put("workflowStates", workflowStates);
+        this.workflowStates = workflowStates;
     }
 
     public List<ConstraintClient> getConstraintClients() {
-        return (List<ConstraintClient>) getStateHelper().eval("constraintClients");
+        return constraintClients;
     }
 
     public void setConstraintClients(List<ConstraintClient> constraintClients) {
-        getStateHelper().put("constraintClients", constraintClients);
+        this.constraintClients = constraintClients;
     }
     
 }

@@ -15,7 +15,10 @@
             </f:metadata>
             <h:form enctype="multipart/form-data">
                 <h:commandButton class="btn" value="Submit in IFrame" action="#{modelViewBean.save()}" style="display: none;" />
-                <r:formFillerInternal formData="#{modelViewBean.formData}" mode="#{modelViewBean.mode}" />
+                <r:formFillerInternal formData="#{modelViewBean.formFillerAttributesContainer.formData}" 
+                                      mode="#{modelViewBean.mode}"
+                                      workflowState="#{modelViewBean.formFillerAttributesContainer.workflowState}" 
+                                      constraintClient="#{modelViewBean.formFillerAttributesContainer.constraintClient}" />
             </h:form>
         </h:body>
     </f:view>
