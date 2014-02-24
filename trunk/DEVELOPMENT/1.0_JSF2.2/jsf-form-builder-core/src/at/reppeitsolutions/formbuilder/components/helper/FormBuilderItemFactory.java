@@ -16,7 +16,6 @@
  */
 package at.reppeitsolutions.formbuilder.components.helper;
 
-import at.reppeitsolutions.formbuilder.components.FormBuilder;
 import at.reppeitsolutions.formbuilder.components.FormBuilderInternal;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
@@ -153,9 +152,7 @@ public abstract class FormBuilderItemFactory {
                 comp = new HtmlFormBuilderFormatArea();
                 break;
             case TYPE_CONSTRAINT:
-                if (formBuilderInternal != null
-                        && formBuilderInternal.getWorkflowStates() != null
-                        && formBuilderInternal.getConstraintClients() != null) {
+                if (formBuilderInternal != null) {
                     comp = new HtmlFormBuilderConstraint(formBuilderInternal.getWorkflowStates(),
                             formBuilderInternal.getConstraintClients(),
                             item.getConstraints());

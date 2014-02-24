@@ -22,7 +22,7 @@ package at.reppeitsolutions.formbuilder.model;
  */
 public enum ConstraintType {
     DEFAULT,
-    READONLY,
     MANDATORY,
+    READONLY,
     INVISIBLE
 }
