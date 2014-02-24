@@ -46,12 +46,11 @@ import javax.persistence.OneToMany;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 @Entity(name = Constants.TABLE_PREFIX + "formitem")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FormBuilderItemBase implements Comparable, Serializable {
-    
+
     public static final String FULLWIDTH = "600px";
     public static final String HALFWIDTH = "300px";
-
     @Id
     private String uuid = UUID.randomUUID().toString();
     protected int position = -1;
@@ -59,13 +58,15 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     protected String className;
     protected String diagid;
     protected String width = FULLWIDTH;
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="form_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "form_id")
     protected Form form;
     @Embedded
     protected FormBuilderItemProperties properties;
     @OneToMany(mappedBy = "formBuilderItem")
     private List<Constraint> constraints = new ArrayList<>();
+    @Transient
+    private String constraintsstring;
     @Transient
     private Map<String, Map> valueTranslations = new HashMap<>();
     @Transient
@@ -74,13 +75,14 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     private Map<String, FormBuilderItemBase.SPECIALPROPERTY> specialProperties = new HashMap<>();
     @Transient
     private FormBuilderItemBase brother;
-    
+
     public enum SPECIALPROPERTY {
+
         TEXTAREA
     }
-    
+
     protected void addValueTranslation(String property, String value, String translation) {
-        if(valueTranslations.containsKey(property)) {
+        if (valueTranslations.containsKey(property)) {
             valueTranslations.get(property).put(value, translation);
         } else {
             Map translations = new HashMap();
@@ -88,15 +90,15 @@ public class FormBuilderItemBase implements Comparable, Serializable {
             valueTranslations.put(property, translations);
         }
     }
-    
+
     protected void addPropertyTranslation(String property, String translation) {
         propertyTranslations.put(property, translation);
     }
-    
+
     protected void addSpecialProperty(String property, SPECIALPROPERTY special) {
         specialProperties.put(property, special);
     }
-    
+
     public void addConstraintClient(ConstraintClient constraintClient, WorkflowState workflowState, ConstraintType constraintType) {
         Constraint constraint = new Constraint();
         constraint.setFormBuilderItem(this);
@@ -105,24 +107,24 @@ public class FormBuilderItemBase implements Comparable, Serializable {
         constraint.setConstraingClientId(constraintClient.getId());
         constraint.setWorkflowState(workflowState);
         constraint.setConstraintType(constraintType);
-        
+
         boolean alreadyAdded = false;
-        for(Constraint tmpConstraint : constraints) {
-            if(tmpConstraint.equals(constraint)) {
+        for (Constraint tmpConstraint : constraints) {
+            if (tmpConstraint.equals(constraint)) {
                 alreadyAdded = true;
                 break;
             }
         }
-        if(!alreadyAdded) {
+        if (!alreadyAdded) {
             this.constraints.add(constraint);
             constraintClient.getConstraints().add(constraint);
         }
     }
-    
+
     public void setForm(Form form) {
         this.form = form;
     }
-    
+
     @IgnoreProperty
     public Form getForm() {
         return form;
@@ -217,7 +219,7 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     public Map<String, FormBuilderItemBase.SPECIALPROPERTY> getSpecialProperties() {
         return specialProperties;
     }
-    
+
     public boolean getSkipRendering() {
         return false;
     }
@@ -240,4 +242,57 @@ public class FormBuilderItemBase implements Comparable, Serializable {
         this.constraints = constraints;
     }
     
+    private static final String sep1 = "<sep1>";
+    private static final String sep2 = "<sep2>";
+
+    public void initConstraintsFromConstraintsString(List<WorkflowState> workflowStates,
+            List<ConstraintClient> constraintClients) {
+        if (constraintsstring != null && !"null".equals(constraintsstring)) {
+            String[] constraintsArray = constraintsstring.split(sep2);
+            for (String constraintString : constraintsArray) {
+                String[] constraintUuids = constraintString.split(sep1);
+                WorkflowState workflowState = null;
+                ConstraintClient constraintClient = null;
+                ConstraintType constraintType = null;
+                for (WorkflowState tmpWorkflowState : workflowStates) {
+                    if (tmpWorkflowState.getUuid().equals(constraintUuids[0])) {
+                        workflowState = tmpWorkflowState;
+                        break;
+                    }
+                }
+                for (ConstraintClient tmpConstraintClient : constraintClients) {
+                    if (tmpConstraintClient.getUuid().equals(constraintUuids[1])) {
+                        constraintClient = tmpConstraintClient;
+                        break;
+                    }
+                }
+                for (ConstraintType tmpConstraintType : ConstraintType.values()) {
+                    if (tmpConstraintType.name().equals(constraintUuids[2])) {
+                        constraintType = tmpConstraintType;
+                        break;
+                    }
+                }
+                addConstraintClient(constraintClient, workflowState, constraintType);
+            }
+        }
+    }
+
+    @IgnorePropertyInDialog
+    public String getConstraintsstring() {
+        if ((constraintsstring == null || "null".equals(constraintsstring))
+                && constraints != null && !constraints.isEmpty()) {
+            constraintsstring = "";
+            for (Constraint constraint : constraints) {
+                constraintsstring += constraint.getWorkflowState().getUuid() + sep1;
+                constraintsstring += constraint.getConstraintClient().getUuid() + sep1;
+                constraintsstring += constraint.getConstraintType().name() + sep2;
+            }
+            constraintsstring = constraintsstring.substring(0, constraintsstring.length() - sep2.length());
+        }
+        return constraintsstring;
+    }
+
+    public void setConstraintsstring(String constraintsstring) {
+        this.constraintsstring = constraintsstring;
+    }
 }
