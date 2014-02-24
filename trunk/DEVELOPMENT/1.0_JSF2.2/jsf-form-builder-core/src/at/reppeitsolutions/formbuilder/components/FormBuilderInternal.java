@@ -27,6 +27,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderIte
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemInput;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemLabel;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemListbox;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemMetaData;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemRadio;
@@ -37,6 +38,7 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderIte
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemUpload;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
 import at.reppeitsolutions.formbuilder.components.helper.JQueryHelper;
+import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlHeading;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
@@ -76,13 +78,17 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
     private List<HtmlUnorderedList> palettes = new ArrayList<>();
 
     private enum COMPONENT_CATEGORY {
-        INPUT, OUTPUT, FORMAT, WORKFLOW
+
+        INPUT, OUTPUT, FORMAT, WORKFLOW, METADATA
     }
 
     public FormBuilderInternal() {
         setRendererType(FormBuilderInternalRenderer.RENDERTYPE);
+    }
 
-        initFormBuilder();
+    public void initFormBuilder() {
+        formContent = new HtmlUnorderedList();
+        formContent.setClassString("connectedSortable sortable2 box-runde-ecken");
 
         HtmlInputHidden formActionString = new HtmlInputHidden();
         formActionString.setValue("update");
@@ -91,7 +97,7 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         HtmlInputHidden formContentString = new HtmlInputHidden();
         formContentString.setValue("");
         formContentString.setId(FORMCONTENTSTRING);
-        
+
         HtmlInputHidden formActiveTabString = new HtmlInputHidden();
         formActiveTabString.setValue("0");
         formActiveTabString.setId(FORMACTIVETABSTRING);
@@ -111,16 +117,19 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         HtmlDiv accordion = new HtmlDiv();
         accordion.setId("accordion");
 
-        for(COMPONENT_CATEGORY category : COMPONENT_CATEGORY.values()) {
-            HtmlHeading heading = new HtmlHeading();
-            heading.setSize(3);
-            heading.setValue(Messages.getStringJSF("menu.palette." + category.name()));
-            HtmlDiv paletteDiv = new HtmlDiv();
-            HtmlUnorderedList palette = getPalette(category);
-            palettes.add(palette);
-            paletteDiv.getChildren().add(palette);
-            accordion.getChildren().add(heading);
-            accordion.getChildren().add(paletteDiv);
+        for (COMPONENT_CATEGORY category : COMPONENT_CATEGORY.values()) {
+            if(category != COMPONENT_CATEGORY.METADATA ||
+               (category == COMPONENT_CATEGORY.METADATA && getMetaDataDescriptions() != null && getMetaDataObject() != null)) {
+                HtmlHeading heading = new HtmlHeading();
+                heading.setSize(3);
+                heading.setValue(Messages.getStringJSF("menu.palette." + category.name()));
+                HtmlDiv paletteDiv = new HtmlDiv();
+                HtmlUnorderedList palette = getPalette(category);
+                palettes.add(palette);
+                paletteDiv.getChildren().add(palette);
+                accordion.getChildren().add(heading);
+                accordion.getChildren().add(paletteDiv);
+            }
         }
 
         HtmlDiv accordionHolder = new HtmlDiv();
@@ -181,6 +190,12 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
             components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemPagebreak(true)));
         } else if (category == COMPONENT_CATEGORY.WORKFLOW) {
             components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemConstraint(true)));
+        } else if (category == COMPONENT_CATEGORY.METADATA &&
+                getMetaDataObject() != null &&
+                getMetaDataDescriptions() != null) {
+            for(MetaDataDescription description : getMetaDataDescriptions()) {
+                components.add(FormBuilderItemFactory.getUIComponent(new FormBuilderItemMetaData(true, description)));
+            }
         }
 
         HtmlUnorderedList palette = new HtmlUnorderedList();
@@ -190,9 +205,5 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
 
         return palette;
     }
-
-    private void initFormBuilder() {
-        formContent = new HtmlUnorderedList();
-        formContent.setClassString("connectedSortable sortable2 box-runde-ecken");
-    }
+    
 }

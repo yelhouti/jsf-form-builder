@@ -56,7 +56,11 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
 
     protected void renderDescription() {
         HtmlOutputText output = new HtmlOutputText();
-        output.setValue(Messages.getStringJSF(this.getClass().getSimpleName()));
+        if(properties.getMetadatadescription()== null) {
+            output.setValue(Messages.getStringJSF(this.getClass().getSimpleName()));
+        } else {
+            output.setValue(properties.getMetadatadescription().replaceAll(":", ""));
+        }
         output.setTransient(true);
         getChildren().add(output);
     }
@@ -90,7 +94,9 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
             div = new HtmlDiv();
             div.setStyle("overflow: hidden;");
             div.getChildren().add(output);
-            output.getPassThroughAttributes().put("style", style);
+            if(style != null) {
+                output.getPassThroughAttributes().put("style", style);
+            }
             getChildren().add(div); 
         }
     }

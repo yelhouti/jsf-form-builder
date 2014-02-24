@@ -19,6 +19,7 @@ package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
+import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ import javax.persistence.Transient;
  */
 @Embeddable
 public class FormBuilderItemProperties implements Serializable {
-    
+
     @Column(columnDefinition = "text")
     private String label;
     @Column(columnDefinition = "text")
@@ -62,13 +63,16 @@ public class FormBuilderItemProperties implements Serializable {
     private Boolean mandatoryError = false;
     @Transient
     private Boolean maximise = false;
+    private String metadatadescription;
+    private String metadatagetter;
     
+
     public void resetConstraintVariables() {
         visible = true;
         locked = false;
         mandatory = false;
     }
-        
+
     public String getLabel() {
         return label;
     }
@@ -77,7 +81,7 @@ public class FormBuilderItemProperties implements Serializable {
         this.label = label;
     }
 
-        public String getValues() {
+    public String getValues() {
         return values;
     }
 
@@ -117,7 +121,7 @@ public class FormBuilderItemProperties implements Serializable {
         this.layout = layout;
     }
 
-        public boolean getRenderDescription() {
+    public boolean getRenderDescription() {
         return renderDescription;
     }
 
@@ -125,10 +129,10 @@ public class FormBuilderItemProperties implements Serializable {
         this.renderDescription = renderDescription;
     }
 
-        public int getLabelLength() {
-        if(labelLength > Constants.MAXLABELLENGTH) {
+    public int getLabelLength() {
+        if (labelLength > Constants.MAXLABELLENGTH) {
             return Constants.MAXLABELLENGTH;
-        } else if(labelLength < Constants.MINLABELLENGTH) {
+        } else if (labelLength < Constants.MINLABELLENGTH) {
             return Constants.MINLABELLENGTH;
         }
         return labelLength + Constants.LABELLENGTHPADDING;
@@ -152,9 +156,9 @@ public class FormBuilderItemProperties implements Serializable {
     }
 
     public void setWidthproperty(Integer widthProperty) {
-        if(widthProperty != null && widthProperty > 100) {
+        if (widthProperty != null && widthProperty > 100) {
             this.widthproperty = new Integer(100);
-        } else if(widthProperty != null && widthProperty < 0) {
+        } else if (widthProperty != null && widthProperty < 0) {
             this.widthproperty = new Integer(0);
         } else {
             this.widthproperty = widthProperty;
@@ -202,7 +206,7 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setVisible(Boolean visible) {
         this.visible = visible;
-        if(!visible) {
+        if (!visible) {
             setMandatory(false);
             setLocked(false);
         }
@@ -215,7 +219,7 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
-        if(locked) {
+        if (locked) {
             setVisible(true);
             setMandatory(false);
         }
@@ -228,7 +232,7 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setMandatory(Boolean mandatory) {
         this.mandatory = mandatory;
-        if(mandatory) {
+        if (mandatory) {
             setVisible(true);
             setLocked(false);
         }
@@ -250,6 +254,24 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setMaximise(Boolean maximise) {
         this.maximise = maximise;
+    }
+
+    @IgnorePropertyInDialog
+    public String getMetadatadescription() {
+        return metadatadescription;
+    }
+
+    public void setMetadatadescription(String metadatadescription) {
+        this.metadatadescription = metadatadescription;
+    }
+
+    @IgnorePropertyInDialog
+    public String getMetadatagetter() {
+        return metadatagetter;
+    }
+
+    public void setMetadatagetter(String metadatagetter) {
+        this.metadatagetter = metadatagetter;
     }
     
 }

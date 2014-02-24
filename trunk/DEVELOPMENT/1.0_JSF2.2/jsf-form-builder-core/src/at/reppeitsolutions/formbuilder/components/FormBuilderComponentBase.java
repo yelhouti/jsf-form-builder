@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
-    
+
     public Form getForm() {
         return (Form) getStateHelper().eval("form");
     }
@@ -34,7 +35,7 @@ public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
     public void setForm(Form form) {
         getStateHelper().put("form", form);
     }
-    
+
     public List<WorkflowState> getWorkflowStates() {
         return (List<WorkflowState>) getStateHelper().eval("workflowStates");
     }
@@ -50,5 +51,20 @@ public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
     public void setConstraintClients(List<ConstraintClient> constraintClients) {
         getStateHelper().put("constraintClients", constraintClients);
     }
+
+    public Object getMetaDataObject() {
+        return getStateHelper().eval("metaDataObject");
+    }
+
+    public void setMetaDataObject(Object metaDataObject) {
+        getStateHelper().put("metaDataObject", metaDataObject);
+    }
     
+    public List<MetaDataDescription> getMetaDataDescriptions() {
+        return (List<MetaDataDescription>) getStateHelper().eval("metaDataDescriptions");
+    }
+    
+    public void setMetaDataDescriptions(List<MetaDataDescription> metaDataDescriptions) {
+        getStateHelper().put("metaDataDescriptions", metaDataDescriptions);
+    }
 }
