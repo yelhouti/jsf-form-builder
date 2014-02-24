@@ -58,9 +58,9 @@ public class FormBuilderBean implements Serializable {
     public static final WorkflowState INIT = new WorkflowState("INIT", UUID.randomUUID().toString());
     public static final WorkflowState FILL = new WorkflowState("FILL", UUID.randomUUID().toString());
     public static final WorkflowState FINISH = new WorkflowState("FINISH", UUID.randomUUID().toString());
-    public static final ConstraintClient REPPE = new ConstraintClient("REPPE", UUID.randomUUID().toString());
-    public static final ConstraintClient JONACH = new ConstraintClient("JONACH", UUID.randomUUID().toString());
-    public static final ConstraintClient ERTLER = new ConstraintClient("ERTLER", UUID.randomUUID().toString());
+    public static final ConstraintClient REPPE = new ConstraintClient("Werner", UUID.randomUUID().toString());
+    public static final ConstraintClient JONACH = new ConstraintClient("Michael", UUID.randomUUID().toString());
+    public static final ConstraintClient ERTLER = new ConstraintClient("Heinz", UUID.randomUUID().toString());
 
     public FormBuilderBean() {
         workflowStates.add(INIT);
