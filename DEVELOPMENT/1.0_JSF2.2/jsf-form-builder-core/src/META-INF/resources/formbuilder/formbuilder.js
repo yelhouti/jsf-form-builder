@@ -238,9 +238,17 @@ function updateForm() {
 function addConstraint(uuid,itemid) {
     var json = "{";
     json += "\"itemUuid\":\"" + itemid + "\",";
-    json += "\"workflowState\":\"" + document.getElementById(formid_ + ":workflowState" + uuid).value + "\",";
+    var ws = "";
+    if(document.getElementById(formid_ + ":workflowState" + uuid) !== null) {
+        ws = document.getElementById(formid_ + ":workflowState" + uuid).value;
+    }
+    json += "\"workflowState\":\"" + ws + "\",";
     json += "\"constraintType\":\"" + document.getElementById(formid_ + ":constraintType" + uuid).value + "\",";
-    json += "\"constraintClient\":\"" + document.getElementById(formid_ + ":constraintClient" + uuid).value + "\"";
+    var cc = "";
+    if(document.getElementById(formid_ + ":constraintClient" + uuid) !== null) {
+        cc = document.getElementById(formid_ + ":constraintClient" + uuid).value;
+    }
+    json += "\"constraintClient\":\"" + cc + "\"";
     json += "}";
     showLoadImage();
     document.getElementById(formActionString_).value = "addconstraint";

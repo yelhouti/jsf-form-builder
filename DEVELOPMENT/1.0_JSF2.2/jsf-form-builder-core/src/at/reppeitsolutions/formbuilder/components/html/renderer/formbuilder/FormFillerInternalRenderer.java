@@ -89,17 +89,23 @@ public class FormFillerInternalRenderer extends Renderer {
                         locked = null;
                     } else if (activeConstraint != null) {
                         for (Constraint constraint : activeConstraint.getConstraints()) {
-                            if (constraint.getWorkflowState().equals(formFiller.getWorkflowState())
-                                    && constraint.getConstraintClient().equals(formFiller.getConstraintClient())) {
-                                if(constraint.getConstraintType() == ConstraintType.INVISIBLE) {
+                            boolean workflowMatch = constraint.getWorkflowState() != null && constraint.getWorkflowState().equals(formFiller.getWorkflowState());
+                            boolean constraintClientMatch = constraint.getConstraintClient() != null && constraint.getConstraintClient().equals(formFiller.getConstraintClient());
+                            boolean workflowNull = constraint.getWorkflowState() == null;
+                            boolean constraintClientNull = constraint.getConstraintClient()== null;
+                            if ((workflowMatch && constraintClientMatch)
+                                    || (constraintClientNull && workflowNull)
+                                    || (workflowMatch && constraintClientNull)
+                                    || (constraintClientMatch && workflowNull)) {
+                                if (constraint.getConstraintType() == ConstraintType.INVISIBLE) {
                                     visible = false;
                                     mandatory = false;
                                     locked = false;
-                                } else if(constraint.getConstraintType() == ConstraintType.MANDATORY) {
+                                } else if (constraint.getConstraintType() == ConstraintType.MANDATORY) {
                                     visible = true;
                                     mandatory = true;
                                     locked = false;
-                                } else if(constraint.getConstraintType() == ConstraintType.READONLY) {
+                                } else if (constraint.getConstraintType() == ConstraintType.READONLY) {
                                     visible = true;
                                     mandatory = false;
                                     locked = true;

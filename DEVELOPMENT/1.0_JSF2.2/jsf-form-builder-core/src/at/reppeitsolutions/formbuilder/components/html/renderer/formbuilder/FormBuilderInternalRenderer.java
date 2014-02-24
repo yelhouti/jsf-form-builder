@@ -61,8 +61,6 @@ import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  *
@@ -371,16 +369,20 @@ public class FormBuilderInternalRenderer extends Renderer {
                                 WorkflowState workflowState = null;
                                 ConstraintClient constraintClient = null;
                                 ConstraintType constraintType = null;
-                                for (WorkflowState tmpWorkflowState : formBuilder.getWorkflowStates()) {
-                                    if (tmpWorkflowState.getUuid().equals(addConstraint.getWorkflowState())) {
-                                        workflowState = tmpWorkflowState;
-                                        break;
+                                if (formBuilder.getWorkflowStates() != null) {
+                                    for (WorkflowState tmpWorkflowState : formBuilder.getWorkflowStates()) {
+                                        if (tmpWorkflowState.getUuid().equals(addConstraint.getWorkflowState())) {
+                                            workflowState = tmpWorkflowState;
+                                            break;
+                                        }
                                     }
                                 }
-                                for (ConstraintClient tmpConstraintClient : formBuilder.getConstraintClients()) {
-                                    if (tmpConstraintClient.getUuid().equals(addConstraint.getConstraintClient())) {
-                                        constraintClient = tmpConstraintClient;
-                                        break;
+                                if (formBuilder.getConstraintClients() != null) {
+                                    for (ConstraintClient tmpConstraintClient : formBuilder.getConstraintClients()) {
+                                        if (tmpConstraintClient.getUuid().equals(addConstraint.getConstraintClient())) {
+                                            constraintClient = tmpConstraintClient;
+                                            break;
+                                        }
                                     }
                                 }
                                 for (ConstraintType tmpConstraintType : ConstraintType.values()) {

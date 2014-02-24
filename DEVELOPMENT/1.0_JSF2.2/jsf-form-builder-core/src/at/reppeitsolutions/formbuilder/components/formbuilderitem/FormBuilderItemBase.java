@@ -102,10 +102,14 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     public void addConstraintClient(ConstraintClient constraintClient, WorkflowState workflowState, ConstraintType constraintType) {
         Constraint constraint = new Constraint();
         constraint.setFormBuilderItem(this);
-        constraint.setConstraintClient(constraintClient);
         constraint.setFormBuilderItemUuid(this.getId());
-        constraint.setConstraingClientId(constraintClient.getId());
-        constraint.setWorkflowState(workflowState);
+        if (constraintClient != null) {
+            constraint.setConstraintClient(constraintClient);
+            constraint.setConstraingClientId(constraintClient.getId());
+        }
+        if (workflowState != null) {
+            constraint.setWorkflowState(workflowState);
+        }
         constraint.setConstraintType(constraintType);
 
         boolean alreadyAdded = false;
@@ -117,7 +121,9 @@ public class FormBuilderItemBase implements Comparable, Serializable {
         }
         if (!alreadyAdded) {
             this.constraints.add(constraint);
-            constraintClient.getConstraints().add(constraint);
+            if (constraintClient != null) {
+                constraintClient.getConstraints().add(constraint);
+            }
         }
     }
 
@@ -241,7 +247,6 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     public void setConstraints(List<Constraint> constraints) {
         this.constraints = constraints;
     }
-    
     private static final String sep1 = "<sep1>";
     private static final String sep2 = "<sep2>";
 
@@ -254,16 +259,20 @@ public class FormBuilderItemBase implements Comparable, Serializable {
                 WorkflowState workflowState = null;
                 ConstraintClient constraintClient = null;
                 ConstraintType constraintType = null;
-                for (WorkflowState tmpWorkflowState : workflowStates) {
-                    if (tmpWorkflowState.getUuid().equals(constraintUuids[0])) {
-                        workflowState = tmpWorkflowState;
-                        break;
+                if (workflowStates != null) {
+                    for (WorkflowState tmpWorkflowState : workflowStates) {
+                        if (tmpWorkflowState.getUuid().equals(constraintUuids[0])) {
+                            workflowState = tmpWorkflowState;
+                            break;
+                        }
                     }
                 }
-                for (ConstraintClient tmpConstraintClient : constraintClients) {
-                    if (tmpConstraintClient.getUuid().equals(constraintUuids[1])) {
-                        constraintClient = tmpConstraintClient;
-                        break;
+                if (constraintClients != null) {
+                    for (ConstraintClient tmpConstraintClient : constraintClients) {
+                        if (tmpConstraintClient.getUuid().equals(constraintUuids[1])) {
+                            constraintClient = tmpConstraintClient;
+                            break;
+                        }
                     }
                 }
                 for (ConstraintType tmpConstraintType : ConstraintType.values()) {
@@ -283,8 +292,16 @@ public class FormBuilderItemBase implements Comparable, Serializable {
                 && constraints != null && !constraints.isEmpty()) {
             constraintsstring = "";
             for (Constraint constraint : constraints) {
-                constraintsstring += constraint.getWorkflowState().getUuid() + sep1;
-                constraintsstring += constraint.getConstraintClient().getUuid() + sep1;
+                String ws = "";
+                if (constraint.getWorkflowState() != null) {
+                    ws = constraint.getWorkflowState().getUuid();
+                }
+                constraintsstring += ws + sep1;
+                String cc = "";
+                if (constraint.getConstraintClient() != null) {
+                    cc = constraint.getConstraintClient().getUuid();
+                }
+                constraintsstring += cc + sep1;
                 constraintsstring += constraint.getConstraintType().name() + sep2;
             }
             constraintsstring = constraintsstring.substring(0, constraintsstring.length() - sep2.length());
