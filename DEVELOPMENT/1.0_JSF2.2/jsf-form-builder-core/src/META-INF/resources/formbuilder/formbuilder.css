@@ -189,6 +189,23 @@ body {
     background-image: url("#{resource['formbuilder/images/info.png']}");
 }
 
+.min, .max {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+}
+
+.min {
+    background-image: url("#{resource['formbuilder/images/dialog-fewer.png']}");
+}
+
+.max {
+    background-image: url("#{resource['formbuilder/images/dialog-more.png']}");
+}
+
 .oddColumn, .oddColumn input, .oddColumn select, .oddColumn textarea {
     width: 100%;
 }

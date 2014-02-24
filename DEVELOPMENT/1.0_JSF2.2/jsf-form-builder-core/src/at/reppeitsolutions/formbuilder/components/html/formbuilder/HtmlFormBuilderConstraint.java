@@ -61,20 +61,22 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
             show.setEscape(false);
             String showLinkId = "link" + UUID.randomUUID().toString();
             String hideLinkId = "link" + UUID.randomUUID().toString();
-            show.setValue("<a id=\"" + showLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').show("
+            show.setValue("<a class=\"max\" "
+                    + "id=\"" + showLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').show("
                     + "{complete:function(){"
                     + "$('#" + showLinkId + "').hide();"
                     + "$('#" + hideLinkId + "').show();"
-                    + "}});\">show</a>");
+                    + "}});\"></a>");
             HtmlOutputText hide = new HtmlOutputText();
             hide.setEscape(false);
-            hide.setValue("<a style=\"display:none;\" id=\"" + hideLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').hide("
+            hide.setValue("<a style=\"display:none;\" class=\"min\""
+                    + "id=\"" + hideLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').hide("
                     + "{complete:function(){"
                     + "$('#" + showLinkId + "').show();"
                     + "$('#" + hideLinkId + "').hide();"
-                    + "}});\">hide</a>");
-            constraintHeader.getChildren().add(show);
-            constraintHeader.getChildren().add(hide);
+                    + "}});\"></a>");
+            getChildren().add(show);
+            getChildren().add(hide);
             constraintEditorDiv.setStyle("text-align:center;font-size:10pt;display:none;");
             output = new HtmlOutputText();
             output.setEscape(false);
