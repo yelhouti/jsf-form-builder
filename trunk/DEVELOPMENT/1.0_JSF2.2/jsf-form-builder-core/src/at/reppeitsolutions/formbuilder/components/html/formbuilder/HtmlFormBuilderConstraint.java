@@ -16,9 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
-import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderInternalRenderer;
 import at.reppeitsolutions.formbuilder.messages.Messages;
 import at.reppeitsolutions.formbuilder.model.Constraint;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
@@ -26,7 +24,6 @@ import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.util.List;
 import java.util.UUID;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
@@ -143,7 +140,7 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
             panel.getChildren().add(empty);
             HtmlOutputText save = new HtmlOutputText();
             save.setEscape(false);
-            save.setValue("<button class=\"commandButton\" href=\"#\" onclick=\"addConstraint('" + getItemUuid() + "','" + getItemUuid() + "');\">"
+            save.setValue("<button href=\"#\" onclick=\"addConstraint('" + getItemUuid() + "','" + getItemUuid() + "');\">"
                     + Messages.getStringJSF("constraint.button.add")
                     + "</button>");
             panel.getChildren().add(save);
@@ -166,7 +163,7 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
                     listPanel.getChildren().add(outputWorkflowState);
                     listPanel.getChildren().add(tmpOutput);
                     tmpOutput = new HtmlOutputText();
-                    tmpOutput.setValue(constraint.getConstraintType().name() + ",");
+                    tmpOutput.setValue(Messages.getStringJSF("ConstraintType." + constraint.getConstraintType().name()) + ",");
                     outputConstraintType = new HtmlOutputText();
                     outputConstraintType.setValue(Messages.getStringJSF("constraint.info.constraintType"));
                     listPanel.getChildren().add(outputConstraintType);

@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.FormFillerInternal;
+import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemConstraint;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
 import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.model.FormData;
@@ -27,6 +28,8 @@ import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
+import at.reppeitsolutions.formbuilder.model.Constraint;
+import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -70,9 +73,47 @@ public class FormFillerInternalRenderer extends Renderer {
             List<FormBuilderContainer> components = new ArrayList<>();
 
             boolean mandatoryError = false;
+            FormBuilderItemConstraint activeConstraint = null;
 
             if (formModel.getData() != null) {
                 for (FormBuilderItemData item : formModel.getData()) {
+                    Boolean visible = null;
+                    Boolean mandatory = null;
+                    Boolean locked = null;
+                    if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint && activeConstraint == null) {
+                        activeConstraint = (FormBuilderItemConstraint) item.getFormBuilderItem();
+                    } else if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint) {
+                        activeConstraint = null;
+                        visible = null;
+                        mandatory = null;
+                        locked = null;
+                    } else if (activeConstraint != null) {
+                        for (Constraint constraint : activeConstraint.getConstraints()) {
+                            if (constraint.getWorkflowState().equals(formFiller.getWorkflowState())
+                                    && constraint.getConstraintClient().equals(formFiller.getConstraintClient())) {
+                                if(constraint.getConstraintType() == ConstraintType.INVISIBLE) {
+                                    visible = false;
+                                    mandatory = false;
+                                    locked = false;
+                                } else if(constraint.getConstraintType() == ConstraintType.MANDATORY) {
+                                    visible = true;
+                                    mandatory = true;
+                                    locked = false;
+                                } else if(constraint.getConstraintType() == ConstraintType.READONLY) {
+                                    visible = true;
+                                    mandatory = false;
+                                    locked = true;
+                                }
+                            }
+                        }
+                    }
+                    if (visible != null & mandatory != null && locked != null) {
+                        item.getFormBuilderItem().getProperties().setVisible(visible);
+                        item.getFormBuilderItem().getProperties().setMandatory(mandatory);
+                        item.getFormBuilderItem().getProperties().setLocked(locked);
+                    } else {
+                        item.getFormBuilderItem().getProperties().resetConstraintVariables();
+                    }
                     if (!item.getFormBuilderItem().getSkipRendering()
                             && item.getFormBuilderItem().getProperties().getVisible()) {
                         components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode())));
@@ -93,7 +134,7 @@ public class FormFillerInternalRenderer extends Renderer {
             for (FormBuilderContainer comp : components) {
                 HtmlDiv icons = new HtmlDiv();
                 icons.setClassString("icons");
-                
+
                 addInfoIcon(comp, icons, writer);
 
                 HtmlListItem li = new HtmlListItem();

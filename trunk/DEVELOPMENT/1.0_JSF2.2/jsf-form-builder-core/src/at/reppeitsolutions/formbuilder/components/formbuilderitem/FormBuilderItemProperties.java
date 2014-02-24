@@ -62,6 +62,12 @@ public class FormBuilderItemProperties implements Serializable {
     private Boolean mandatoryError = false;
     @Transient
     private Boolean maximise = false;
+    
+    public void resetConstraintVariables() {
+        visible = true;
+        locked = false;
+        mandatory = false;
+    }
         
     public String getLabel() {
         return label;
