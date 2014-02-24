@@ -92,7 +92,7 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
             getChildren().add(div);
 
             div = new HtmlDiv();
-            div.setStyle("overflow: hidden;");
+            div.setStyle("overflow: hidden;padding-right:6px;");
             div.getChildren().add(output);
             if(style != null) {
                 output.getPassThroughAttributes().put("style", style);

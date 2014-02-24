@@ -18,7 +18,6 @@ package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 
 /**
  *
