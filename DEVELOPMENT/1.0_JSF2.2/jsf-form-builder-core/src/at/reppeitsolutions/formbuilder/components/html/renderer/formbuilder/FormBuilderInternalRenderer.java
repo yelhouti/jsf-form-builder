@@ -217,6 +217,7 @@ public class FormBuilderInternalRenderer extends Renderer {
                                 //End image specific code
                                 FormBuilderItemBase itemBase = (FormBuilderItemBase) o;
                                 itemBase.setPosition(itemBase.getPosition() + positionOffset);
+                                itemBase.initConstraintsFromConstraintsString(formBuilder.getWorkflowStates(), formBuilder.getConstraintClients());
                                 list.add((FormBuilderItemBase) o);
                                 //Start format area specific code
                                 if (o instanceof FormBuilderItemFormatArea || o instanceof FormBuilderItemConstraint) {
@@ -315,9 +316,11 @@ public class FormBuilderInternalRenderer extends Renderer {
                         for (FormBuilderItemBase item : items) {
                             if (item.getId().equals(updateHolder.getItemId())) {
                                 FormBuilderItemFactory.updateFormBuilderItem(item, updateHolder.getUpdates());
-                                if (item instanceof FormBuilderItemFormatArea) {
+                                if (item instanceof FormBuilderItemFormatArea || item instanceof FormBuilderItemConstraint) {
                                     for (FormBuilderItemBase item2 : items) {
-                                        if (item2.getProperties().getBrother().equals(item.getId())) {
+                                        if (item2.getProperties().getBrother() != null
+                                                && (item2 instanceof FormBuilderItemFormatArea || item2 instanceof FormBuilderItemConstraint)
+                                                && item2.getProperties().getBrother().equals(item.getId())) {
                                             Iterator<FormBuilderItemUpdate> updateIter = updateHolder.getUpdates().iterator();
                                             while (updateIter.hasNext()) {
                                                 FormBuilderItemUpdate update = updateIter.next();
@@ -403,14 +406,14 @@ public class FormBuilderInternalRenderer extends Renderer {
                                 boolean deleted = false;
                                 for (Iterator<Constraint> it = tmpItem.getConstraints().iterator(); it.hasNext();) {
                                     Constraint constraint = it.next();
-                                    if(constraint.hashCode() == Integer.parseInt(deleteConstraint.getHashCode())) {
+                                    if (constraint.hashCode() == Integer.parseInt(deleteConstraint.getHashCode())) {
                                         it.remove();
                                         tmpItem.getProperties().setMaximise(Boolean.TRUE);
                                         deleted = true;
                                         break;
                                     }
                                 }
-                                if(deleted) {
+                                if (deleted) {
                                     break;
                                 }
                             }
