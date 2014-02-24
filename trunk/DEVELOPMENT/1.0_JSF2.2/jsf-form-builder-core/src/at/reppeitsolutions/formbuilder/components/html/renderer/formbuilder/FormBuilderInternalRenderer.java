@@ -28,6 +28,8 @@ import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderIte
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemFormatArea;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemImage;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
+import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemAddConstraint;
+import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemDeleteConstraint;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdate;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdateHolder;
@@ -54,7 +56,13 @@ import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import at.reppeitsolutions.formbuilder.model.Constraint;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
+import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import at.reppeitsolutions.formbuilder.model.Form;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  *
@@ -350,6 +358,65 @@ public class FormBuilderInternalRenderer extends Renderer {
                                 break;
                             }
                         }
+                    }
+                    break;
+                case "addconstraint":
+                    try {
+                        FormBuilderItemAddConstraint addConstraint = mapper.readValue(formContentString, FormBuilderItemAddConstraint.class);
+                        for (FormBuilderItemBase tmpItem : formBuilder.getForm().getItems()) {
+                            if (tmpItem.getId().equals(addConstraint.getItemUuid())) {
+                                WorkflowState workflowState = null;
+                                ConstraintClient constraintClient = null;
+                                ConstraintType constraintType = null;
+                                for (WorkflowState tmpWorkflowState : formBuilder.getWorkflowStates()) {
+                                    if (tmpWorkflowState.getUuid().equals(addConstraint.getWorkflowState())) {
+                                        workflowState = tmpWorkflowState;
+                                        break;
+                                    }
+                                }
+                                for (ConstraintClient tmpConstraintClient : formBuilder.getConstraintClients()) {
+                                    if (tmpConstraintClient.getUuid().equals(addConstraint.getConstraintClient())) {
+                                        constraintClient = tmpConstraintClient;
+                                        break;
+                                    }
+                                }
+                                for (ConstraintType tmpConstraintType : ConstraintType.values()) {
+                                    if (tmpConstraintType.name().equals(addConstraint.getConstraintType())) {
+                                        constraintType = tmpConstraintType;
+                                        break;
+                                    }
+                                }
+                                tmpItem.addConstraintClient(constraintClient, workflowState, constraintType);
+                                tmpItem.getProperties().setMaximise(Boolean.TRUE);
+                                break;
+                            }
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(FormBuilderInternalRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case "deleteconstraint":
+                    try {
+                        FormBuilderItemDeleteConstraint deleteConstraint = mapper.readValue(formContentString, FormBuilderItemDeleteConstraint.class);
+                        for (FormBuilderItemBase tmpItem : formBuilder.getForm().getItems()) {
+                            if (tmpItem.getId().equals(deleteConstraint.getItemUuid())) {
+                                boolean deleted = false;
+                                for (Iterator<Constraint> it = tmpItem.getConstraints().iterator(); it.hasNext();) {
+                                    Constraint constraint = it.next();
+                                    if(constraint.hashCode() == Integer.parseInt(deleteConstraint.getHashCode())) {
+                                        it.remove();
+                                        tmpItem.getProperties().setMaximise(Boolean.TRUE);
+                                        deleted = true;
+                                        break;
+                                    }
+                                }
+                                if(deleted) {
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(FormBuilderInternalRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
             }

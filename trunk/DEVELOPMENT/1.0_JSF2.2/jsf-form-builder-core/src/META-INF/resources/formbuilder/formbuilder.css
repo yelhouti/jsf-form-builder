@@ -177,11 +177,17 @@ body {
     margin-right: 2px;
 }
 
+.deleteConstraint {
+    width: 16px; 
+    height: 16px;     
+    cursor: pointer;
+}
+
 .settings {
     background-image: url("#{resource['formbuilder/images/settings.png']}");
 }
 
-.delete {
+.delete, .deleteConstraint {
     background-image: url("#{resource['formbuilder/images/delete.png']}");   
 }
 

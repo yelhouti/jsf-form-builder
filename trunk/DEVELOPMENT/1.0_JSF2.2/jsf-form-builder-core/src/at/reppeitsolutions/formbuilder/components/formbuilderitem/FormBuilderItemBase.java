@@ -106,8 +106,17 @@ public class FormBuilderItemBase implements Comparable, Serializable {
         constraint.setWorkflowState(workflowState);
         constraint.setConstraintType(constraintType);
         
-        this.constraints.add(constraint);
-        constraintClient.getConstraints().add(constraint);
+        boolean alreadyAdded = false;
+        for(Constraint tmpConstraint : constraints) {
+            if(tmpConstraint.equals(constraint)) {
+                alreadyAdded = true;
+                break;
+            }
+        }
+        if(!alreadyAdded) {
+            this.constraints.add(constraint);
+            constraintClient.getConstraints().add(constraint);
+        }
     }
     
     public void setForm(Form form) {

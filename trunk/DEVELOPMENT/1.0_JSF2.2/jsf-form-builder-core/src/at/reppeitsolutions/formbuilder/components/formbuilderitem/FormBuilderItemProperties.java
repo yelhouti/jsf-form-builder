@@ -52,11 +52,16 @@ public class FormBuilderItemProperties implements Serializable {
     private String formatareauuid;
     private Boolean onelinedescription;
     private String description;
+    @Transient
     private Boolean visible = true;
+    @Transient
     private Boolean locked = false;
+    @Transient
     private Boolean mandatory = false;
     @Transient
     private Boolean mandatoryError = false;
+    @Transient
+    private Boolean maximise = false;
         
     public String getLabel() {
         return label;
@@ -230,6 +235,15 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setMandatoryError(Boolean mandatoryError) {
         this.mandatoryError = mandatoryError;
+    }
+
+    @IgnorePropertyInDialog
+    public Boolean getMaximise() {
+        return maximise;
+    }
+
+    public void setMaximise(Boolean maximise) {
+        this.maximise = maximise;
     }
     
 }

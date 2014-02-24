@@ -20,6 +20,7 @@ import at.reppeitsolutions.formbuilder.components.Constants;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -80,6 +81,32 @@ public class ConstraintClient implements Serializable {
 
     public void setConstraints(List<Constraint> constraints) {
         this.constraints = constraints;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ConstraintClient other = (ConstraintClient) obj;
+        if (!Objects.equals(this.displayName, other.displayName)) {
+            return false;
+        }
+        if (!Objects.equals(this.uuid, other.uuid)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.displayName);
+        hash = 79 * hash + Objects.hashCode(this.uuid);
+        return hash;
     }
     
 }
