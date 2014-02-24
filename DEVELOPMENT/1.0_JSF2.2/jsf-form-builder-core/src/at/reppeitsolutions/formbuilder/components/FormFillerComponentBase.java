@@ -59,4 +59,12 @@ public abstract class FormFillerComponentBase extends BuilderFillerComponent {
         getStateHelper().put("mode", mode);
     }
     
+    public Object getMetaDataObject() {
+        return getStateHelper().eval("metaDataObject");
+    }
+
+    public void setMetaDataObject(Object metaDataObject) {
+        getStateHelper().put("metaDataObject", metaDataObject);
+    }
+    
 }

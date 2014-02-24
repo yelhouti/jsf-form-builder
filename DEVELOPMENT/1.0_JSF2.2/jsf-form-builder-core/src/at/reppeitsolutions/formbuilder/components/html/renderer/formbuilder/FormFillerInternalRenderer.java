@@ -122,7 +122,7 @@ public class FormFillerInternalRenderer extends Renderer {
                     }
                     if (!item.getFormBuilderItem().getSkipRendering()
                             && item.getFormBuilderItem().getProperties().getVisible()) {
-                        components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode())));
+                        components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode(), formFiller)));
                         if (item.getFormBuilderItem().getProperties().getMandatoryError()) {
                             mandatoryError = true;
                             item.getFormBuilderItem().getProperties().setMandatoryError(false);

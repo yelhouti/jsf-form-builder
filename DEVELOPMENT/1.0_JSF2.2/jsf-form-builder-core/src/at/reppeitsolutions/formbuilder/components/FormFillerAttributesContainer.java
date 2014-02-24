@@ -29,6 +29,7 @@ public class FormFillerAttributesContainer {
     private FormData formData;
     private WorkflowState workflowState;
     private ConstraintClient constraintClient;
+    private Object metaDataObject;
 
     public FormData getFormData() {
         return formData;
@@ -52,6 +53,14 @@ public class FormFillerAttributesContainer {
 
     public void setConstraintClient(ConstraintClient constraintClient) {
         this.constraintClient = constraintClient;
+    }
+
+    public Object getMetaDataObject() {
+        return metaDataObject;
+    }
+
+    public void setMetaDataObject(Object metaDataObject) {
+        this.metaDataObject = metaDataObject;
     }
     
 }

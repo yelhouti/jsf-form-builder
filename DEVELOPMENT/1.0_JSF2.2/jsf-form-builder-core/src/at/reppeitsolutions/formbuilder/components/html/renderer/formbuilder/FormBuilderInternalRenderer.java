@@ -77,6 +77,7 @@ public class FormBuilderInternalRenderer extends Renderer {
             UIComponent component) throws IOException {
         ResponseWriter writer = ctx.getResponseWriter();
         FormBuilderInternal formBuilder = (FormBuilderInternal) component;
+        formBuilder.initFormBuilder();
         HtmlForm form = getHtmlForm(formBuilder);
         form.setTransient(true);
         for (HtmlUnorderedList palette : formBuilder.getPalettes()) {
@@ -95,11 +96,10 @@ public class FormBuilderInternalRenderer extends Renderer {
                 String activeConstraint = null;
                 for (FormBuilderItemBase item : formModel.getItems()) {
                     HtmlFormBuilderItem htmlItem = null;
+                    htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item, formBuilder);
                     if (item instanceof FormBuilderItemConstraint && activeConstraint == null) {
-                        htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item, formBuilder);
                         activeConstraint = item.getId();
                     } else {
-                        htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item);
                         if (item instanceof FormBuilderItemConstraint) {
                             activeConstraint = null;
                         }

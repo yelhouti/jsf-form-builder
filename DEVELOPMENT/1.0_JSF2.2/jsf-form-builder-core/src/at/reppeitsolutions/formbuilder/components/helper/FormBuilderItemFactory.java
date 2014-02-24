@@ -17,6 +17,7 @@
 package at.reppeitsolutions.formbuilder.components.helper;
 
 import at.reppeitsolutions.formbuilder.components.FormBuilderInternal;
+import at.reppeitsolutions.formbuilder.components.FormFillerInternal;
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
@@ -35,6 +36,7 @@ import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuild
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderInput;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderLabel;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderListbox;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderMetaData;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderNumber;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderPagebreak;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderRadio;
@@ -74,30 +76,33 @@ public abstract class FormBuilderItemFactory {
     public static final String TYPE_DOWNLOAD = "fbdownload";
     public static final String TYPE_NUMBER = "fbnumber";
     public static final String TYPE_CONSTRAINT = "fbconstraint";
+    public static final String TYPE_METADATA = "fbmetadata";
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemData data,
-            String mode) {
-        return getUIComponent(data.getFormBuilderItem(), data, false, mode, null);
+            String mode,
+            FormFillerInternal formFillerInternal) {
+        return getUIComponent(data.getFormBuilderItem(), data, false, mode, null, formFillerInternal);
     }
 
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item) {
-        return getUIComponent(item, null, false, null, null);
+        return getUIComponent(item, null, false, null, null, null);
     }
 
     public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item) {
-        return getUIComponent(item, null, true, null, null);
+        return getUIComponent(item, null, true, null, null, null);
     }
 
     public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item,
             FormBuilderInternal formBuilderInternal) {
-        return getUIComponent(item, null, true, null, formBuilderInternal);
+        return getUIComponent(item, null, true, null, formBuilderInternal, null);
     }
 
     private static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item,
             FormBuilderItemData data,
             boolean dialog,
             String mode,
-            FormBuilderInternal formBuilderInternal) {
+            FormBuilderInternal formBuilderInternal,
+            FormFillerInternal formFillerInternal) {
         String type = item.getFormbuildertype();
         HtmlFormBuilderSpan res = new HtmlFormBuilderSpan(item);
         HtmlFormBuilderItem comp = null;
@@ -165,6 +170,15 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_DOWNLOAD:
                 comp = new HtmlFormBuilderDownload();
+                break;
+            case TYPE_METADATA:
+                if (formBuilderInternal != null) {
+                    comp = new HtmlFormBuilderMetaData(formBuilderInternal.getMetaDataObject());
+                } else if(formFillerInternal != null) {
+                    comp = new HtmlFormBuilderMetaData(formFillerInternal.getMetaDataObject());
+                } else {
+                    comp = new HtmlFormBuilderMetaData();
+                }
                 break;
         }
         if (comp != null) {

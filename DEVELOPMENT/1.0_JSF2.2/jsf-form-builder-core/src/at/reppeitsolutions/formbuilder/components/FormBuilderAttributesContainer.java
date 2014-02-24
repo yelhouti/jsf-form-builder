@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
@@ -31,6 +32,8 @@ public class FormBuilderAttributesContainer implements Serializable {
     private Form form;
     private List<WorkflowState> workflowStates;
     private List<ConstraintClient> constraintClients;
+    private List<MetaDataDescription> metaDataDescriptions;
+    private Object metaDataObject;
 
     public FormBuilderAttributesContainer() {
         
@@ -58,6 +61,22 @@ public class FormBuilderAttributesContainer implements Serializable {
 
     public void setConstraintClients(List<ConstraintClient> constraintClients) {
         this.constraintClients = constraintClients;
+    }
+
+    public List<MetaDataDescription> getMetaDataDescriptions() {
+        return metaDataDescriptions;
+    }
+
+    public void setMetaDataDescriptions(List<MetaDataDescription> metaDataDescriptions) {
+        this.metaDataDescriptions = metaDataDescriptions;
+    }
+
+    public Object getMetaDataObject() {
+        return metaDataObject;
+    }
+
+    public void setMetaDataObject(Object metaDataObject) {
+        this.metaDataObject = metaDataObject;
     }
     
 }
