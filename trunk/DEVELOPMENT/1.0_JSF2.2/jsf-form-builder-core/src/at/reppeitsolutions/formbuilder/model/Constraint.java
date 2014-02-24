@@ -23,6 +23,7 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
@@ -43,13 +44,13 @@ public class Constraint implements Serializable {
     private String formBuilderItemUuid;
     @Id
     private Long constraingClientId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "formBuilderItemUuid", referencedColumnName = "uuid")
     private FormBuilderItemBase formBuilderItem;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "ConstraintClientId", referencedColumnName = "id")
     private ConstraintClient constraintClient;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private WorkflowState workflowState;
     @Enumerated(EnumType.STRING)
     private ConstraintType constraintType = ConstraintType.DEFAULT;
