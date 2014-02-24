@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:r="http://www.reppe-itsolutions.at"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>jsf-form-builder getting started</title>
+        </h:head>
+        <h:body>
+            <h1>Edit form</h1>
+            <h:form style="display: inline;">
+                <h:commandButton action="#{formBuilderBean.reset()}" value="Reset" />
+            </h:form>
+            <h:form style="display: inline;" target="_blank">
+                <h:commandButton action="#{formBuilderBean.fill}" value="Fill form" />
+                <h:commandButton action="#{formBuilderBean.pdf}" value="Pdf export" />
+                <h:commandButton action="#{formBuilderBean.exportPdf}" value="Pdf export (2nd Method)" />
+                <br />
+                <h:selectOneMenu value="#{formBuilderBean.workflowStateUuid}">
+                    <f:selectItems value="#{formBuilderBean.workflowStates}" var="o" itemLabel="#{o.displayName}" itemValue="#{o.uuid}" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{formBuilderBean.constraintClientUuid}">
+                    <f:selectItems value="#{formBuilderBean.constraintClients}" var="o" itemLabel="#{o.displayName}" itemValue="#{o.uuid}" />
+                </h:selectOneMenu>
+                <h:commandButton action="#{formBuilderBean.fillConstraint}" value="Fill form with Constraints" />
+            </h:form>
+            <br />
+            <h:form>
+                <r:formBuilder form="#{formBuilderBean.form}" 
+                               action="#{formBuilderBean.buffer()}"
+                               constraintClients="#{formBuilderBean.constraintClients}"
+                               workflowStates="#{formBuilderBean.workflowStates}"
+                               metaDataObject="#{formBuilderBean.metaData}"
+                               metaDataDescriptions="#{formBuilderBean.metaDataDescriptions}" />
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

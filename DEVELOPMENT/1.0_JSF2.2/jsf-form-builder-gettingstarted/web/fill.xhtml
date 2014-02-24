@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:r="http://www.reppe-itsolutions.at"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>jsf-form-builder getting started</title>
+        </h:head>
+        <h:body>
+            <h1>Fill form</h1>
+            <button id="submitButton">Speichern</button>
+            <h:form target="_blank" enctype="multipart/form-data" rendered="#{not formBuilderBean.fillConstraint}">
+                <r:formFiller formData="#{formBuilderBean.formData}" 
+                              action="#{formBuilderBean.save()}" 
+                              submitButtonId="submitButton"
+                              metaDataObject="#{formBuilderBean.metaData}" />
+            </h:form>
+            <h:form target="_blank" enctype="multipart/form-data" rendered="#{formBuilderBean.fillConstraint}">
+                <r:formFiller formData="#{formBuilderBean.formData}" 
+                              action="#{formBuilderBean.save()}" 
+                              submitButtonId="submitButton"
+                              workflowState="#{formBuilderBean.workflowState}"
+                              constraintClient="#{formBuilderBean.constraintClient}"
+                              metaDataObject="#{formBuilderBean.metaData}" />
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
