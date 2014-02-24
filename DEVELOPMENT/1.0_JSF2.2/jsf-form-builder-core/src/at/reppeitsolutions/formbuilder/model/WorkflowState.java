@@ -18,6 +18,7 @@ package at.reppeitsolutions.formbuilder.model;
 
 import at.reppeitsolutions.formbuilder.components.Constants;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,6 @@ public class WorkflowState implements Serializable {
     private String uuid;
 
     public WorkflowState() {
-        
     }
 
     public WorkflowState(String displayName, String uuid) {
@@ -69,4 +69,30 @@ public class WorkflowState implements Serializable {
         this.uuid = uuid;
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WorkflowState other = (WorkflowState) obj;
+        if (!Objects.equals(this.displayName, other.displayName)) {
+            return false;
+        }
+        if (!Objects.equals(this.uuid, other.uuid)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.displayName);
+        hash = 41 * hash + Objects.hashCode(this.uuid);
+        return hash;
+    }
+
 }

@@ -16,13 +16,17 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
+import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderInternalRenderer;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import at.reppeitsolutions.formbuilder.model.Constraint;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.util.List;
 import java.util.UUID;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
@@ -36,13 +40,17 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
 
     private List<WorkflowState> workflowStates;
     private List<ConstraintClient> constraintClients;
+    private List<Constraint> constraints;
 
     public HtmlFormBuilderConstraint() {
     }
 
-    public HtmlFormBuilderConstraint(List<WorkflowState> workflowStates, List<ConstraintClient> constraintClients) {
+    public HtmlFormBuilderConstraint(List<WorkflowState> workflowStates,
+            List<ConstraintClient> constraintClients,
+            List<Constraint> constraints) {
         this.workflowStates = workflowStates;
         this.constraintClients = constraintClients;
+        this.constraints = constraints;
     }
 
     @Override
@@ -59,17 +67,25 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
         if (workflowStates != null && constraintClients != null) {
             HtmlOutputText show = new HtmlOutputText();
             show.setEscape(false);
+            String showStyle = "";
+            if (getProperties().getMaximise()) {
+                showStyle = "display:none;";
+            }
             String showLinkId = "link" + UUID.randomUUID().toString();
             String hideLinkId = "link" + UUID.randomUUID().toString();
-            show.setValue("<a class=\"max\" "
+            show.setValue("<a style=\"" + showStyle + "\" class=\"max\" "
                     + "id=\"" + showLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').show("
                     + "{complete:function(){"
                     + "$('#" + showLinkId + "').hide();"
                     + "$('#" + hideLinkId + "').show();"
                     + "}});\"></a>");
+            String hideStyle = "display:none;";
+            if (getProperties().getMaximise()) {
+                hideStyle = "";
+            }
             HtmlOutputText hide = new HtmlOutputText();
             hide.setEscape(false);
-            hide.setValue("<a style=\"display:none;\" class=\"min\""
+            hide.setValue("<a style=\"" + hideStyle + "\" class=\"min\""
                     + "id=\"" + hideLinkId + "\" href=\"#\" onclick=\"$('#" + constraintEditorDiv.getId() + "').hide("
                     + "{complete:function(){"
                     + "$('#" + showLinkId + "').show();"
@@ -77,7 +93,7 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
                     + "}});\"></a>");
             getChildren().add(show);
             getChildren().add(hide);
-            constraintEditorDiv.setStyle("text-align:center;font-size:10pt;display:none;");
+            constraintEditorDiv.setStyle("text-align:center;font-size:10pt;" + hideStyle);
             output = new HtmlOutputText();
             output.setEscape(false);
             output.setValue(Messages.getStringJSF("constraint.info.new") + "<br />");
@@ -85,10 +101,11 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
             HtmlPanelGrid panel = new HtmlPanelGrid();
             panel.setStyle("font-size:10pt;text-align:left;");
             panel.setColumns(2);
-            output = new HtmlOutputText();
-            output.setValue(Messages.getStringJSF("constraint.info.workflowState"));
-            panel.getChildren().add(output);
+            HtmlOutputText outputWorkflowState = new HtmlOutputText();
+            outputWorkflowState.setValue(Messages.getStringJSF("constraint.info.workflowState"));
+            panel.getChildren().add(outputWorkflowState);
             HtmlSelectOneMenu select = new HtmlSelectOneMenu();
+            select.setId("workflowState" + getItemUuid());
             for (WorkflowState workflowState : workflowStates) {
                 UISelectItem item = new UISelectItem();
                 item.setItemValue(workflowState.getUuid());
@@ -96,11 +113,11 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
                 select.getChildren().add(item);
             }
             panel.getChildren().add(select);
-            output = new HtmlOutputText();
-            output.setEscape(false);
-            output.setValue(Messages.getStringJSF("constraint.info.constraintType"));
-            panel.getChildren().add(output);
+            HtmlOutputText outputConstraintType = new HtmlOutputText();
+            outputConstraintType.setValue(Messages.getStringJSF("constraint.info.constraintType"));
+            panel.getChildren().add(outputConstraintType);
             select = new HtmlSelectOneMenu();
+            select.setId("constraintType" + getItemUuid());
             for (ConstraintType constraintType : ConstraintType.values()) {
                 if (constraintType != ConstraintType.DEFAULT) {
                     UISelectItem item = new UISelectItem();
@@ -110,11 +127,11 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
                 }
             }
             panel.getChildren().add(select);
-            output = new HtmlOutputText();
-            output.setEscape(false);
-            output.setValue(Messages.getStringJSF("constraint.info.constraintClient"));
-            panel.getChildren().add(output);
+            HtmlOutputText outputConstraintClient = new HtmlOutputText();
+            outputConstraintClient.setValue(Messages.getStringJSF("constraint.info.constraintClient"));
+            panel.getChildren().add(outputConstraintClient);
             select = new HtmlSelectOneMenu();
+            select.setId("constraintClient" + getItemUuid());
             for (ConstraintClient constraintClient : constraintClients) {
                 UISelectItem item = new UISelectItem();
                 item.setItemValue(constraintClient.getUuid());
@@ -122,11 +139,51 @@ public class HtmlFormBuilderConstraint extends HtmlFormBuilderItem {
                 select.getChildren().add(item);
             }
             panel.getChildren().add(select);
+            HtmlOutputText empty = new HtmlOutputText();
+            panel.getChildren().add(empty);
+            HtmlOutputText save = new HtmlOutputText();
+            save.setEscape(false);
+            save.setValue("<button class=\"commandButton\" href=\"#\" onclick=\"addConstraint('" + getItemUuid() + "','" + getItemUuid() + "');\">"
+                    + Messages.getStringJSF("constraint.button.add")
+                    + "</button>");
+            panel.getChildren().add(save);
             constraintEditorDiv.getChildren().add(panel);
-            output = new HtmlOutputText();
-            output.setEscape(false);
-            output.setValue("<br />" + Messages.getStringJSF("constraint.info.current") + "<br />");
-            constraintEditorDiv.getChildren().add(output);
+            HtmlPanelGrid listPanel = new HtmlPanelGrid();
+            listPanel.setStyle("font-size:10pt;text-align:left;");
+            listPanel.setColumns(7);
+            if (constraints != null) {
+                if (!constraints.isEmpty()) {
+                    output = new HtmlOutputText();
+                    output.setEscape(false);
+                    output.setValue("<br />" + Messages.getStringJSF("constraint.info.current") + "<br />");
+                    constraintEditorDiv.getChildren().add(output);
+                }
+                for (Constraint constraint : constraints) {
+                    HtmlOutputText tmpOutput = new HtmlOutputText();
+                    tmpOutput.setValue(constraint.getWorkflowState().getDisplayName() + ",");
+                    outputWorkflowState = new HtmlOutputText();
+                    outputWorkflowState.setValue(Messages.getStringJSF("constraint.info.workflowState"));
+                    listPanel.getChildren().add(outputWorkflowState);
+                    listPanel.getChildren().add(tmpOutput);
+                    tmpOutput = new HtmlOutputText();
+                    tmpOutput.setValue(constraint.getConstraintType().name() + ",");
+                    outputConstraintType = new HtmlOutputText();
+                    outputConstraintType.setValue(Messages.getStringJSF("constraint.info.constraintType"));
+                    listPanel.getChildren().add(outputConstraintType);
+                    listPanel.getChildren().add(tmpOutput);
+                    tmpOutput = new HtmlOutputText();
+                    tmpOutput.setValue(constraint.getConstraintClient().getDisplayName());
+                    outputConstraintClient = new HtmlOutputText();
+                    outputConstraintClient.setValue(Messages.getStringJSF("constraint.info.constraintClient"));
+                    listPanel.getChildren().add(outputConstraintClient);
+                    listPanel.getChildren().add(tmpOutput);
+                    tmpOutput = new HtmlOutputText();
+                    tmpOutput.setEscape(false);
+                    tmpOutput.setValue("<div class=\"deleteConstraint\" onclick=\"deleteConstraint('" + constraint.hashCode() + "','" + getItemUuid() + "');\"></div>");
+                    listPanel.getChildren().add(tmpOutput);
+                }
+            }
+            constraintEditorDiv.getChildren().add(listPanel);
             getChildren().add(constraintEditorDiv);
         }
     }

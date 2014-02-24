@@ -53,11 +53,11 @@ function initFormBuilder(formid, palette, formContent, formActionString, formCon
         heightStyle: "content",
         active: parseInt(document.getElementById(formActiveTabString).value),
         activate: function() {
-            document.getElementById(formActiveTabString).value = $("#accordion").accordion("option","active");
+            document.getElementById(formActiveTabString).value = $("#accordion").accordion("option", "active");
         }
     });
 
-    for(var i = 0; i < palettes.length; i++) {
+    for (var i = 0; i < palettes.length; i++) {
         $("#" + palettes[i] + " li").draggable({
             appendTo: "body",
             helper: "clone",
@@ -233,6 +233,36 @@ function updateForm() {
             window.location.reload();
         }
     });
+}
+
+function addConstraint(uuid,itemid) {
+    var json = "{";
+    json += "\"itemUuid\":\"" + itemid + "\",";
+    json += "\"workflowState\":\"" + document.getElementById(formid_ + ":workflowState" + uuid).value + "\",";
+    json += "\"constraintType\":\"" + document.getElementById(formid_ + ":constraintType" + uuid).value + "\",";
+    json += "\"constraintClient\":\"" + document.getElementById(formid_ + ":constraintClient" + uuid).value + "\"";
+    json += "}";
+    showLoadImage();
+    document.getElementById(formActionString_).value = "addconstraint";
+    document.getElementById(formContentString_).value = json;
+    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
+            initJQuery();
+            hideLoadImage();
+        }});
+}
+
+function deleteConstraint(hashcode, itemid) {
+    showLoadImage();
+    var json = "{";
+    json += "\"itemUuid\":\"" + itemid + "\",";
+    json += "\"hashCode\":\"" + hashcode + "\"";
+    json += "}";
+    document.getElementById(formActionString_).value = "deleteconstraint";
+    document.getElementById(formContentString_).value = json;
+    window.jsf.ajax.request(formid_, null, {render: formid_, onevent: function() {
+            initJQuery();
+            hideLoadImage();
+        }});
 }
 
 /*

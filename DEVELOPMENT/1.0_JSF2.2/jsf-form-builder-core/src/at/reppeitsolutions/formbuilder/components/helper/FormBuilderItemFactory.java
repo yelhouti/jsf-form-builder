@@ -84,7 +84,7 @@ public abstract class FormBuilderItemFactory {
     public static HtmlFormBuilderItem getUIComponent(FormBuilderItemBase item) {
         return getUIComponent(item, null, false, null, null);
     }
-    
+
     public static HtmlFormBuilderItem getUIComponentWithDialog(FormBuilderItemBase item) {
         return getUIComponent(item, null, true, null, null);
     }
@@ -156,7 +156,9 @@ public abstract class FormBuilderItemFactory {
                 if (formBuilderInternal != null
                         && formBuilderInternal.getWorkflowStates() != null
                         && formBuilderInternal.getConstraintClients() != null) {
-                    comp = new HtmlFormBuilderConstraint(formBuilderInternal.getWorkflowStates(), formBuilderInternal.getConstraintClients());
+                    comp = new HtmlFormBuilderConstraint(formBuilderInternal.getWorkflowStates(),
+                            formBuilderInternal.getConstraintClients(),
+                            item.getConstraints());
                 } else {
                     comp = new HtmlFormBuilderConstraint();
                 }
@@ -170,6 +172,7 @@ public abstract class FormBuilderItemFactory {
         }
         if (comp != null) {
             BeanUtils.copyProperties(item.getProperties(), comp.getProperties());
+            item.getProperties().setMaximise(Boolean.FALSE);
             //Create properties dialog
             if (!comp.getClass().isAnnotationPresent(SkipDialog.class)) {
                 diag = new HtmlDialog(item);

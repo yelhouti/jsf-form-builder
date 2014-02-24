@@ -19,6 +19,7 @@ package at.reppeitsolutions.formbuilder.model;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -99,6 +100,36 @@ public class Constraint implements Serializable {
 
     public void setConstraintType(ConstraintType constraintType) {
         this.constraintType = constraintType;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Constraint other = (Constraint) obj;
+        if (!Objects.equals(this.constraintClient, other.constraintClient)) {
+            return false;
+        }
+        if (!Objects.equals(this.workflowState, other.workflowState)) {
+            return false;
+        }
+        if (this.constraintType != other.constraintType) {
+            return false;
+        }
+        return true;
+    }    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.constraintClient);
+        hash = 59 * hash + Objects.hashCode(this.workflowState);
+        hash = 59 * hash + Objects.hashCode(this.constraintType);
+        return hash;
     }
 
 }
