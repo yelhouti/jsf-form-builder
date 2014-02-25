@@ -18,13 +18,17 @@ package at.reppeitsolutions.formbuilder.components.pdf.itext;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPCellEvent;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.TextField;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +40,13 @@ import java.util.logging.Logger;
 public class ITextListbox implements PdfPCellEvent {
 
     protected String[] values = {};
+    protected String[] selectedValues;
+    protected boolean locked;
 
-    public ITextListbox(String[] values) {
+    public ITextListbox(String[] values, String[] selectedValues, boolean locked) {
         this.values = values;
+        this.selectedValues = selectedValues;
+        this.locked = locked;
     }
 
     @Override
@@ -46,11 +54,27 @@ public class ITextListbox implements PdfPCellEvent {
         PdfWriter writer = canvases[0].getPdfWriter();
         TextField text = new TextField(writer, rectangle, String.format("choice_" + UUID.randomUUID().toString()));
         text.setBorderStyle(PdfBorderDictionary.STYLE_INSET);
-        text.setChoices(values);
         text.setFontSize(ITextInputText.FONTSIZE);
         text.setOptions(TextField.MULTISELECT);
+        text.setChoices(values);
+        ArrayList<Integer> choiceSelections = new ArrayList<>();
+        if (selectedValues != null) {
+            for (int i = 0; i < values.length; i++) {
+                for (int i2 = 0; i2 < selectedValues.length; i2++) {
+                    if (values[i].equals(selectedValues[i2])) {
+                        choiceSelections.add(i);
+                        break;
+                    }
+                }
+            }
+        }
+        text.setChoiceSelections(choiceSelections);
         try {
-            writer.addAnnotation(text.getListField());
+            PdfFormField listField = text.getListField();
+            if(locked) {
+                listField.setFieldFlags(BaseField.READ_ONLY);
+            }
+            writer.addAnnotation(listField);
         } catch (IOException ex) {
             Logger.getLogger(ITextListbox.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {

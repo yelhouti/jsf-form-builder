@@ -35,7 +35,10 @@ public class PdfFormBuilderSelect extends PdfFormBuilderItem {
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
         innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
-        innerTable.getContent().setCellEvent(new ITextSelect(getProperties().getValues().split(";")));
+        innerTable.getContent().setCellEvent(new ITextSelect(
+                getProperties().getValues().split(";"), 
+                getValue(),
+                getProperties().getLocked()));
         innerTable.addCells();
         return innerTable;
     }

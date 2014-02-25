@@ -21,6 +21,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.GrayColor;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -41,9 +42,13 @@ import java.util.logging.Logger;
 public class ITextRadio implements PdfPCellEvent {
 
     protected String[] values = {};
-
-    public ITextRadio(String[] values) {
+    protected String value;
+    protected boolean locked;
+    
+    public ITextRadio(String[] values, String value, boolean locked) {
         this.values = values;
+        this.value = value;
+        this.locked = locked;        
     }
 
     @Override
@@ -51,6 +56,9 @@ public class ITextRadio implements PdfPCellEvent {
         PdfWriter writer = canvases[0].getPdfWriter();
         PdfFormField radiogroup = PdfFormField.createRadioButton(writer, true);
         radiogroup.setFieldName(UUID.randomUUID().toString());
+        if(locked) {
+            radiogroup.setFieldFlags(BaseField.READ_ONLY);
+        }
         RadioCheckField radio;
         for (int i = 0; i < values.length; i++) {
             try {
@@ -59,6 +67,9 @@ public class ITextRadio implements PdfPCellEvent {
                 radio.setBorderColor(GrayColor.GRAYBLACK);
                 radio.setBackgroundColor(GrayColor.GRAYWHITE);
                 radio.setCheckType(RadioCheckField.TYPE_CIRCLE);
+                if(value != null && values[i].equals(value)) {
+                    radio.setChecked(true);
+                }
                 PdfFormField field = radio.getRadioField();
                 radiogroup.addKid(field);
                 addBoxDescription(rectangle, i, values, canvases);

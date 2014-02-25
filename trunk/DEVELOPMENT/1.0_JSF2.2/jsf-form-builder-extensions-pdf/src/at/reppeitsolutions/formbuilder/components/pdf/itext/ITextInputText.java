@@ -20,6 +20,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfFormField;
@@ -37,11 +38,14 @@ import java.util.UUID;
 public class ITextInputText implements PdfPCellEvent {
     
     public static final int FONTSIZE = 12;
+    public static final float HEIGHTMULTIPLICATOR = 1.2f;
 
     protected String value = "";
+    protected boolean locked = false;
 
-    public ITextInputText(String value) {
+    public ITextInputText(String value, boolean locked) {
         this.value = value;
+        this.locked = locked;
     }
 
     @Override
@@ -54,6 +58,9 @@ public class ITextInputText implements PdfPCellEvent {
         text.setAlignment(Element.ALIGN_LEFT);
         try {
             PdfFormField field = text.getTextField();
+            if(locked) {
+                field.setFieldFlags(BaseField.READ_ONLY);
+            }
             writer.addAnnotation(field);
         } catch (IOException ioe) {
             throw new ExceptionConverter(ioe);

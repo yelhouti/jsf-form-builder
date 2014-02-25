@@ -19,6 +19,7 @@ package at.reppeitsolutions.formbuilder.components.pdf.itext;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfAppearance;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -39,9 +40,13 @@ import java.util.logging.Logger;
 public class ITextCheckbox implements PdfPCellEvent {
 
     protected String[] values = {};
+    protected String[] selectedValues;
+    protected boolean locked;
 
-    public ITextCheckbox(String[] values) {
+    public ITextCheckbox(String[] values, String[] selectedValues, boolean locked) {
         this.values = values;
+        this.selectedValues = selectedValues;
+        this.locked = locked;
     }
 
     @Override
@@ -67,9 +72,22 @@ public class ITextCheckbox implements PdfPCellEvent {
             try {
                 Rectangle rect = ITextRadio.getBoxRectangle(rectangle, i);
                 checkbox = new RadioCheckField(writer, rect, UUID.randomUUID().toString(), "Yes");
+                boolean checked = false;
+                if (selectedValues != null) {
+                    for (int i2 = 0; i2 < selectedValues.length; i2++) {
+                        if (values[i].equals(selectedValues[i2])) {
+                            checked = true;
+                            break;
+                        }
+                    }
+                }
+                checkbox.setChecked(checked);
                 PdfFormField field = checkbox.getCheckField();
                 field.setAppearance(PdfAnnotation.APPEARANCE_NORMAL, "Off", onOff[0]);
                 field.setAppearance(PdfAnnotation.APPEARANCE_NORMAL, "Yes", onOff[1]);
+                if (locked) {
+                    field.setFieldFlags(BaseField.READ_ONLY);
+                }
                 writer.addAnnotation(field);
                 ITextRadio.addBoxDescription(rectangle, i, values, canvases);
             } catch (IOException ex) {

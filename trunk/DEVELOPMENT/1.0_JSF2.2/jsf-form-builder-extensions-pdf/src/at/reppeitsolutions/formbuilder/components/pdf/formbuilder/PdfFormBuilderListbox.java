@@ -19,7 +19,6 @@ package at.reppeitsolutions.formbuilder.components.pdf.formbuilder;
 import com.lowagie.text.Element;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextInputText;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextListbox;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextTextarea;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextInnerTable;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextParagraph;
 
@@ -30,17 +29,19 @@ import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextPar
 public class PdfFormBuilderListbox extends PdfFormBuilderItem {
 
     public PdfFormBuilderListbox() {
-        
     }
 
     @Override
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
         innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
-        innerTable.getContent().setCellEvent(new ITextListbox(getProperties().getValues().split(";")));
-        innerTable.getContent().setFixedHeight(getProperties().getValues().split(";").length * ITextInputText.FONTSIZE * ITextTextarea.HEIGHTMULTIPLICATOR);
+        innerTable.getContent().setCellEvent(
+                new ITextListbox(
+                getProperties().getValues().split(";"),
+                getValueArray(),
+                getProperties().getLocked()));
+        innerTable.getContent().setFixedHeight(getProperties().getValues().split(";").length * ITextInputText.FONTSIZE * ITextInputText.HEIGHTMULTIPLICATOR);
         innerTable.addCells();
         return innerTable;
     }
-    
 }
