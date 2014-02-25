@@ -34,7 +34,7 @@ public class PdfFormBuilderTextarea extends PdfFormBuilderItem {
     @Override
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
-        innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
+        innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel() + getMandatoryString()));
         String val = getProperties().getValues();
         if(getValue() != null) {
             val = getValue();

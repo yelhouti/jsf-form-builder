@@ -29,7 +29,7 @@ public class FormBuilderPdfFactory {
         PdfResponseWriter writer = new PdfResponseWriter("UTF-8");
         writer.startDocumentInternal(output);
         FormFillerPdfRenderer renderer = new FormFillerPdfRenderer();
-        renderer.encodePdf(formData, writer.getDocument(),mode);
+        renderer.encodePdf(formData, writer.getDocument(),mode, null, null);
         writer.endDocumentInternal();
     }
     

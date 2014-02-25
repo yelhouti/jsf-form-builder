@@ -17,29 +17,14 @@
 package at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPCell;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.render.FacesRenderer;
-import javax.faces.render.Renderer;
 import at.reppeitsolutions.formbuilder.components.pdf.FormFillerPdf;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
-import at.reppeitsolutions.formbuilder.components.pdf.helper.FormBuilderItemPdfFactory;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTable;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTableCell;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextParagraph;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfRenderKit;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfResponseWriter;
-import at.reppeitsolutions.formbuilder.messages.Messages;
-import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.model.FormData;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -62,7 +47,7 @@ public class FormFillerPdfRenderer extends FormBuilderFillerBaseRenderer {
         Document document = writer.getDocument();
         FormFillerPdf formFiller = (FormFillerPdf) component;
         FormData formData = formFiller.getFormData();
-        encodePdf(formData, document, formFiller.getMode());
+        encodePdf(formData, document, formFiller.getMode(), formFiller.getWorkflowState(), formFiller.getConstraintClient());
     }
 
 }
