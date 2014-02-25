@@ -34,7 +34,7 @@ public class PdfFormBuilderListbox extends PdfFormBuilderItem {
     @Override
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
-        innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
+        innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel() + getMandatoryString()));
         innerTable.getContent().setCellEvent(
                 new ITextListbox(
                 getProperties().getValues().split(";"),

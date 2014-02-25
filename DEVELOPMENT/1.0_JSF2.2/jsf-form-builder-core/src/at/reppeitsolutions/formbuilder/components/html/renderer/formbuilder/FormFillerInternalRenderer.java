@@ -19,6 +19,7 @@ package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 import at.reppeitsolutions.formbuilder.components.FormFillerInternal;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemConstraint;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemNumber;
+import at.reppeitsolutions.formbuilder.components.helper.ConstraintVariablesContainer;
 import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderContainer;
@@ -29,7 +30,9 @@ import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuild
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
 import at.reppeitsolutions.formbuilder.model.Constraint;
+import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.ConstraintType;
+import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -77,49 +80,8 @@ public class FormFillerInternalRenderer extends Renderer {
 
             if (formModel.getData() != null) {
                 for (FormBuilderItemData item : formModel.getData()) {
-                    Boolean visible = null;
-                    Boolean mandatory = null;
-                    Boolean locked = null;
-                    if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint && activeConstraint == null) {
-                        activeConstraint = (FormBuilderItemConstraint) item.getFormBuilderItem();
-                    } else if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint) {
-                        activeConstraint = null;
-                        visible = null;
-                        mandatory = null;
-                        locked = null;
-                    } else if (activeConstraint != null) {
-                        for (Constraint constraint : activeConstraint.getConstraints()) {
-                            boolean workflowMatch = constraint.getWorkflowState() != null && constraint.getWorkflowState().equals(formFiller.getWorkflowState());
-                            boolean constraintClientMatch = constraint.getConstraintClient() != null && constraint.getConstraintClient().equals(formFiller.getConstraintClient());
-                            boolean workflowNull = constraint.getWorkflowState() == null;
-                            boolean constraintClientNull = constraint.getConstraintClient()== null;
-                            if ((workflowMatch && constraintClientMatch)
-                                    || (constraintClientNull && workflowNull)
-                                    || (workflowMatch && constraintClientNull)
-                                    || (constraintClientMatch && workflowNull)) {
-                                if (constraint.getConstraintType() == ConstraintType.INVISIBLE) {
-                                    visible = false;
-                                    mandatory = false;
-                                    locked = false;
-                                } else if (constraint.getConstraintType() == ConstraintType.MANDATORY) {
-                                    visible = true;
-                                    mandatory = true;
-                                    locked = false;
-                                } else if (constraint.getConstraintType() == ConstraintType.READONLY) {
-                                    visible = true;
-                                    mandatory = false;
-                                    locked = true;
-                                }
-                            }
-                        }
-                    }
-                    if (visible != null & mandatory != null && locked != null) {
-                        item.getFormBuilderItem().getProperties().setVisible(visible);
-                        item.getFormBuilderItem().getProperties().setMandatory(mandatory);
-                        item.getFormBuilderItem().getProperties().setLocked(locked);
-                    } else {
-                        item.getFormBuilderItem().getProperties().resetConstraintVariables();
-                    }
+                    ConstraintVariablesContainer constraintVariablesContainer = new ConstraintVariablesContainer();
+                    activeConstraint = checkConstraints(item, activeConstraint, constraintVariablesContainer, formFiller.getWorkflowState(), formFiller.getConstraintClient());
                     if (!item.getFormBuilderItem().getSkipRendering()
                             && item.getFormBuilderItem().getProperties().getVisible()) {
                         components.add(new FormBuilderContainer(item.getFormBuilderItem(), FormBuilderItemFactory.getUIComponent(item, formFiller.getMode(), formFiller)));
@@ -320,5 +282,59 @@ public class FormFillerInternalRenderer extends Renderer {
                     + "});"
                     + "</script>");
         }
+    }
+
+    /*
+     * TODO maybe this method could be written more clearly
+     */
+    public static FormBuilderItemConstraint checkConstraints(
+            FormBuilderItemData item,
+            FormBuilderItemConstraint activeConstraint,
+            ConstraintVariablesContainer constraintVariablesContainer,
+            WorkflowState workflowState,
+            ConstraintClient constraintClient) {
+        if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint && activeConstraint == null) {
+            activeConstraint = (FormBuilderItemConstraint) item.getFormBuilderItem();
+        } else if (item.getFormBuilderItem() instanceof FormBuilderItemConstraint) {
+            activeConstraint = null;
+            constraintVariablesContainer.setVisible(null);
+            constraintVariablesContainer.setMandatory(null);
+            constraintVariablesContainer.setLocked(null);
+        } else if (activeConstraint != null) {
+            for (Constraint constraint : activeConstraint.getConstraints()) {
+                boolean workflowMatch = constraint.getWorkflowState() != null && constraint.getWorkflowState().equals(workflowState);
+                boolean constraintClientMatch = constraint.getConstraintClient() != null && constraint.getConstraintClient().equals(constraintClient);
+                boolean workflowNull = constraint.getWorkflowState() == null;
+                boolean constraintClientNull = constraint.getConstraintClient() == null;
+                if ((workflowMatch && constraintClientMatch)
+                        || (constraintClientNull && workflowNull)
+                        || (workflowMatch && constraintClientNull)
+                        || (constraintClientMatch && workflowNull)) {
+                    if (constraint.getConstraintType() == ConstraintType.INVISIBLE) {
+                        constraintVariablesContainer.setVisible(Boolean.FALSE);
+                        constraintVariablesContainer.setMandatory(Boolean.FALSE);
+                        constraintVariablesContainer.setLocked(Boolean.FALSE);
+                    } else if (constraint.getConstraintType() == ConstraintType.MANDATORY) {
+                        constraintVariablesContainer.setVisible(Boolean.TRUE);
+                        constraintVariablesContainer.setMandatory(Boolean.TRUE);
+                        constraintVariablesContainer.setLocked(Boolean.FALSE);
+                    } else if (constraint.getConstraintType() == ConstraintType.READONLY) {
+                        constraintVariablesContainer.setVisible(Boolean.TRUE);
+                        constraintVariablesContainer.setMandatory(Boolean.FALSE);
+                        constraintVariablesContainer.setLocked(Boolean.TRUE);
+                    }
+                }
+            }
+        }
+        if (constraintVariablesContainer.getVisible() != null
+                && constraintVariablesContainer.getMandatory() != null
+                && constraintVariablesContainer.getLocked() != null) {
+            item.getFormBuilderItem().getProperties().setVisible(constraintVariablesContainer.getVisible());
+            item.getFormBuilderItem().getProperties().setMandatory(constraintVariablesContainer.getMandatory());
+            item.getFormBuilderItem().getProperties().setLocked(constraintVariablesContainer.getLocked());
+        } else {
+            item.getFormBuilderItem().getProperties().resetConstraintVariables();
+        }
+        return activeConstraint;
     }
 }

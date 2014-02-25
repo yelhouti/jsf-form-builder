@@ -47,6 +47,14 @@ public abstract class PdfFormBuilderItem {
         }
         return null;
     }
+    
+    public String getMandatoryString() {
+        String mandatory = "";
+        if(getProperties().getMandatory()) {
+            mandatory = "*";
+        }
+        return mandatory;
+    } 
 
     public void setValue(String value) {
         this.value = value;
