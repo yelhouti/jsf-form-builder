@@ -28,17 +28,19 @@ import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextPar
 public class PdfFormBuilderCheckbox extends PdfFormBuilderItem {
 
     public PdfFormBuilderCheckbox() {
-        
     }
 
     @Override
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
         innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
-        innerTable.getContent().setCellEvent(new ITextCheckbox(getProperties().getValues().split(";")));
+        innerTable.getContent().setCellEvent(
+                new ITextCheckbox(
+                getProperties().getValues().split(";"),
+                getValueArray(),
+                getProperties().getLocked()));
         innerTable.getContent().setFixedHeight(getProperties().getValues().length() * 3.5f);
         innerTable.addCells();
         return innerTable;
     }
-    
 }

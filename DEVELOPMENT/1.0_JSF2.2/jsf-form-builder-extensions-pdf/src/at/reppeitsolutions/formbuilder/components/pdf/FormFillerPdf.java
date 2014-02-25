@@ -20,7 +20,6 @@ import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormFillerComponentBase;
 import javax.faces.component.FacesComponent;
 import at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder.FormFillerPdfRenderer;
-import at.reppeitsolutions.formbuilder.model.FormData;
 
 /**
  *
@@ -28,17 +27,9 @@ import at.reppeitsolutions.formbuilder.model.FormData;
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE_PDF, tagName = "formFillerPdf")
 public class FormFillerPdf extends FormFillerComponentBase {
-    
+
     public FormFillerPdf() {
         setRendererType(FormFillerPdfRenderer.RENDERTYPE);
-    }
-
-    public FormData getModel() {
-        return (FormData) getStateHelper().eval("model");
-    }
-
-    public void setModel(FormData model) {
-        getStateHelper().put("model", model);
     }
 
     @Override

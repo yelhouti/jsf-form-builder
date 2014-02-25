@@ -69,6 +69,7 @@ public abstract class FormBuilderItemPdfFactory {
             case FormBuilderItemFactory.TYPE_DATE:
             case FormBuilderItemFactory.TYPE_TIME:
             case FormBuilderItemFactory.TYPE_INPUT:
+            case FormBuilderItemFactory.TYPE_NUMBER:
                 comp = new PdfFormBuilderInput();
                 break;
             case FormBuilderItemFactory.TYPE_TEXTAREA:

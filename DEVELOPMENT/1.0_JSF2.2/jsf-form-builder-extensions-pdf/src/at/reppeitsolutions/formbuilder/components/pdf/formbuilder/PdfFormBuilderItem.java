@@ -30,7 +30,7 @@ public abstract class PdfFormBuilderItem {
      * builds up the IText component
      */
     public abstract Element render();
-    protected String value;
+    private String value;
     protected File file;
     protected String dataUuid;
     protected String itemUuid;
@@ -39,6 +39,13 @@ public abstract class PdfFormBuilderItem {
 
     public String getValue() {
         return value;
+    }
+    
+    public String[] getValueArray() {
+        if(value != null) {
+            return value.split(";");
+        }
+        return null;
     }
 
     public void setValue(String value) {

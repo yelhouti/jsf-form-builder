@@ -18,8 +18,10 @@ package at.reppeitsolutions.formbuilder.components.pdf.itext;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPCellEvent;
 import com.lowagie.text.pdf.PdfWriter;
@@ -36,9 +38,13 @@ import java.util.logging.Logger;
 public class ITextSelect implements PdfPCellEvent {
 
     protected String[] values = {};
+    protected String value;
+    protected boolean locked;
 
-    public ITextSelect(String[] values) {
+    public ITextSelect(String[] values, String value, boolean locked) {
         this.values = values;
+        this.value = value;
+        this.locked = locked;
     }
 
     @Override
@@ -49,8 +55,18 @@ public class ITextSelect implements PdfPCellEvent {
         text.setChoices(values);
         text.setFontSize(ITextInputText.FONTSIZE);
         text.setChoiceExports(text.getChoices());
+        for(int i = 0; value != null && i < values.length; i++) {
+            if(values[i].equals(value)) {
+                text.setChoiceSelection(i);
+                break;
+            }
+        }
         try {
-            writer.addAnnotation(text.getComboField());
+            PdfFormField comboField = text.getComboField();
+            if(locked) {
+                comboField.setFieldFlags(BaseField.READ_ONLY);
+            }
+            writer.addAnnotation(comboField);
         } catch (IOException ex) {
             Logger.getLogger(ITextSelect.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {

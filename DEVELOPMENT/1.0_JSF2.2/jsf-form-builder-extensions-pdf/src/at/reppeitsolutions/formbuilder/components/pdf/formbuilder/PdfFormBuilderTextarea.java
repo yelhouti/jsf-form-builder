@@ -18,7 +18,6 @@ package at.reppeitsolutions.formbuilder.components.pdf.formbuilder;
 
 import com.lowagie.text.Element;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextInputText;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.ITextTextarea;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextInnerTable;
 import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextParagraph;
 
@@ -36,8 +35,12 @@ public class PdfFormBuilderTextarea extends PdfFormBuilderItem {
     public Element render() {
         ITextInnerTable innerTable = new ITextInnerTable(getProperties().getOnelinedescription());
         innerTable.getDescription().addElement(new ITextParagraph(getProperties().getLabel()));
-        innerTable.getContent().setCellEvent(new ITextTextarea(getProperties().getValues()));
-        innerTable.getContent().setFixedHeight(getProperties().getRows() * ITextInputText.FONTSIZE * ITextTextarea.HEIGHTMULTIPLICATOR);
+        String val = getProperties().getValues();
+        if(getValue() != null) {
+            val = getValue();
+        } 
+        innerTable.getContent().setCellEvent(new ITextInputText(val, getProperties().getLocked()));
+        innerTable.getContent().setFixedHeight(getProperties().getRows() * ITextInputText.FONTSIZE * ITextInputText.HEIGHTMULTIPLICATOR);
         innerTable.addCells();
         return innerTable;
     }

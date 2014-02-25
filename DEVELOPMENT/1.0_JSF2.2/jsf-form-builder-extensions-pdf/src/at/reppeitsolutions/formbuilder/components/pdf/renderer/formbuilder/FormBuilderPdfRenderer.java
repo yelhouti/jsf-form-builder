@@ -17,41 +17,26 @@
 package at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPCell;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.render.FacesRenderer;
-import javax.faces.render.Renderer;
-import at.reppeitsolutions.formbuilder.components.pdf.FormFillerPdf;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemPagebreak;
-import at.reppeitsolutions.formbuilder.components.pdf.helper.FormBuilderItemPdfFactory;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTable;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextOuterTableCell;
-import at.reppeitsolutions.formbuilder.components.pdf.itext.formbuilder.ITextParagraph;
+import at.reppeitsolutions.formbuilder.components.pdf.FormBuilderPdf;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfRenderKit;
 import at.reppeitsolutions.formbuilder.components.pdf.renderkit.PdfResponseWriter;
-import at.reppeitsolutions.formbuilder.messages.Messages;
-import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
-import at.reppeitsolutions.formbuilder.model.FormData;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import at.reppeitsolutions.formbuilder.model.Form;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesRenderer(renderKitId = PdfRenderKit.PDF_BASIC, componentFamily = FormFillerPdfRenderer.FAMILY, rendererType = FormFillerPdfRenderer.RENDERTYPE)
-public class FormFillerPdfRenderer extends FormBuilderFillerBaseRenderer {
+@FacesRenderer(renderKitId = PdfRenderKit.PDF_BASIC, componentFamily = FormBuilderPdfRenderer.FAMILY, rendererType = FormBuilderPdfRenderer.RENDERTYPE)
+public class FormBuilderPdfRenderer extends FormBuilderFillerBaseRenderer {
 
-    public static final String RENDERTYPE = "FormFillerPdfRenderer";
+    public static final String RENDERTYPE = "FormBuilderPdfRenderer";
     public static final String FAMILY = "at.rits.pdf";
 
-    public FormFillerPdfRenderer() {
+    public FormBuilderPdfRenderer() {
         
     }
 
@@ -60,9 +45,9 @@ public class FormFillerPdfRenderer extends FormBuilderFillerBaseRenderer {
             UIComponent component) throws IOException {
         PdfResponseWriter writer = (PdfResponseWriter) FacesContext.getCurrentInstance().getResponseWriter();
         Document document = writer.getDocument();
-        FormFillerPdf formFiller = (FormFillerPdf) component;
-        FormData formData = formFiller.getFormData();
-        encodePdf(formData, document, formFiller.getMode());
+        FormBuilderPdf formBuilder = (FormBuilderPdf) component;
+        Form form = formBuilder.getForm();
+        encodePdf(form, document);
     }
 
 }
