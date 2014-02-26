@@ -38,7 +38,7 @@ public class PdfFormBuilderSelect extends PdfFormBuilderItem {
         innerTable.getContent().setCellEvent(new ITextSelect(
                 getProperties().getValues().split(";"), 
                 getValue(),
-                getProperties().getLocked()));
+                isDisabled()));
         innerTable.addCells();
         return innerTable;
     }

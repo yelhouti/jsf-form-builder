@@ -39,7 +39,7 @@ public class PdfFormBuilderInput extends PdfFormBuilderItem {
         if(getValue() != null) {
             val = getValue();
         } 
-        innerTable.getContent().setCellEvent(new ITextInputText(val, getProperties().getLocked()));
+        innerTable.getContent().setCellEvent(new ITextInputText(val, isDisabled()));
         innerTable.addCells();
         return innerTable;
     }

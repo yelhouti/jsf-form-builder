@@ -38,7 +38,7 @@ public class PdfFormBuilderRadio extends PdfFormBuilderItem {
         innerTable.getContent().setCellEvent(new ITextRadio(
                 getProperties().getValues().split(";"), 
                 getValue(),
-                getProperties().getLocked()));
+                isDisabled()));
         innerTable.getContent().setFixedHeight(getProperties().getValues().length() * 3.5f);
         innerTable.addCells();
         return innerTable;

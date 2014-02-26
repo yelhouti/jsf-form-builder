@@ -41,15 +41,15 @@ import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
  */
 public abstract class FormBuilderItemPdfFactory {
 
-    public static Element getUIPdfComponent(FormBuilderItemData data) {
-        return getUIPdfComponent(data.getFormBuilderItem(), data);
+    public static Element getUIPdfComponent(FormBuilderItemData data, String mode) {
+        return getUIPdfComponent(data.getFormBuilderItem(), data, mode);
     }
 
     public static Element getUIPdfComponent(FormBuilderItemBase item) {
-        return getUIPdfComponent(item, null);
+        return getUIPdfComponent(item, null, null);
     }
 
-    public static Element getUIPdfComponent(FormBuilderItemBase item, FormBuilderItemData data) {
+    public static Element getUIPdfComponent(FormBuilderItemBase item, FormBuilderItemData data, String mode) {
         String type = item.getFormbuildertype();
         PdfFormBuilderItem comp;
         boolean skipPropertiesCopy = false;
@@ -111,6 +111,9 @@ public abstract class FormBuilderItemPdfFactory {
             comp.setFile(data.getFile());
         } else {
             comp.setItemUuid(item.getId());
+        }
+        if (mode != null) {
+            comp.setMode(mode);
         }
         //render html object
         return comp.render();

@@ -38,7 +38,7 @@ public class PdfFormBuilderCheckbox extends PdfFormBuilderItem {
                 new ITextCheckbox(
                 getProperties().getValues().split(";"),
                 getValueArray(),
-                getProperties().getLocked()));
+                isDisabled()));
         innerTable.getContent().setFixedHeight(getProperties().getValues().length() * 3.5f);
         innerTable.addCells();
         return innerTable;
