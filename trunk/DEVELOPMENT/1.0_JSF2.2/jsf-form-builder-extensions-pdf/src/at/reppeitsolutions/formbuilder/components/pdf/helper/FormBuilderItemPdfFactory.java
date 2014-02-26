@@ -105,6 +105,9 @@ public abstract class FormBuilderItemPdfFactory {
         //Set data of html object
         if (data != null) {
             comp.setValue(data.getValue());
+            if(data.getNumberValue() != null) {
+                comp.setValue(data.getNumberValue().toString());
+            }
             comp.setFile(data.getFile());
         } else {
             comp.setItemUuid(item.getId());
