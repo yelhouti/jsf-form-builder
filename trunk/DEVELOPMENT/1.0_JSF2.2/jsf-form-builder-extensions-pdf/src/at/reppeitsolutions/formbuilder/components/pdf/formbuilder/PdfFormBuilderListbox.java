@@ -39,7 +39,7 @@ public class PdfFormBuilderListbox extends PdfFormBuilderItem {
                 new ITextListbox(
                 getProperties().getValues().split(";"),
                 getValueArray(),
-                getProperties().getLocked()));
+                isDisabled()));
         innerTable.getContent().setFixedHeight(getProperties().getValues().split(";").length * ITextInputText.FONTSIZE * ITextInputText.HEIGHTMULTIPLICATOR);
         innerTable.addCells();
         return innerTable;

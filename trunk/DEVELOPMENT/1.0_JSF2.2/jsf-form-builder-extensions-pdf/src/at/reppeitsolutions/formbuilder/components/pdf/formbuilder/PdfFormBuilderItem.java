@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.pdf.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.FormFiller;
 import com.lowagie.text.Element;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
@@ -36,6 +37,7 @@ public abstract class PdfFormBuilderItem {
     protected String itemUuid;
     protected boolean renderDescription = false;
     protected FormBuilderItemProperties properties = new FormBuilderItemProperties();
+    private String mode;
 
     public String getValue() {
         return value;
@@ -46,6 +48,15 @@ public abstract class PdfFormBuilderItem {
             return value.split(";");
         }
         return null;
+    }
+    
+    protected boolean isDisabled() {
+        if (getMode() == null ||
+            getMode().equals(FormFiller.MODE_VIEW) ||
+            (getMode().equals(FormFiller.MODE_FILL) && getProperties().getLocked())) {
+            return true;
+        }
+        return false;
     }
     
     public String getMandatoryString() {
@@ -83,4 +94,13 @@ public abstract class PdfFormBuilderItem {
     public void setProperties(FormBuilderItemProperties properties) {
         this.properties = properties;
     }
+    
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+    
 }

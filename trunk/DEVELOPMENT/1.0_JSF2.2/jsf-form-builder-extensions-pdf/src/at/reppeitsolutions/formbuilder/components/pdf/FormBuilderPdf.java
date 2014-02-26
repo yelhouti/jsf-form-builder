@@ -7,7 +7,6 @@ package at.reppeitsolutions.formbuilder.components.pdf;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormBuilderComponentBase;
 import at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder.FormBuilderPdfRenderer;
-import at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder.FormFillerPdfRenderer;
 import javax.faces.component.FacesComponent;
 
 /**

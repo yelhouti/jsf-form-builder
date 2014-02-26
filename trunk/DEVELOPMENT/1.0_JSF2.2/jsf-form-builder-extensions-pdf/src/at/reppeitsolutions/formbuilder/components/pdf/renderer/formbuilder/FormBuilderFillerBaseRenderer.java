@@ -95,10 +95,6 @@ public class FormBuilderFillerBaseRenderer extends Renderer {
         for (int i = 0; i < items.size(); ++i) {
             FormBuilderItemBase item = items.get(i).getFormBuilderItem();
             FormBuilderItemData itemData = items.get(i).getFormBuilderItemData();
-            if(itemData == null ||
-               (mode != null && mode.equals(FormFiller.MODE_VIEW))) {
-                item.getProperties().setLocked(Boolean.TRUE);
-            }
             if(itemData != null) {
                 ConstraintVariablesContainer constraintVariablesContainer = new ConstraintVariablesContainer();
                 activeConstraint = FormFillerInternalRenderer.checkConstraints(
@@ -130,7 +126,7 @@ public class FormBuilderFillerBaseRenderer extends Renderer {
                         outputCell = new ITextOuterTableCell(2);
                 }
                 if(itemData != null) {
-                    outputCell.addElement(FormBuilderItemPdfFactory.getUIPdfComponent(itemData));
+                    outputCell.addElement(FormBuilderItemPdfFactory.getUIPdfComponent(itemData, mode));
                 } else {
                     outputCell.addElement(FormBuilderItemPdfFactory.getUIPdfComponent(item));
                 }

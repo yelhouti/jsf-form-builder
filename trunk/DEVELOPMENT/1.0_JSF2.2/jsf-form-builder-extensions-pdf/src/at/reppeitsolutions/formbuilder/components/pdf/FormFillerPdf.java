@@ -17,9 +17,12 @@
 package at.reppeitsolutions.formbuilder.components.pdf;
 
 import at.reppeitsolutions.formbuilder.components.Constants;
+import at.reppeitsolutions.formbuilder.components.FormFiller;
+import static at.reppeitsolutions.formbuilder.components.FormFiller.MODE_FILL;
 import at.reppeitsolutions.formbuilder.components.FormFillerComponentBase;
 import javax.faces.component.FacesComponent;
 import at.reppeitsolutions.formbuilder.components.pdf.renderer.formbuilder.FormFillerPdfRenderer;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -30,6 +33,11 @@ public class FormFillerPdf extends FormFillerComponentBase {
 
     public FormFillerPdf() {
         setRendererType(FormFillerPdfRenderer.RENDERTYPE);
+    }
+    
+    @PostConstruct
+    public void init() {
+        setMode(FormFiller.MODE_FILL);
     }
 
     @Override
