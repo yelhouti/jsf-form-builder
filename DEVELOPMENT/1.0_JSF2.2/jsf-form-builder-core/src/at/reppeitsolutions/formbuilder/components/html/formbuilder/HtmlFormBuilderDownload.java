@@ -27,6 +27,8 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputFile;
 import javax.faces.component.html.HtmlOutputText;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -57,7 +59,8 @@ public class HtmlFormBuilderDownload extends HtmlFormBuilderItem {
                 }
                 HtmlOutputText link = new HtmlOutputText();
                 link.setEscape(false);
-                link.setValue("<a target=\"_blank\" href=\"" + FileServlet.FOLDER + "/" + tempFile.getName() + "\">" + properties.getFile().getFilename() + "</a>");
+                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                link.setValue("<a target=\"_blank\" href=\"" + request.getContextPath() + "/" + FileServlet.FOLDER + "/" + tempFile.getName() + "\">" + properties.getFile().getFilename() + "</a>");
                 getChildren().add(link);
             } catch (IOException ex) {
                 Logger.getLogger(HtmlFormBuilderDownload.class.getName()).log(Level.SEVERE, null, ex);
