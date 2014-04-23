@@ -59,22 +59,17 @@ function initFormBuilder(formid, palette, formContent, formActionString, formCon
 
     for (var i = 0; i < palettes.length; i++) {
         $("#" + palettes[i] + " li").draggable({
-            appendTo: "body",
+            connectToSortable: "#" + formContent_,
             helper: "clone",
-            cursor: "move"
+            cursor: "move",
+            revert: "invalid"
         });
     }
 
     $("#" + formContent_).droppable({
         activeClass: "ui-state-highlight",
         hoverClass: "ui-state-hover",
-        accept: ":not(.ui-sortable-helper)",
-        drop: function(event, ui) {
-            $("#" + formContent).find(".placeholder").remove();
-            count++;
-            $("<li class=\"ui-state-default\" id=\"test_" + count + "\"></li>").html(ui.draggable.html()).appendTo(this);
-            updateForm();
-        }
+        accept: ":not(.ui-sortable-helper)"
     }).sortable({
         items: "li:not(.placeholder)",
         cursor: "move",
