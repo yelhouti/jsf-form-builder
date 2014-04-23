@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,11 +36,10 @@ import javax.persistence.OneToMany;
 public class ConstraintClient implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String displayName;
     private String uuid;
-    @OneToMany(mappedBy = "constraintClient")
+    private String displayName;
+    
+    @OneToMany(mappedBy = "constraintClient", cascade = CascadeType.ALL)
     private List<Constraint> constraints = new ArrayList<>();
 
     public ConstraintClient() {
@@ -50,15 +50,7 @@ public class ConstraintClient implements Serializable {
         this.displayName = displayName;
         this.uuid = uuid;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public String getDisplayName() {
         return displayName;
     }
