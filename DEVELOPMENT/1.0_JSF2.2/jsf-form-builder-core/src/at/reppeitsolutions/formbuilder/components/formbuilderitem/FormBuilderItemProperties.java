@@ -65,6 +65,8 @@ public class FormBuilderItemProperties implements Serializable {
     private Boolean maximise = false;
     private String metadatadescription;
     private String metadatagetter;
+    @Transient
+    private Boolean renderEditor = false;
     
 
     public void resetConstraintVariables() {
@@ -272,6 +274,14 @@ public class FormBuilderItemProperties implements Serializable {
 
     public void setMetadatagetter(String metadatagetter) {
         this.metadatagetter = metadatagetter;
+    }
+
+    public Boolean getRenderEditor() {
+        return renderEditor;
+    }
+
+    public void setRenderEditor(Boolean renderEditor) {
+        this.renderEditor = renderEditor;
     }
     
 }
