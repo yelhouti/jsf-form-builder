@@ -215,3 +215,7 @@ body {
 .oddColumn, .oddColumn input, .oddColumn select, .oddColumn textarea {
     width: 100%;
 }
+
+.dialog {
+    font-size: 11pt;
+}
