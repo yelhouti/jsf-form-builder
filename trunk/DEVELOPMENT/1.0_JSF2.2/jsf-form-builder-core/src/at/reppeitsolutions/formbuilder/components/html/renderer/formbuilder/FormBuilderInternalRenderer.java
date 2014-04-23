@@ -36,6 +36,7 @@ import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdateHo
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
+import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderConstraint;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
 import java.io.IOException;
@@ -97,15 +98,15 @@ public class FormBuilderInternalRenderer extends Renderer {
             if (formModel.getItems() != null) {
                 String activeConstraint = null;
                 for (FormBuilderItemBase item : formModel.getItems()) {
-                    HtmlFormBuilderItem htmlItem = null;
-                    htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item, formBuilder);
                     if (item instanceof FormBuilderItemConstraint && activeConstraint == null) {
                         activeConstraint = item.getId();
+                        item.getProperties().setRenderEditor(Boolean.TRUE);
                     } else {
                         if (item instanceof FormBuilderItemConstraint) {
                             activeConstraint = null;
                         }
                     }
+                    HtmlFormBuilderItem htmlItem = FormBuilderItemFactory.getUIComponentWithDialog(item, formBuilder);
                     components.add(new FormBuilderContainer(item, htmlItem));
                 }
                 if (formModel.getItems().isEmpty()) {
