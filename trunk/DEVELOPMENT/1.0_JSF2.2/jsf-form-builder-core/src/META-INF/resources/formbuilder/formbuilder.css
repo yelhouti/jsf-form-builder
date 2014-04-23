@@ -48,7 +48,7 @@ body {
 }
 
 #holder {
-    width: 1000px;
+    width: 1010px;
 }
 
 #holderfiller {
@@ -67,6 +67,7 @@ body {
 #accordionHolder {
     float: left;
     width: 220px;
+    margin-right: 15px;
 }
 
 #contentHolder {
