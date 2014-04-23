@@ -39,6 +39,7 @@ import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 
 /**
@@ -63,7 +64,7 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     protected Form form;
     @Embedded
     protected FormBuilderItemProperties properties;
-    @OneToMany(mappedBy = "formBuilderItem")
+    @OneToMany(mappedBy = "formBuilderItem", cascade = CascadeType.ALL)
     private List<Constraint> constraints = new ArrayList<>();
     @Transient
     private String constraintsstring;
@@ -77,7 +78,6 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     private FormBuilderItemBase brother;
 
     public enum SPECIALPROPERTY {
-
         TEXTAREA
     }
 
@@ -102,10 +102,8 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     public void addConstraintClient(ConstraintClient constraintClient, WorkflowState workflowState, ConstraintType constraintType) {
         Constraint constraint = new Constraint();
         constraint.setFormBuilderItem(this);
-        constraint.setFormBuilderItemUuid(this.getId());
         if (constraintClient != null) {
             constraint.setConstraintClient(constraintClient);
-            constraint.setConstraingClientId(constraintClient.getId());
         }
         if (workflowState != null) {
             constraint.setWorkflowState(workflowState);

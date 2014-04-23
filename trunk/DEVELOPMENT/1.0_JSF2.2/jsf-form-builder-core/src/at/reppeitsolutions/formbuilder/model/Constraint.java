@@ -20,15 +20,16 @@ import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -37,40 +38,29 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = Constants.TABLE_PREFIX + "formitem_constraintclient")
-@IdClass(ConstraintId.class)
 public class Constraint implements Serializable {
 
     @Id
-    private String formBuilderItemUuid;
-    @Id
-    private Long constraingClientId;
+    private String uuid = UUID.randomUUID().toString();
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "formBuilderItemUuid", referencedColumnName = "uuid")
+    @JoinColumn(name = "formBuilderItemUuid")
     private FormBuilderItemBase formBuilderItem;
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "ConstraintClientId", referencedColumnName = "id")
+    @JoinColumn(name = "constraintClientUuid")
     private ConstraintClient constraintClient;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private WorkflowState workflowState;
     @Enumerated(EnumType.STRING)
     private ConstraintType constraintType = ConstraintType.DEFAULT;
 
-    public String getFormBuilderItemUuid() {
-        return formBuilderItemUuid;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setFormBuilderItemUuid(String formBuilderItemUuid) {
-        this.formBuilderItemUuid = formBuilderItemUuid;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
     
-    public Long getConstraingClientId() {
-        return constraingClientId;
-    }
-
-    public void setConstraingClientId(Long constraingClientId) {
-        this.constraingClientId = constraingClientId;
-    }
-
     public FormBuilderItemBase getFormBuilderItem() {
         return formBuilderItem;
     }
