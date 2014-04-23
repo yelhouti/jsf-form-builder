@@ -19,7 +19,6 @@ package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnoreProperty;
 import at.reppeitsolutions.formbuilder.components.annotations.IgnorePropertyInDialog;
-import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.File;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -276,6 +275,7 @@ public class FormBuilderItemProperties implements Serializable {
         this.metadatagetter = metadatagetter;
     }
 
+    @IgnorePropertyInDialog
     public Boolean getRenderEditor() {
         return renderEditor;
     }
