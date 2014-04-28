@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
+import at.reppeitsolutions.formbuilder.components.Constants;
 import at.reppeitsolutions.formbuilder.components.FormFiller;
 import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemProperties;
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
@@ -25,6 +26,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlOutputText;
 import at.reppeitsolutions.formbuilder.messages.Messages;
+import javax.faces.component.html.HtmlGraphicImage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -56,7 +59,13 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
 
     protected void renderDescription() {
         HtmlOutputText output = new HtmlOutputText();
-        if(properties.getMetadatadescription()== null) {
+        if (properties.getMetadatadescription() == null) {
+            HtmlGraphicImage logo = new HtmlGraphicImage();
+            logo.setHeight("20px");
+            logo.setWidth("40px");
+            logo.setStyle("margin-right:5px;margin-bottom:-4px;");
+            logo.setValue(Constants.getResourcesBaseUrl() + "formbuilder/images/icons/" + this.getClass().getSimpleName() + ".png.xhtml");
+            getChildren().add(logo);
             output.setValue(Messages.getStringJSF(this.getClass().getSimpleName()));
         } else {
             output.setValue(properties.getMetadatadescription().replaceAll(":", ""));
@@ -64,7 +73,7 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
         output.setTransient(true);
         getChildren().add(output);
     }
-    
+
     protected void addLabeledComponent(HtmlOutputText label, UIComponent output, String style) {
         if (properties == null
                 || properties.getLabelLength() == -1) {
@@ -72,15 +81,15 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
             getChildren().add(output);
         } else {
             HtmlDiv div = new HtmlDiv();
-            if(properties.getOnelinedescription() != null && 
-               properties.getOnelinedescription()) {
+            if (properties.getOnelinedescription() != null
+                    && properties.getOnelinedescription()) {
                 div.setStyle("width: 100%;");
             } else {
                 div.setStyle("width: " + properties.getLabelLength() + "ex; float: left;");
             }
-            
-            String labelString = (String)label.getValue();
-            if(labelString != null && labelString.trim().isEmpty()) {
+
+            String labelString = (String) label.getValue();
+            if (labelString != null && labelString.trim().isEmpty()) {
                 HtmlOutputText span = new HtmlOutputText();
                 span.setValue("&nbsp");
                 span.setEscape(false);
@@ -94,21 +103,21 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
             div = new HtmlDiv();
             div.setStyle("overflow: hidden;padding-right:6px;");
             div.getChildren().add(output);
-            if(style != null) {
+            if (style != null) {
                 output.getPassThroughAttributes().put("style", style);
             }
-            getChildren().add(div); 
+            getChildren().add(div);
         }
     }
 
     protected void addLabeledComponent(HtmlOutputText label, UIComponent output) {
         addLabeledComponent(label, output, "width: 100%; margin-right: 10px;");
     }
-    
+
     protected boolean isDisabled() {
-        if (getMode() == null ||
-            getMode().equals(FormFiller.MODE_VIEW) ||
-            (getMode().equals(FormFiller.MODE_FILL) && getProperties().getLocked())) {
+        if (getMode() == null
+                || getMode().equals(FormFiller.MODE_VIEW)
+                || (getMode().equals(FormFiller.MODE_FILL) && getProperties().getLocked())) {
             return true;
         }
         return false;
@@ -182,5 +191,4 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
     public void setMode(String mode) {
         this.mode = mode;
     }
-    
 }

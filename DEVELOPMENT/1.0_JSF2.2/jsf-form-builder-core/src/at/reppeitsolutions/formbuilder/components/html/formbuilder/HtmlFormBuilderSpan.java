@@ -93,7 +93,7 @@ public class HtmlFormBuilderSpan extends HtmlFormBuilderItem {
     @Override
     public String getWidth() {
         if(fbitem.getProperties() != null && fbitem.getProperties().getRenderDescription()) {
-            return "175px";
+            return "195px";
         } else {
             return fbitem.getWidth();
         }
