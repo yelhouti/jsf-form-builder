@@ -48,7 +48,7 @@ function initFormBuilder(formid, palette, formContent, formActionString, formCon
     formContent_ = formContent;
     formActionString_ = formActionString;
     formContentString_ = formContentString;
-
+    
     $("#accordion").accordion({
         heightStyle: "content",
         active: parseInt(document.getElementById(formActiveTabString).value),
