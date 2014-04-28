@@ -99,7 +99,11 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         formContentString.setId(FORMCONTENTSTRING);
 
         HtmlInputHidden formActiveTabString = new HtmlInputHidden();
-        formActiveTabString.setValue("0");
+        if(getActiveTab() != null) {
+            formActiveTabString.setValue(getActiveTab());
+        } else {
+            formActiveTabString.setValue("0");
+        }
         formActiveTabString.setId(FORMACTIVETABSTRING);
 
         HtmlInputHidden propDialogHeader = new HtmlInputHidden();
@@ -204,6 +208,14 @@ public class FormBuilderInternal extends FormBuilderComponentBase {
         JQueryHelper.encasulateForJQuery(palette, components);
 
         return palette;
+    }
+    
+    public String getActiveTab() {
+        return (String) getStateHelper().eval("activeTab");
+    }
+
+    public void setActiveTab(String activeTab) {
+        getStateHelper().put("activeTab", activeTab);
     }
     
 }

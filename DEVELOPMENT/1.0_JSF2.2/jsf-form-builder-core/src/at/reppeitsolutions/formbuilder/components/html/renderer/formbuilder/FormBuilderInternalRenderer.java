@@ -188,6 +188,7 @@ public class FormBuilderInternalRenderer extends Renderer {
         formBuilder.setInvokeCallback(true);
         String formContentString = ctx.getExternalContext().getRequestParameterMap().get(getFormContentStringId(component));
         String formActionString = ctx.getExternalContext().getRequestParameterMap().get(getFormActionStringId(component));
+        formBuilder.setActiveTab(ctx.getExternalContext().getRequestParameterMap().get(getFormActiveTabStringId(component)));
 
         if (formActionString != null && !"".equals(formActionString)) {
             ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
