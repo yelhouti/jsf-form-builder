@@ -48,12 +48,23 @@ function initFormBuilder(formid, palette, formContent, formActionString, formCon
     formContent_ = formContent;
     formActionString_ = formActionString;
     formContentString_ = formContentString;
-    
+
     $("#accordion").accordion({
         heightStyle: "content",
         active: parseInt(document.getElementById(formActiveTabString).value),
         activate: function() {
             document.getElementById(formActiveTabString).value = $("#accordion").accordion("option", "active");
+        }
+    });
+
+
+    $("#" + formContent_).sortable({
+        items: "li:not(.placeholder)",
+        cursor: "move",
+        rever: true,
+        placeholder: "sortable-placeholder",
+        update: function() {
+            updateForm();
         }
     });
 
@@ -65,23 +76,6 @@ function initFormBuilder(formid, palette, formContent, formActionString, formCon
             revert: "invalid"
         });
     }
-
-    $("#" + formContent_).droppable({
-        activeClass: "ui-state-highlight",
-        hoverClass: "ui-state-hover",
-        accept: ":not(.ui-sortable-helper)"
-    }).sortable({
-        items: "li:not(.placeholder)",
-        cursor: "move",
-        sort: function() {
-            // gets added unintentionally by droppable interacting with sortable
-            // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-            $(this).removeClass("ui-state-default");
-        },
-        update: function() {
-            updateForm();
-        }
-    });
 
     $("#" + formContent_ + " li").resizable({
         containment: "#" + formContent_,
@@ -230,17 +224,17 @@ function updateForm() {
     });
 }
 
-function addConstraint(uuid,itemid) {
+function addConstraint(uuid, itemid) {
     var json = "{";
     json += "\"itemUuid\":\"" + itemid + "\",";
     var ws = "";
-    if(document.getElementById(formid_ + ":workflowState" + uuid) !== null) {
+    if (document.getElementById(formid_ + ":workflowState" + uuid) !== null) {
         ws = document.getElementById(formid_ + ":workflowState" + uuid).value;
     }
     json += "\"workflowState\":\"" + ws + "\",";
     json += "\"constraintType\":\"" + document.getElementById(formid_ + ":constraintType" + uuid).value + "\",";
     var cc = "";
-    if(document.getElementById(formid_ + ":constraintClient" + uuid) !== null) {
+    if (document.getElementById(formid_ + ":constraintClient" + uuid) !== null) {
         cc = document.getElementById(formid_ + ":constraintClient" + uuid).value;
     }
     json += "\"constraintClient\":\"" + cc + "\"";
