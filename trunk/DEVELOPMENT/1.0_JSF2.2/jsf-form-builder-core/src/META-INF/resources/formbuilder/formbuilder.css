@@ -79,6 +79,10 @@ body {
     margin-right: 5px;
 }
 
+#accordion h3 {
+    color: black;
+}
+
 #ajaxReload {
     height: 20px;
     width: 20px;
