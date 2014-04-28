@@ -59,18 +59,20 @@ public abstract class HtmlFormBuilderItem extends UIComponentBase {
 
     protected void renderDescription() {
         HtmlOutputText output = new HtmlOutputText();
+        HtmlGraphicImage logo = new HtmlGraphicImage();
+        logo.setHeight("20px");
+        logo.setWidth("40px");
+        logo.setStyle("margin-right:5px;margin-bottom:-4px;");
+        String urlprefix = Constants.getResourcesBaseUrl() + "formbuilder/images/icons/";
         if (properties.getMetadatadescription() == null) {
-            HtmlGraphicImage logo = new HtmlGraphicImage();
-            logo.setHeight("20px");
-            logo.setWidth("40px");
-            logo.setStyle("margin-right:5px;margin-bottom:-4px;");
-            logo.setValue(Constants.getResourcesBaseUrl() + "formbuilder/images/icons/" + this.getClass().getSimpleName() + ".png.xhtml");
-            getChildren().add(logo);
+            logo.setValue(urlprefix + this.getClass().getSimpleName() + ".png.xhtml");
             output.setValue(Messages.getStringJSF(this.getClass().getSimpleName()));
         } else {
+            logo.setValue(urlprefix + "MetaData.png.xhtml");
             output.setValue(properties.getMetadatadescription().replaceAll(":", ""));
         }
         output.setTransient(true);
+        getChildren().add(logo);
         getChildren().add(output);
     }
 
