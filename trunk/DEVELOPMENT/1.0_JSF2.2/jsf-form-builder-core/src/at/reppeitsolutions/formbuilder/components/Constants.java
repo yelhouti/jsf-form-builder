@@ -18,6 +18,7 @@ package at.reppeitsolutions.formbuilder.components;
 
 import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -35,4 +36,13 @@ public class Constants {
     public static int MINLABELLENGTH = 10;
     
     public static final String TABLE_PREFIX = "formbuilder_";
+    
+    public static String getResourcesBaseUrl() {
+        return getBaseUrl() + "javax.faces.resources/";
+    }
+    
+    public static String getBaseUrl() {
+        return ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath() + "/";
+    }
+    
 }
