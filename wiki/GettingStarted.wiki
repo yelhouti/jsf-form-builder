@@ -47,8 +47,8 @@ public class FormBuilderBean implements Serializable {
 This is the important part of the edit.xhtml file:
 
 {{{
-<h:form enctype="multipart/form-data">
-    <r:formBuilder model="#{formBuilderBean.form}" />
+<h:form>
+    <r:formBuilder form="#{formBuilderBean.form}" />
 </h:form>
 }}}
 
@@ -74,8 +74,8 @@ The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multip
                 <h:commandButton action="#{formBuilderBean.fill}" value="Fill form" />
                 <h:commandButton action="pdf" value="Pdf export" />
             </h:form>
-            <h:form enctype="multipart/form-data">
-                <r:formBuilder model="#{formBuilderBean.form}" />
+            <h:form>
+                <r:formBuilder form="#{formBuilderBean.form}" />
             </h:form>
         </h:body>
     </f:view>
@@ -89,8 +89,8 @@ The `<r:formBuilder />` tag must be inside a `<h:form>` tag with enctype  multip
 This is the important part of the edit.xhtml file:
 
 {{{
-<h:form enctype="multipart/form-data" target="_blank">
-    <r:formFiller model="#{formBuilderBean.formData}" />
+<h:form>
+    <r:formFiller formData="#{formBuilderBean.formData}" />
     <h:commandButton action="view" value="Submit" />
 </h:form>
 }}}
@@ -110,9 +110,9 @@ The `<r:formFiller />` tag must be inside a `<h:form>` tag with enctype  multipa
         </h:head>
         <h:body>
             <h1>Fill form</h1>
+            <button id="submitButton">Submit</button>
             <h:form enctype="multipart/form-data" target="_blank">
-                <r:formFiller model="#{formBuilderBean.formData}" />
-                <h:commandButton action="view" value="Submit" />
+                <r:formFiller model="#{formBuilderBean.formData}" action="view" submitButtonId="submitButton" />
             </h:form>
         </h:body>
     </f:view>
@@ -136,8 +136,8 @@ If you render a `<r:formFiller />` tag with a model containing data you could us
         </h:head>
         <h:body>
             <h1>View filled form</h1>
-            <h:form enctype="multipart/form-data">
-                <r:formFiller model="#{formBuilderBean.formData}" />
+            <h:form>
+                <r:formFiller formData="#{formBuilderBean.formData}" />
             </h:form>
         </h:body>
     </f:view>
@@ -154,7 +154,7 @@ This example renders a form into a pdf.
 <pdf  xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:r="http://www.reppe-itsolutions.at/pdf">
     <f:view renderKitId="PDF_BASIC">
-        <r:formFillerPdf model="#{formBuilderBean.formData}" />
+        <r:formFillerPdf formData="#{formBuilderBean.formData}" />
     </f:view>
 </pdf>
 }}}
