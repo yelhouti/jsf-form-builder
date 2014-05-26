@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.beans;
 
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormData;
+import at.reppeitsolutions.formbuilder.model.FormData;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;

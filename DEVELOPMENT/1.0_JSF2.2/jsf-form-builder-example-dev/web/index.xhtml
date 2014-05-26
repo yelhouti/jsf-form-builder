@@ -8,8 +8,8 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 template="./template.xhtml">
     <ui:define name="content">
-        <h:form enctype="multipart/form-data">
-            <r:formBuilder model="#{exampleBean.form}" />
+        <h:form>
+            <r:formBuilder form="#{exampleBean.form}" />
         </h:form>
     </ui:define>
 </ui:composition>

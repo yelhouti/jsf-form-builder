@@ -8,13 +8,15 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 template="./template.xhtml">
     <ui:define name="content">
-        <h:form id="formbuilder1" enctype="multipart/form-data">
+        <h:form id="formbuilder1">
             Current Form ID: <h:outputText value="#{exampleFillerBean.formData.form.id}" />
             <br /><br />
-            <r:formFiller model="#{exampleFillerBean.formData}" />
+            <r:formFiller formData="#{exampleFillerBean.formData}" 
+                          action="#{exampleFillerBean.submit}"
+                          submitButtonId="saveButton" />
             <br />
-            <h:commandButton action="#{exampleFillerBean.submit}" value="Save" />
         </h:form>
+        <button id="saveButton">Save</button>
     </ui:define>
 </ui:composition>
 

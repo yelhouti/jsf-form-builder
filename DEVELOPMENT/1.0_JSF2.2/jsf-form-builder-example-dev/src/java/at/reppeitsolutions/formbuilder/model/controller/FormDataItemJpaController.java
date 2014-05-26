@@ -16,10 +16,10 @@
  */
 package at.reppeitsolutions.formbuilder.model.controller;
 
+import at.reppeitsolutions.formbuilder.model.FormBuilderItemData;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.data.FormBuilderItemData;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
