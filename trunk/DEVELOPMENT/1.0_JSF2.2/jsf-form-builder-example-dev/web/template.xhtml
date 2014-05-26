@@ -44,7 +44,7 @@
                     <ul style="list-style-type: none;">
                         <c:forEach items="#{exampleFillerBean.formDatas}" var="form">
                             <li>
-                                <a href="view.xhtml?formdataid=#{form.id}">#{form.form.id} (#{form.creationDate})</a>
+                                <a href="view.xhtml?formdataid=#{form.id}">#{form.form.id}</a>
                                 <a href="pdf.xhtml?formdataid=#{form.id}">PDF</a>
                             </li>
                         </c:forEach>
