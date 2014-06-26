@@ -35,6 +35,7 @@ public class ModelApplicationBean implements Serializable {
     
     private Map<String, FormBuilderAttributesContainer> models = new HashMap<>();
     private Map<String, FormFillerAttributesContainer> datamodels = new HashMap<>();
+    private Map<String, FormDataResultAttributesContainer> resultmodels = new HashMap<>();
     
     public FormBuilderAttributesContainer getForm(String uuid) {
         return models.get(uuid);
@@ -42,6 +43,10 @@ public class ModelApplicationBean implements Serializable {
     
     public FormFillerAttributesContainer getFormData(String uuid) {
         return datamodels.get(uuid);
+    }
+    
+    public FormDataResultAttributesContainer getFormDataResult(String uuid) {
+        return resultmodels.get(uuid);
     }
     
     public void putForm(String uuid, FormBuilderAttributesContainer container) {
@@ -54,6 +59,11 @@ public class ModelApplicationBean implements Serializable {
         datamodels.put(uuid, container);
     }
     
+    public void putFormDataResult(String uuid, FormDataResultAttributesContainer container) {
+        destroyFormData(uuid);
+        resultmodels.put(uuid, container);
+    }
+    
     public void destroyForm(String uuid) {
         if(models.containsKey(uuid)) {
             models.remove(uuid);
@@ -63,6 +73,12 @@ public class ModelApplicationBean implements Serializable {
     public void destroyFormData(String uuid) {
         if(datamodels.containsKey(uuid)) {
             datamodels.remove(uuid);
+        }
+    }
+    
+    public void destroyFormDataResult(String uuid) {
+        if(resultmodels.containsKey(uuid)) {
+            resultmodels.remove(uuid);
         }
     }
     

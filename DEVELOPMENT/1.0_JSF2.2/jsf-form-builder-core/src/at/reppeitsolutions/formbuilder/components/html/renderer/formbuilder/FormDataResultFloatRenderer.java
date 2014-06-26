@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormDataResultFloatComponent;
+import at.reppeitsolutions.formbuilder.components.FormDataResultFloat;
 import at.reppeitsolutions.formbuilder.components.helper.FormDataFloatResult;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
@@ -38,7 +38,7 @@ public class FormDataResultFloatRenderer extends Renderer {
     @Override
     public void encodeBegin(FacesContext ctx, UIComponent component) throws IOException {
         ResponseWriter writer = ctx.getResponseWriter();
-        FormDataResultFloatComponent floatFormDatasResultComponent = (FormDataResultFloatComponent) component;
+        FormDataResultFloat floatFormDatasResultComponent = (FormDataResultFloat) component;
         FormDataFloatResult floatFormDataResult = floatFormDatasResultComponent.getFloatFormDataResult();
         if (floatFormDataResult != null) {
             writer.write("<p>");

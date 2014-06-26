@@ -16,24 +16,20 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormDataResultFloatComponent;
-import at.reppeitsolutions.formbuilder.components.FormDataResultComponent;
-import at.reppeitsolutions.formbuilder.components.FormDataResultPieChartComponent;
-import at.reppeitsolutions.formbuilder.components.FormDataResultStringComponent;
-import at.reppeitsolutions.formbuilder.components.helper.FormDataFloatResult;
-import at.reppeitsolutions.formbuilder.components.helper.FormDataResult;
-import at.reppeitsolutions.formbuilder.components.helper.FormDataResultFactory;
-import at.reppeitsolutions.formbuilder.components.helper.FormDataPieChartResult;
-import at.reppeitsolutions.formbuilder.components.helper.FormDataStringResult;
+import at.reppeitsolutions.formbuilder.components.Constants;
+import at.reppeitsolutions.formbuilder.components.FormBuilder;
+import at.reppeitsolutions.formbuilder.components.FormBuilderAttributesContainer;
+import at.reppeitsolutions.formbuilder.components.FormDataResult;
+import at.reppeitsolutions.formbuilder.components.FormDataResultAttributesContainer;
+import at.reppeitsolutions.formbuilder.components.ModelApplicationBean;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.UUID;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -45,33 +41,28 @@ public class FormDataResultRenderer extends Renderer {
     public static final String RENDERTYPE = "FormDataResultRenderer";
     public static final String FAMILY = "at.rits.formbuilder";
 
-    @Override
-    public void encodeBegin(FacesContext ctx, UIComponent component) throws IOException {
-        ResponseWriter writer = ctx.getResponseWriter();
-        FormDataResultComponent formDatasResultComponent = (FormDataResultComponent)component;
-        HtmlPanelGrid panelGrid = new HtmlPanelGrid();
-        panelGrid.setColumns(2);
-        Collection<FormDataResult> formDataResults = FormDataResultFactory.getFormDataResults(formDatasResultComponent.getFormDatas());
-        for(FormDataResult formDataResult : formDataResults) {
-            String description = formDataResult.getFormBuilderItem().getProperties().getLabel();
-            HtmlOutputText descriptionHtmlOutputText = new HtmlOutputText();
-            descriptionHtmlOutputText.setValue(description);
-            panelGrid.getChildren().add(descriptionHtmlOutputText);
-            if(formDataResult instanceof FormDataPieChartResult) {
-                FormDataResultPieChartComponent pieChartComponent = new FormDataResultPieChartComponent();
-                pieChartComponent.setPieChart((FormDataPieChartResult)formDataResult);
-                panelGrid.getChildren().add(pieChartComponent);
-            } else if(formDataResult instanceof FormDataStringResult) {
-                FormDataResultStringComponent stringFormDatasResultComponent = new FormDataResultStringComponent();
-                stringFormDatasResultComponent.setStringFormDataResult((FormDataStringResult)formDataResult);
-                panelGrid.getChildren().add(stringFormDatasResultComponent);
-            } else if(formDataResult instanceof FormDataFloatResult) {
-                FormDataResultFloatComponent floatFormDatasResultComponent = new FormDataResultFloatComponent();
-                floatFormDatasResultComponent.setFloatFormDataResult((FormDataFloatResult)formDataResult);
-                panelGrid.getChildren().add(floatFormDatasResultComponent);
-            }
-        }
-        component.getChildren().add(panelGrid);
+    public FormDataResultRenderer() {
     }
-    
+
+    @Override
+    public void encodeBegin(FacesContext ctx,
+            UIComponent component) throws IOException {
+        FormDataResult formDataResult = (FormDataResult) component;
+        String uuid = UUID.randomUUID().toString();
+        FormDataResultAttributesContainer container = new FormDataResultAttributesContainer();
+        container.setFormDatas(formDataResult.getFormDatas());
+        ModelApplicationBean.getInstance().putFormDataResult(uuid, container);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        formDataResult.getIFrame().setSrc(request.getContextPath() + "/pages/formresult.xhtml?uuid=" + uuid);
+    }
+
+    @Override
+    public void encodeEnd(FacesContext ctx,
+            UIComponent component) throws IOException {
+        FormDataResult formDataResult = (FormDataResult) component;
+        ResponseWriter writer = ctx.getResponseWriter();
+        writer.write("<script type=\"text/javascript\">"
+                + "$(function(){regIframe('" + formDataResult.getIFrame().getId() + "');});"
+                + "</script>");
+    }
 }

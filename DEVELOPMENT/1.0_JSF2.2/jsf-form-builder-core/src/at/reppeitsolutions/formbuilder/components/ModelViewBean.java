@@ -16,8 +16,6 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
-import at.reppeitsolutions.formbuilder.model.FormData;
-import at.reppeitsolutions.formbuilder.model.Form;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
@@ -45,6 +43,7 @@ public class ModelViewBean implements Serializable {
     public void preDestroy() {
         modelApplicationBean.destroyForm(uuid);
         modelApplicationBean.destroyFormData(uuid);
+        modelApplicationBean.destroyFormDataResult(uuid);
     }
     
     public void save() {
@@ -67,6 +66,15 @@ public class ModelViewBean implements Serializable {
     //Just for ide to restore session after deploy
     private void setFormFillerAttributesContainer(FormFillerAttributesContainer container) {
         modelApplicationBean.putFormData(uuid, container);
+    }
+    
+    public FormDataResultAttributesContainer getFormDataResultAttributesContainer() {
+        return modelApplicationBean.getFormDataResult(uuid);
+    }
+    
+    //Just for ide to restore session after deploy
+    private void setFormDataResultAttributesContainer(FormDataResultAttributesContainer container) {
+        modelApplicationBean.putFormDataResult(uuid, container);
     }
 
     public String getUuid() {

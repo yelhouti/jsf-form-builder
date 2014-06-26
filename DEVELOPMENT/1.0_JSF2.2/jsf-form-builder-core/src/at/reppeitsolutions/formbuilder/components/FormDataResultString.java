@@ -25,17 +25,17 @@ import javax.faces.component.UIComponentBase;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = false, namespace = Constants.NAMESPACE, tagName = "stringFormDataResult")
+@FacesComponent(createTag = false, namespace = Constants.NAMESPACE, tagName = "formDataResultString")
 /*
  * Custom JSF component to render the result in HTML.
  */
-public class FormDataResultStringComponent extends UIComponentBase {
+public class FormDataResultString extends UIComponentBase {
 
     /*
      * Standard constructor
      * Sets the renderer of the component.
      */
-    public FormDataResultStringComponent() {
+    public FormDataResultString() {
         setRendererType(FormDataResultStringRenderer.RENDERTYPE);
     }
 
