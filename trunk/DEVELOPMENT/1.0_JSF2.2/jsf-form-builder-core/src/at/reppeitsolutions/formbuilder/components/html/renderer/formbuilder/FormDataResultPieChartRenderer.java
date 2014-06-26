@@ -16,7 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder;
 
-import at.reppeitsolutions.formbuilder.components.FormDataResultPieChartComponent;
+import at.reppeitsolutions.formbuilder.components.FormDataResultPieChart;
 import at.reppeitsolutions.formbuilder.components.helper.FormDataPieChartResult;
 import java.io.IOException;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class FormDataResultPieChartRenderer extends Renderer {
     @Override
     public void encodeBegin(FacesContext ctx, UIComponent component) throws IOException {
         ResponseWriter writer = ctx.getResponseWriter();
-        FormDataResultPieChartComponent pieChartComponent = (FormDataResultPieChartComponent) component;
+        FormDataResultPieChart pieChartComponent = (FormDataResultPieChart) component;
         FormDataPieChartResult pieChart = pieChartComponent.getPieChart();
         if (pieChart != null && pieChart.getValues() != null && !pieChart.getValues().isEmpty()) {
             String pieChartId = "pieChart" + UUID.randomUUID().toString();

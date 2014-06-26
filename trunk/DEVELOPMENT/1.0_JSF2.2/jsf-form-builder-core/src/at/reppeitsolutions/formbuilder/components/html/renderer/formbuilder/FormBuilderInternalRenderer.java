@@ -36,7 +36,6 @@ import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemUpdateHo
 import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
 import at.reppeitsolutions.formbuilder.components.html.HtmlListItem;
 import at.reppeitsolutions.formbuilder.components.html.HtmlUnorderedList;
-import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderConstraint;
 import at.reppeitsolutions.formbuilder.components.html.formbuilder.HtmlFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.html.renderer.multipart.MultipartRequest;
 import java.io.IOException;
@@ -62,8 +61,6 @@ import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.ConstraintType;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  *

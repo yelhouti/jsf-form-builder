@@ -6,9 +6,8 @@
         Purpose of the stylesheet follows.
 */
 body {
-    /*
-    background-color: #E6E6E6;
-    */
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
 }
 
 .sortable1, .sortable2 {
@@ -50,8 +49,6 @@ body {
     background-color: #F1F1F1;
     float: left;
     padding: 10px;
-    font-size: 12px;
-    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
 }
 
 #holder {

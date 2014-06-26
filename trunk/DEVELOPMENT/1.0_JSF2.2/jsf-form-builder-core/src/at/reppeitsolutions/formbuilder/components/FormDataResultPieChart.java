@@ -25,14 +25,14 @@ import javax.faces.component.UIComponentBase;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = false, namespace = Constants.NAMESPACE, tagName = "pieChartFormDataResult")
-public class FormDataResultPieChartComponent extends UIComponentBase {
+@FacesComponent(createTag = false, namespace = Constants.NAMESPACE, tagName = "formDataResultPieChart")
+public class FormDataResultPieChart extends UIComponentBase {
 
     /*
      * Standard constructor
      * Sets the renderer of the component.
      */
-    public FormDataResultPieChartComponent() {
+    public FormDataResultPieChart() {
         setRendererType(FormDataResultPieChartRenderer.RENDERTYPE);
     }
 

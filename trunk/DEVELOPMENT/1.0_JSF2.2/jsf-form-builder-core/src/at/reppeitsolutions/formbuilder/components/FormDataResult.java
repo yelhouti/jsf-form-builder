@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Mathias Reppe <mathias.reppe@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,13 +16,12 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormBuilderRenderer;
 import at.reppeitsolutions.formbuilder.components.html.renderer.formbuilder.FormDataResultRenderer;
-import at.reppeitsolutions.formbuilder.model.FormData;
-import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponentBase;
 
 /**
  *
@@ -30,14 +29,19 @@ import javax.faces.component.UIComponentBase;
  */
 @FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "formDataResult")
 @ResourceDependencies(value = {
+    @ResourceDependency(library = "javax.faces", name = "jsf.js"),
     @ResourceDependency(library = "formbuilder", name = "js/jquery-1.9.1.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery.flot.js"),
-    @ResourceDependency(library = "formbuilder", name = "js/jquery.flot.pie.js")
+    @ResourceDependency(library = "formbuilder", name = "js/iframe.js")
 })
-public class FormDataResultComponent extends UIComponentBase {
+public class FormDataResult extends FormDataResultComponentBase {
 
-    public FormDataResultComponent() {
+    public FormDataResult() {
         setRendererType(FormDataResultRenderer.RENDERTYPE);
+    }
+
+    @PostConstruct
+    public void init() {
+        addIFrame(1040);
     }
 
     @Override
@@ -45,12 +49,4 @@ public class FormDataResultComponent extends UIComponentBase {
         return FormDataResultRenderer.FAMILY;
     }
 
-    public List<FormData> getFormDatas() {
-        return (List<FormData>) getStateHelper().eval("formDatas");
-    }
-
-    public void setFormDatas(List<FormData> formDatas) {
-        getStateHelper().put("formDatas", formDatas);
-    }
-    
 }
