@@ -46,7 +46,7 @@ import at.reppeitsolutions.formbuilder.messages.Messages;
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-@FacesComponent(createTag = true, namespace = Constants.NAMESPACE, tagName = "htmlDialog")
+@FacesComponent(createTag = false, namespace = Constants.NAMESPACE, tagName = "htmlDialog")
 public class HtmlDialog extends UIComponentBase {
 
     private String uuid;
