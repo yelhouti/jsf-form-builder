@@ -17,16 +17,12 @@
 package at.reppeitsolutions.formbuilder.components.html.formbuilder;
 
 import at.reppeitsolutions.formbuilder.components.annotations.SkipDialog;
-import at.reppeitsolutions.formbuilder.components.formbuilderitem.FormBuilderItemBase;
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
+import at.reppeitsolutions.formbuilder.components.helper.exception.MetaDataFetchException;
 import at.reppeitsolutions.formbuilder.components.html.HtmlCustomOutputLabel;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.faces.component.html.HtmlInputText;
+import at.reppeitsolutions.formbuilder.components.html.HtmlDiv;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputText;
 
 /**
@@ -34,46 +30,48 @@ import javax.faces.component.html.HtmlOutputText;
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
 @SkipDialog
-public class HtmlFormBuilderMetaData extends HtmlFormBuilderItem {
+public class HtmlFormBuilderMetaData<ObjectType> extends HtmlFormBuilderItem {
 
-    private Object metaDataObject;
+    private ObjectType metaDataObject;
+    private IMetaDataFetcher<ObjectType> fetcher;
 
     public HtmlFormBuilderMetaData() {
     }
 
-    public HtmlFormBuilderMetaData(Object metaDataObject) {
+    public HtmlFormBuilderMetaData(ObjectType metaDataObject, IMetaDataFetcher<ObjectType> fetcher) {
         this.metaDataObject = metaDataObject;
+        this.fetcher = fetcher;
     }
 
     @Override
     public void renderView() {
-        HtmlOutputText outputValue = new HtmlOutputText();
-        outputValue.setEscape(false);
+        HtmlDiv outputValue = new HtmlDiv();
 
         if (metaDataObject != null) {
             try {
-                for (PropertyDescriptor pd : Introspector.getBeanInfo(metaDataObject.getClass()).getPropertyDescriptors()) {
-                    if (pd.getReadMethod() != null && properties.getMetadatagetter().equals(pd.getName())) {
-                        try {
-                            outputValue.setValue((String) pd.getReadMethod().invoke(metaDataObject));
-                            break;
-                        } catch (IllegalAccessException ex) {
-                            Logger.getLogger(HtmlFormBuilderMetaData.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IllegalArgumentException ex) {
-                            Logger.getLogger(HtmlFormBuilderMetaData.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InvocationTargetException ex) {
-                            Logger.getLogger(HtmlFormBuilderMetaData.class.getName()).log(Level.SEVERE, null, ex);
+                MetaDataDescription description = 
+                        new MetaDataDescription(properties.getMetadataid(), properties.getMetadatadescription());
+                
+                for (String signature : fetcher.provideMetaData(metaDataObject, description)) {
+                    outputValue.getChildren().add(createLine(signature));
                         }
+            } catch (MetaDataFetchException ex) {
+                outputValue.getChildren().add(createLine("METADATA NOT FOUND!"));
                     }
                 }
-            } catch (IntrospectionException ex) {
-                Logger.getLogger(HtmlFormBuilderMetaData.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
         properties.setLabel(properties.getMetadatadescription());
         HtmlCustomOutputLabel output = new HtmlCustomOutputLabel(properties);
 
         addLabeledComponent(output, outputValue, null);
     }
+    
+    private UIComponent createLine(String text) {
+        HtmlDiv div = new HtmlDiv();
+        HtmlOutputText output = new HtmlOutputText();
+        output.setEscape(false);
+        output.setValue(text);
+        div.getChildren().add(output);
+        return div;
+}
 }

@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
@@ -57,6 +58,14 @@ public abstract class FormFillerComponentBase extends BuilderFillerComponent {
     
     public void setMode(String mode) {
         getStateHelper().put("mode", mode);
+    }
+    
+    public IMetaDataFetcher getMetaDataFetcher() {
+        return (IMetaDataFetcher) getStateHelper().eval("metaDataFetcher");
+    }
+    
+    public void setMetaDataFetcher(IMetaDataFetcher metaDataFetcher) {
+        getStateHelper().put("metaDataFetcher", metaDataFetcher);
     }
     
     public Object getMetaDataObject() {

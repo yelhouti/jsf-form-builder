@@ -16,17 +16,13 @@
  */
 package at.reppeitsolutions.formbuilder.components.formbuilderitem;
 
+import at.reppeitsolutions.formbuilder.components.helper.ComponentHelper;
 import at.reppeitsolutions.formbuilder.components.helper.FormBuilderItemFactory;
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
+import at.reppeitsolutions.formbuilder.components.helper.exception.MetaDataFetchException;
 import java.io.Serializable;
 import javax.persistence.Entity;
-import at.reppeitsolutions.formbuilder.messages.Messages;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -40,30 +36,23 @@ public class FormBuilderItemMetaData extends FormBuilderItemBase implements Seri
         properties = new FormBuilderItemProperties();
     }
     
-    public FormBuilderItemMetaData(MetaDataDescription description, Object object) {
+    public FormBuilderItemMetaData(MetaDataDescription description, Object object, IMetaDataFetcher fetcher) {
         this();
         try {
-            for(PropertyDescriptor pd : Introspector.getBeanInfo(object.getClass()).getPropertyDescriptors()) {
-                if (pd.getReadMethod() != null && description.getGetter().equals(pd.getName())) {
-                    properties.setValues((String)pd.getReadMethod().invoke(object));
-                    break;
+            properties.setValues(ComponentHelper.buildValuesString(
+                    fetcher.provideMetaData(object, description)));
+        } catch (MetaDataFetchException ex) {
+            properties.setValues("METADATA NOT FOUND!");
                 }
+        
+        properties.setMetadatadescription(description.getDescription());
+        properties.setMetadataid(description.getId());
             }
-        } catch (IntrospectionException ex) {
-            Logger.getLogger(FormBuilderItemMetaData.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(FormBuilderItemMetaData.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(FormBuilderItemMetaData.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(FormBuilderItemMetaData.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
     public FormBuilderItemMetaData(boolean renderDescription, MetaDataDescription metaDataDescription) {
         this();
         properties.setMetadatadescription(metaDataDescription.getDescription());
-        properties.setMetadatagetter(metaDataDescription.getGetter());
+        properties.setMetadataid(metaDataDescription.getId());
         properties.setRenderDescription(renderDescription);
     }
     

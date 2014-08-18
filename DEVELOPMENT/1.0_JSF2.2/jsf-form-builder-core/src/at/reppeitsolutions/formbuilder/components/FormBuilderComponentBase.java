@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.model.Form;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
@@ -58,6 +59,14 @@ public abstract class FormBuilderComponentBase extends BuilderFillerComponent {
 
     public void setMetaDataObject(Object metaDataObject) {
         getStateHelper().put("metaDataObject", metaDataObject);
+    }
+    
+    public IMetaDataFetcher getMetaDataFetcher() {
+        return (IMetaDataFetcher) getStateHelper().eval("metaDataFetcher");
+    }
+    
+    public void setMetaDataFetcher(IMetaDataFetcher metaDataFetcher) {
+        getStateHelper().put("metaDataFetcher", metaDataFetcher);
     }
     
     public List<MetaDataDescription> getMetaDataDescriptions() {

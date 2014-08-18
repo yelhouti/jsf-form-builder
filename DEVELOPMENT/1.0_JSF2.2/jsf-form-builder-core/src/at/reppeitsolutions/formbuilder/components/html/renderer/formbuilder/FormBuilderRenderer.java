@@ -53,6 +53,7 @@ public class FormBuilderRenderer extends Renderer {
         container.setConstraintClients(formBuilder.getConstraintClients());
         container.setMetaDataObject(formBuilder.getMetaDataObject());
         container.setMetaDataDescriptions(formBuilder.getMetaDataDescriptions());
+        container.setMetaDataFetcher(formBuilder.getMetaDataFetcher());
         ModelApplicationBean.getInstance().putForm(uuid, container);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formBuilder.getIFrame().setSrc(request.getContextPath() + "/pages/formbuilder.xhtml?uuid=" + uuid);

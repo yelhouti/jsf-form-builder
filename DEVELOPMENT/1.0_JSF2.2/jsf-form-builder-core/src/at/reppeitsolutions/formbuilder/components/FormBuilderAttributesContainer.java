@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.components.helper.MetaDataDescription;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.Form;
@@ -34,6 +35,7 @@ public class FormBuilderAttributesContainer implements Serializable {
     private List<ConstraintClient> constraintClients;
     private List<MetaDataDescription> metaDataDescriptions;
     private Object metaDataObject;
+    private IMetaDataFetcher metaDataFetcher;
 
     public FormBuilderAttributesContainer() {
         
@@ -69,6 +71,14 @@ public class FormBuilderAttributesContainer implements Serializable {
 
     public void setMetaDataDescriptions(List<MetaDataDescription> metaDataDescriptions) {
         this.metaDataDescriptions = metaDataDescriptions;
+    }
+
+    public IMetaDataFetcher getMetaDataFetcher() {
+        return metaDataFetcher;
+    }
+    
+    public void setMetaDataFetcher(IMetaDataFetcher metaDataFetcher) {
+        this.metaDataFetcher = metaDataFetcher;
     }
 
     public Object getMetaDataObject() {
