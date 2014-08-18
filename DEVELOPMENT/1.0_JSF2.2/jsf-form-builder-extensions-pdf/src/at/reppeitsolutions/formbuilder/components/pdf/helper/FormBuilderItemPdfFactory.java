@@ -28,6 +28,7 @@ import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilder
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderItem;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderLabel;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderListbox;
+import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderMetaData;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderRadio;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderSpace;
 import at.reppeitsolutions.formbuilder.components.pdf.formbuilder.PdfFormBuilderTextarea;
@@ -92,6 +93,9 @@ public abstract class FormBuilderItemPdfFactory {
                 break;
             case FormBuilderItemFactory.TYPE_RADIO:
                 comp = new PdfFormBuilderRadio();
+                break;
+            case FormBuilderItemFactory.TYPE_METADATA:
+                comp = new PdfFormBuilderMetaData();
                 break;
             default:
                 comp = new PdfFormBuilderLabel();
