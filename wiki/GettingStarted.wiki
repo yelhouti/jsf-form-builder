@@ -157,4 +157,4 @@ This example renders a form into a pdf.
         <r:formFillerPdf formData="#{formBuilderBean.formData}" />
     </f:view>
 </pdf>
-}}}
+}}} 
