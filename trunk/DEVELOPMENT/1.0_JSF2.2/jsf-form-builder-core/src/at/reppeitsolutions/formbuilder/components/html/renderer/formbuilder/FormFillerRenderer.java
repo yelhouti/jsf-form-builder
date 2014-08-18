@@ -53,6 +53,7 @@ public class FormFillerRenderer extends Renderer {
         container.setWorkflowState(formFiller.getWorkflowState());
         container.setConstraintClient(formFiller.getConstraintClient());
         container.setMetaDataObject(formFiller.getMetaDataObject());
+        container.setMetaDataFetcher(formFiller.getMetaDataFetcher());
         ModelApplicationBean.getInstance().putFormData(uuid, container);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         formFiller.getIFrame().setSrc(request.getContextPath() + "/pages/formfiller.xhtml?uuid=" + uuid + "&mode=" + formFiller.getMode());

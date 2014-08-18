@@ -62,8 +62,8 @@ public class FormBuilderItemProperties implements Serializable {
     private Boolean mandatoryError = false;
     @Transient
     private Boolean maximise = false;
+    private String metadataid;
     private String metadatadescription;
-    private String metadatagetter;
     @Transient
     private Boolean renderEditor = false;
     
@@ -262,17 +262,17 @@ public class FormBuilderItemProperties implements Serializable {
         return metadatadescription;
     }
 
-    public void setMetadatadescription(String metadatadescription) {
-        this.metadatadescription = metadatadescription;
+    public void setMetadatadescription(String metaDataDescription) {
+        this.metadatadescription = metaDataDescription;
     }
 
     @IgnorePropertyInDialog
-    public String getMetadatagetter() {
-        return metadatagetter;
+    public String getMetadataid() {
+        return metadataid;
     }
 
-    public void setMetadatagetter(String metadatagetter) {
-        this.metadatagetter = metadatagetter;
+    public void setMetadataid(String metaDataId) {
+        this.metadataid = metaDataId;
     }
 
     @IgnorePropertyInDialog

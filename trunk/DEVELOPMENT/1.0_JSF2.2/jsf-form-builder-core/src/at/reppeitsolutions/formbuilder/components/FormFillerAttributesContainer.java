@@ -16,6 +16,7 @@
  */
 package at.reppeitsolutions.formbuilder.components;
 
+import at.reppeitsolutions.formbuilder.components.helper.IMetaDataFetcher;
 import at.reppeitsolutions.formbuilder.model.ConstraintClient;
 import at.reppeitsolutions.formbuilder.model.FormData;
 import at.reppeitsolutions.formbuilder.model.WorkflowState;
@@ -30,6 +31,7 @@ public class FormFillerAttributesContainer {
     private WorkflowState workflowState;
     private ConstraintClient constraintClient;
     private Object metaDataObject;
+    private IMetaDataFetcher metaDataFetcher;
 
     public FormData getFormData() {
         return formData;
@@ -61,6 +63,14 @@ public class FormFillerAttributesContainer {
 
     public void setMetaDataObject(Object metaDataObject) {
         this.metaDataObject = metaDataObject;
+    }
+    
+    public IMetaDataFetcher getMetaDataFetcher() {
+        return metaDataFetcher;
+}
+    
+    public void setMetaDataFetcher(IMetaDataFetcher metaDataFetcher) {
+        this.metaDataFetcher = metaDataFetcher;
     }
     
 }

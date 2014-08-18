@@ -16,37 +16,67 @@
  */
 package at.reppeitsolutions.formbuilder.components.helper;
 
-import java.lang.reflect.Method;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
  * @author Mathias Reppe <mathias.reppe@gmail.com>
  */
-public class MetaDataDescription {
+public class MetaDataDescription implements Serializable {
 
+    private String id;
+    
     private String description;
-    private String getter;
 
+    public MetaDataDescription(String id, String description) {
+        this.id = id;
+        this.description = description != null ? prepareDescription(description) : null;
+    }
+    
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        if (!description.endsWith(":")) {
-            this.description = description + ":";
+        this.description = prepareDescription(description);
+    }
+    
+    private static String prepareDescription(String description) {
+        if (! description.endsWith(":")) {
+            return description + ":";
         } else {
-            this.description = description;
+            return description;
         }
     }
 
-    /*
-     * Only String getter are supported.
-     */
-    public String getGetter() {
-        return getter;
+    public String getId() {
+        return id;
     }
 
-    public void setGetter(String getter) {
-        this.getter = getter;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        return hash;
+}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MetaDataDescription other = (MetaDataDescription) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 }

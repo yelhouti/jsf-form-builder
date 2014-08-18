@@ -27,7 +27,6 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlOutputText;
 import at.reppeitsolutions.formbuilder.messages.Messages;
 import javax.faces.component.html.HtmlGraphicImage;
-import javax.faces.context.FacesContext;
 
 /**
  *

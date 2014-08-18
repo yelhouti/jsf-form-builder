@@ -173,9 +173,11 @@ public abstract class FormBuilderItemFactory {
                 break;
             case TYPE_METADATA:
                 if (formBuilderInternal != null) {
-                    comp = new HtmlFormBuilderMetaData(formBuilderInternal.getMetaDataObject());
+                    comp = new HtmlFormBuilderMetaData(formBuilderInternal.getMetaDataObject(), 
+                            formBuilderInternal.getMetaDataFetcher());
                 } else if(formFillerInternal != null) {
-                    comp = new HtmlFormBuilderMetaData(formFillerInternal.getMetaDataObject());
+                    comp = new HtmlFormBuilderMetaData(formFillerInternal.getMetaDataObject(), 
+                            formFillerInternal.getMetaDataFetcher());
                 } else {
                     comp = new HtmlFormBuilderMetaData();
                 }
