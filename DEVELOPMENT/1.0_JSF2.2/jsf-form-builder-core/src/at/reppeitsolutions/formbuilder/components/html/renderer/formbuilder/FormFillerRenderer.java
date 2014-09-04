@@ -91,6 +91,8 @@ public class FormFillerRenderer extends Renderer {
     public void decode(FacesContext ctx, UIComponent component) {
         FormFiller formFillerIFrame = (FormFiller) component;
         MethodBinding action = formFillerIFrame.getAction();
-        action.invoke(ctx, null);
+        if(action != null) {
+            action.invoke(ctx, null);
+        }
     }
 }
