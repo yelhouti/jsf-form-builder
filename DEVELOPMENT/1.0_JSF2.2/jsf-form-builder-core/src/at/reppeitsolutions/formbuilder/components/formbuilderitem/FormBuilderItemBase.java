@@ -63,7 +63,7 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     @JoinColumn(name = "form_id")
     protected Form form;
     @Embedded
-    protected FormBuilderItemProperties properties;
+    protected FormBuilderItemProperties properties = new FormBuilderItemProperties();
     @OneToMany(mappedBy = "formBuilderItem", cascade = CascadeType.ALL)
     private List<Constraint> constraints = new ArrayList<>();
     @Transient
@@ -205,6 +205,9 @@ public class FormBuilderItemBase implements Comparable, Serializable {
     }
 
     public FormBuilderItemProperties getProperties() {
+        if (properties == null) {
+            properties = new FormBuilderItemProperties();
+        }
         return properties;
     }
 
